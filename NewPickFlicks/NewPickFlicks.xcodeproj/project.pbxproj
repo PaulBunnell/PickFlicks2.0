@@ -48,6 +48,9 @@
 		48E3C75826044CE20080449D /* ClearButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C75726044CE20080449D /* ClearButtonController.swift */; };
 		48E3C78D260505980080449D /* NewGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C78C260505970080449D /* NewGroupController.swift */; };
 		5E162A96787E624614D620CA /* Pods_NewPickFlicksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D4F48D613FAE2E5068F6480 /* Pods_NewPickFlicksTests.framework */; };
+		8070CA912608E6C0007D5B5E /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA902608E6C0007D5B5E /* Movie.swift */; };
+		8070CA962608E71B007D5B5E /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA952608E71B007D5B5E /* APIServices.swift */; };
+		8070CA9B2608E740007D5B5E /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA9A2608E740007D5B5E /* MovieDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +119,9 @@
 		4B4B62FD6BD952EC49C5EBF9 /* Pods-NewPickFlicks-NewPickFlicksUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewPickFlicks-NewPickFlicksUITests.release.xcconfig"; path = "Target Support Files/Pods-NewPickFlicks-NewPickFlicksUITests/Pods-NewPickFlicks-NewPickFlicksUITests.release.xcconfig"; sourceTree = "<group>"; };
 		58829E7820CC925A96EF2FB6 /* Pods_NewPickFlicks_NewPickFlicksUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewPickFlicks_NewPickFlicksUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D4F48D613FAE2E5068F6480 /* Pods_NewPickFlicksTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewPickFlicksTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8070CA902608E6C0007D5B5E /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		8070CA952608E71B007D5B5E /* APIServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
+		8070CA9A2608E740007D5B5E /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		98A1F1E84E0B2A61CCD72E83 /* Pods-NewPickFlicksTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewPickFlicksTests.debug.xcconfig"; path = "Target Support Files/Pods-NewPickFlicksTests/Pods-NewPickFlicksTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A9685035A9E6A1D9A1D8486A /* Pods-NewPickFlicksTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewPickFlicksTests.release.xcconfig"; path = "Target Support Files/Pods-NewPickFlicksTests/Pods-NewPickFlicksTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB92BE48691BF0F9C6E0EC70 /* Pods-NewPickFlicks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewPickFlicks.debug.xcconfig"; path = "Target Support Files/Pods-NewPickFlicks/Pods-NewPickFlicks.debug.xcconfig"; sourceTree = "<group>"; };
@@ -212,6 +218,7 @@
 				48E3C61A260123680080449D /* LaunchScreen.storyboard */,
 				48E3C61D260123680080449D /* Info.plist */,
 				48E3C688260243990080449D /* GoogleService-Info.plist */,
+				8070CA9A2608E740007D5B5E /* MovieDetailView.swift */,
 			);
 			path = NewPickFlicks;
 			sourceTree = "<group>";
@@ -250,6 +257,7 @@
 				48E3C6CF26024CEA0080449D /* Service.swift */,
 				48E3C6D426024F4E0080449D /* ImageUploader.swift */,
 				48E3C73B260397A90080449D /* UserService.swift */,
+				8070CA952608E71B007D5B5E /* APIServices.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -295,6 +303,7 @@
 			children = (
 				48E3C6642601A61C0080449D /* Movies.swift */,
 				48E3C740260399C80080449D /* User.swift */,
+				8070CA902608E6C0007D5B5E /* Movie.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -621,6 +630,8 @@
 				48E3C6DA260251040080449D /* Constants.swift in Sources */,
 				48E3C612260123660080449D /* SceneDelegate.swift in Sources */,
 				48E3C656260125770080449D /* HomeNavigationStackView.swift in Sources */,
+				8070CA9B2608E740007D5B5E /* MovieDetailView.swift in Sources */,
+				8070CA912608E6C0007D5B5E /* Movie.swift in Sources */,
 				48E3C64C260124850080449D /* HomeController.swift in Sources */,
 				48E3C71B2603946F0080449D /* MovieDetailController.swift in Sources */,
 				48E3C65B260186A90080449D /* BottomControlStackView.swift in Sources */,
@@ -628,6 +639,7 @@
 				48E3C6512601251C0080449D /* Extensions.swift in Sources */,
 				48E3C74B2603B4F10080449D /* StartSession.swift in Sources */,
 				48E3C75826044CE20080449D /* ClearButtonController.swift in Sources */,
+				8070CA962608E71B007D5B5E /* APIServices.swift in Sources */,
 				48E3C66A2601AB300080449D /* CardViewModel.swift in Sources */,
 				48E3C6D526024F4E0080449D /* ImageUploader.swift in Sources */,
 				48E3C713260261010080449D /* ProfileCell.swift in Sources */,
