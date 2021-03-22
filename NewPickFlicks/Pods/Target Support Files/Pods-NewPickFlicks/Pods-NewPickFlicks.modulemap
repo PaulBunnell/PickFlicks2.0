@@ -1,0 +1,6 @@
+framework module Pods_NewPickFlicks {
+  umbrella header "Pods-NewPickFlicks-umbrella.h"
+
+  export *
+  module * { export * }
+}

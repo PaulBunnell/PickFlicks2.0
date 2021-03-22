@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>125968836813-nn4ou79rd8uabldd6jk446fq113r38k6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.125968836813-nn4ou79rd8uabldd6jk446fq113r38k6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCiT9QkLzbxpo4VSpN2WLIz5WuXkMlEmu8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>125968836813</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.johnpadilla.NewPickFlicks</string>
+	<key>PROJECT_ID</key>
+	<string>newpickflicks</string>
+	<key>STORAGE_BUCKET</key>
+	<string>newpickflicks.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:125968836813:ios:c8c5c1970165d5aa06a184</string>
+</dict>
+</plist>

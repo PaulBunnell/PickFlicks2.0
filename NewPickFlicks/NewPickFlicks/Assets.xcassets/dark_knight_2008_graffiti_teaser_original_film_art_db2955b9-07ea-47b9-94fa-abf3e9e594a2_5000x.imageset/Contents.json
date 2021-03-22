@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "dark_knight_2008_graffiti_teaser_original_film_art_db2955b9-07ea-47b9-94fa-abf3e9e594a2_5000x.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
