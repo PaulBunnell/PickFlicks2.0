@@ -24,6 +24,7 @@ class MainTabController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
         checkIfUserIsLoggedIn()
         fetchUser()
     }
@@ -64,7 +65,7 @@ class MainTabController: UITabBarController {
         
         viewControllers = [home, search, notification, profile]
         
-        tabBar.tintColor = #colorLiteral(red: 0.8784313725, green: 0.04705882353, blue: 0.1725490196, alpha: 1)
+        tabBar.tintColor = #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
         tabBar.barStyle = .default
     }
     
