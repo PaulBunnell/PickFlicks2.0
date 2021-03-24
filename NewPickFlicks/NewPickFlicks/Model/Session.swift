@@ -14,17 +14,17 @@ class Session {
     var time : Date
     var groupName : String
     var favoriteMovies : [Movie]
-    var session : String
+    var sessionID : String
 
     
-    init(hostUser: User, users: [User], time: Date, groupName: String, favoriteMovies: [Movie], session: String) {
+    init(hostUser: User, users: [User], time: Date, groupName: String, favoriteMovies: [Movie], sessionID: String) {
         
         self.hostUser = hostUser
         self.users = users
         self.time = time
         self.groupName = groupName
         self.favoriteMovies = favoriteMovies
-        self.session = session
+        self.sessionID = sessionID
         
     }
 }
