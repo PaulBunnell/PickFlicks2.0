@@ -35,3 +35,28 @@ class MovieController {
     
     
 }
+
+class CastController {
+    
+    func fetchCast(movieId: Movie, completion: @escaping (MovieDetails) -> Void) {
+        
+        let url = URL(string: "https://api.themoviedb.org/3/movie/\(movieId.id)?api_key=f5e6515f73e19e17f20b9e5f6657043c&append_to_response=credits")!
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            let decoder = JSONDecoder()
+            if let data = data, let returnedCast = try? decoder.decode(MovieDetails.self, from: data) {
+                print("Data has been recieved for cast")
+                print(data)
+                completion(returnedCast)
+            } else {
+                print("ERROR no data was returned")
+            }
+            
+        }
+        
+        task.resume()
+        
+    }
+    
+    
+}

@@ -10,10 +10,14 @@ import SwiftUI
 struct MovieDetailView: View {
     
     let movieController = MovieController()
+    
+    let castController = CastController()
         
     @State private var isExpanded: Bool = false
     
-    @State private var movies: [Movie] = [Movie(title: "Jumanji", overview: "Joe Gardner is a middle school teacher with a love for jazz music. After a successful gig at the Half Note Club, he suddenly gets into an accident that separates his soul from his body and is transported to the You Seminar, a center in which souls develop and gain passions before being transported to a newborn child. Joe must enlist help from the other souls-in-training, like 22, a soul who has spent eons in the You Seminar, in order to get back to Earth.", vote_average: 9.7, poster_path: "A path", release_date: "2019"), Movie(title: "Black Panther", overview: "Joe Gardner is a middle school teacher with a love for jazz music. After a successful gig at the Half Note Club, he suddenly gets into an accident that separates his soul from his body and is transported to the You Seminar, a center in which souls develop and gain passions before being transported to a newborn child. Joe must enlist help from the other souls-in-training, like 22, a soul who has spent eons in the You Seminar, in order to get back to Earth.", vote_average: 9.7, poster_path: "A path", release_date: "2019")]
+    @State private var movies: [Movie] = [Movie(id: 191911, title: "Jumanji", overview: "Joe Gardner is a middle school teacher with a love for jazz music. After a successful gig at the Half Note Club, he suddenly gets into an accident that separates his soul from his body and is transported to the You Seminar, a center in which souls develop and gain passions before being transported to a newborn child. Joe must enlist help from the other souls-in-training, like 22, a soul who has spent eons in the You Seminar, in order to get back to Earth.", vote_average: 9.7, poster_path: "A path", release_date: "2019"), Movie(id: 919191, title: "Black Panther", overview: "Joe Gardner is a middle school teacher with a love for jazz music. After a successful gig at the Half Note Club, he suddenly gets into an accident that separates his soul from his body and is transported to the You Seminar, a center in which souls develop and gain passions before being transported to a newborn child. Joe must enlist help from the other souls-in-training, like 22, a soul who has spent eons in the You Seminar, in order to get back to Earth.", vote_average: 9.7, poster_path: "A path", release_date: "2019")]
+    
+    @State private var details = MovieDetails(status: "Test", tagline: "Test 2")
     
     @State var image: UIImage = UIImage(named: "app_icon")!
     
@@ -28,12 +32,16 @@ struct MovieDetailView: View {
                     Spacer()
                 }
                 
-                Text("Release Date: \(movies[1].release_date)")
-                    .bold()
-                    .padding(.leading)
                 Text("Ratings: \(String(movies[1].vote_average))")
                     .bold()
                     .padding(.leading)
+                Text("Status: \(details.status)")
+                    .bold()
+                    .padding(.leading)
+                Text("Release Date: \(movies[1].release_date)")
+                    .bold()
+                    .padding(.leading)
+                
                     
                 HStack(alignment: .center) {
                     Spacer()
@@ -49,6 +57,10 @@ struct MovieDetailView: View {
                 }
         
                 VStack (alignment: .leading){
+                    
+                    Text(details.tagline)
+                        .padding(.top)
+                        .padding(.bottom)
                     
                     Text("Overview: ")
                         .bold()
@@ -73,26 +85,6 @@ struct MovieDetailView: View {
                                     .frame(width: proxy.size.width, height: proxy.size.height, alignment: .bottomTrailing)
                             }
                         )
-
-                    Text("Cast:")
-                        .bold()
-                        
-                    HStack {
-                        ScrollView(.horizontal) {
-                            HStack(spacing: 20) {
-                                ForEach(0..<5) { _ in
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 100, height: 150, alignment: .center)
-                                        .cornerRadius(10.0)
-                                }
-                                
-                            }
-                            
-                        }
-
-                    }
                     
                 }
                 .padding(.leading)
@@ -113,6 +105,10 @@ struct MovieDetailView: View {
                     
                     self.movies = movies
                     updateUI(movieInfo: self.movies[1])
+                    
+                    castController.fetchCast(movieId: self.movies[1]) { (details) in
+                        self.details = details
+                    }
                     
                 }
             }
