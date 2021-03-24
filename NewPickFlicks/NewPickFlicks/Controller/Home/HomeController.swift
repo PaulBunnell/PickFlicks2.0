@@ -44,10 +44,10 @@ class HomeController: UIViewController {
         
         view.addSubview(visualEffectView)
         visualEffectView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
-
+        
         visualEffectView.alpha = 0
-                
-//        handleStartSession()
+        
+        //        handleStartSession()
         
     }
     
@@ -55,8 +55,8 @@ class HomeController: UIViewController {
     
     func configureCards() {
         
-//        cardView.delegate = self
-                
+        //        cardView.delegate = self
+        
         let movie1 = Movies(name: "King Kong", rating: "PG-13", category: "Adventure/Fantasy", images: [#imageLiteral(resourceName: "King-Kong-2005-movie-poster-709x1024"), #imageLiteral(resourceName: "4562400e6b92705125b2b8ef458b6603")])
         let movie2 = Movies(name: "The Dark Night", rating: "PG-13", category: "Action/Adventure", images: [#imageLiteral(resourceName: "dark_knight_2008_graffiti_teaser_original_film_art_db2955b9-07ea-47b9-94fa-abf3e9e594a2_5000x"), #imageLiteral(resourceName: "MV5BMTk4ODQzNDY3Ml5BMl5BanBnXkFtZTcwODA0NTM4Nw@@._V1_UY1200_CR90,0,630,1200_AL_"), #imageLiteral(resourceName: "c6636d059525d610bbca10afa36a125d"), #imageLiteral(resourceName: "976d4a125f485f771d70567c2c90ec70")])
         let movie3 = Movies(name: "Back to the Future", rating: "PG", category: "Sci-fi/Comedy", images: [#imageLiteral(resourceName: "39b39a4615f98ed1174f61a0f910e00b")])
@@ -141,14 +141,14 @@ extension HomeController: BottomControlStackViewDelegate {
     
     func handleDislike() {
         print("DEBUG: Handlo disLike here...")
-
+        
     }
     
     func handleStartSession() {
-//        print("DEBUG: Handlo startSession here...")
-//
-//        view.addSubview(popUpWindow)
-//        popUpWindow.fillSuperview()
+        //        print("DEBUG: Handlo startSession here...")
+        //
+        //        view.addSubview(popUpWindow)
+        //        popUpWindow.fillSuperview()
         
         let alert = UIAlertController(title: "", message: "Srart Matching", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Become a host", style: .default, handler: { (_) in
@@ -160,24 +160,54 @@ extension HomeController: BottomControlStackViewDelegate {
             controller.title = "Add Participants"
             self.present(nav, animated: true, completion: nil)
         }))
-
+        
         alert.addAction(UIAlertAction(title: "Join a group", style: .default, handler: { (_) in
+            
+            self.joinGroupAlert()
+            
+            let joincontroller = JoinGroupViewController()
+            self.present(joincontroller, animated: true, completion: nil)
+            
             print("User click Edit button")
+            
+            
         }))
-
+        
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (_) in
             print("User click Dismiss button")
         }))
-
+        
         self.present(alert, animated: true, completion: {
             print("completion block")
         })
     }
     
-
+    
     
     func showPopUpStartSession() {
-
+        
     }
     
+    
+    func joinGroupAlert() {
+        let alertController = UIAlertController(title: "Join Group", message: nil, preferredStyle: .alert)
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Enter code"
+            textField.textAlignment = .center
+        }
+        
+        let cancelButton = UIAlertAction(title: "Cancel", style: .destructive, handler: .none)
+        let joinButton = UIAlertAction(title: "Join", style: .default, handler: .none)
+        
+        alertController.addAction(cancelButton)
+        alertController.addAction(joinButton)
+        
+        present(alertController, animated: true, completion: nil)
+        
+        if joinButton.isEnabled {
+            
+           
+        }
+    }
 }

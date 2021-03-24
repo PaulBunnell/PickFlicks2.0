@@ -45,7 +45,7 @@ class NewGroupController: UITableViewController {
         tableView.tableFooterView = UIView()
         
         tableView.register(UserCell.self, forCellReuseIdentifier: reuseIdentifier)
-        headerView.frame
+//        headerView.frame
 
     }
     
