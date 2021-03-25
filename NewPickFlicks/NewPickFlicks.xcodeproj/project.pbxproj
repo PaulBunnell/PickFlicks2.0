@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0396F39B3CBC1EA256966F6C /* Pods_NewPickFlicks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB19588608EDD0C04D7587AB /* Pods_NewPickFlicks.framework */; };
 		2DF8767B5839F807F19B0BF4 /* Pods_NewPickFlicks_NewPickFlicksUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58829E7820CC925A96EF2FB6 /* Pods_NewPickFlicks_NewPickFlicksUITests.framework */; };
+		481E5746260B9EAD00E03092 /* UserCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481E5745260B9EAD00E03092 /* UserCellViewModel.swift */; };
 		4835053D2609BD2E007ACABD /* FiltersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4835053C2609BD2E007ACABD /* FiltersController.swift */; };
 		483505452609D5A6007ACABD /* NewGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483505442609D5A6007ACABD /* NewGroupController.swift */; };
 		4835054A2609D802007ACABD /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483505492609D802007ACABD /* UserCell.swift */; };
@@ -74,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		15B2F3E9F52B39A484769865 /* Pods-NewPickFlicks-NewPickFlicksUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewPickFlicks-NewPickFlicksUITests.debug.xcconfig"; path = "Target Support Files/Pods-NewPickFlicks-NewPickFlicksUITests/Pods-NewPickFlicks-NewPickFlicksUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		481E5745260B9EAD00E03092 /* UserCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellViewModel.swift; sourceTree = "<group>"; };
 		4835053C2609BD2E007ACABD /* FiltersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersController.swift; sourceTree = "<group>"; };
 		483505442609D5A6007ACABD /* NewGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupController.swift; sourceTree = "<group>"; };
 		483505492609D802007ACABD /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				48E3C6692601AB300080449D /* CardViewModel.swift */,
 				48E3C67D2601D5330080449D /* AuthenticationViewModel.swift */,
 				48E3C74526039D0A0080449D /* ProfileHeaderViewModel.swift */,
+				481E5745260B9EAD00E03092 /* UserCellViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -618,6 +621,7 @@
 			files = (
 				48E3C6832601D59B0080449D /* CustomTextField.swift in Sources */,
 				48E3C74626039D0A0080449D /* ProfileHeaderViewModel.swift in Sources */,
+				481E5746260B9EAD00E03092 /* UserCellViewModel.swift in Sources */,
 				48E3C6B9260247D70080449D /* SearchController.swift in Sources */,
 				48E3C6C1260247E10080449D /* NotificationController.swift in Sources */,
 				48E3C6CB26024CE10080449D /* AuthService.swift in Sources */,

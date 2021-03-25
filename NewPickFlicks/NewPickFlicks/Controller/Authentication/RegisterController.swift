@@ -25,7 +25,7 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
     //Plus Photo
     private let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "plus_photo"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "icons8-male-user-50"), for: .normal)
         button.tintColor = UIColor.white
         button.addTarget(self, action: #selector(handleProfilePhoto), for: .touchUpInside)
         return button
@@ -107,6 +107,11 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
         configureUI()
         setUpTapGesture()
         configureNotificationObservers()
+        
+        view.addSubview(plusPhotoButton)
+        plusPhotoButton.setDimensions(height: 100, width: 100)
+        plusPhotoButton.layer.cornerRadius = 100 / 2
+        plusPhotoButton.anchor(top: view.topAnchor, left: view.leftAnchor, paddingTop: 12, paddingLeft: 18)
     }
     
     //MARK: - Actions

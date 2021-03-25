@@ -148,6 +148,23 @@ extension HomeController: BottomControlStackViewDelegate {
     
     func handleStartSession() {
 
+//        print("DEBUG: Handlo startSession here...")
+//
+//        view.addSubview(popUpWindow)
+//        popUpWindow.fillSuperview()
+        
+        let alert = UIAlertController(title: "", message: "Srart Matching", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Become a Host", style: .default, handler: { (_) in
+            print("User click Approve button")
+            
+            let controller = NewGroupController()
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .automatic
+            controller.title = "Add Participants"
+            self.present(nav, animated: true, completion: nil)
+        }))
+
+
         print("DEBUG: Handlo startSession here...")
                 
         view.addSubview(popUpWindow)
