@@ -50,13 +50,8 @@ class ProfileController: UICollectionViewController {
     func configureCollectionView() {
         
         collectionView.backgroundColor = .white
-//        navigationItem.title = "Profile"
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.tintColor = .white
-        collectionView.contentInsetAdjustmentBehavior = .never
+        navigationItem.title = "Profile"
+//        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-news-feed-50-7"), style: .done, target: self, action: #selector(handleGoToSettings))
         
@@ -109,7 +104,7 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        return CGSize(width: view.frame.width, height: 700)
+        return CGSize(width: view.frame.width, height: 380)
         
 //        let width = view.frame.width
 //        var height = width + 8 + 45 + 8

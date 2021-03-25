@@ -151,7 +151,7 @@ extension HomeController: BottomControlStackViewDelegate {
 //        popUpWindow.fillSuperview()
         
         let alert = UIAlertController(title: "", message: "Srart Matching", preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Become a host", style: .default, handler: { (_) in
+        alert.addAction(UIAlertAction(title: "Become a Host", style: .default, handler: { (_) in
             print("User click Approve button")
             
             let controller = NewGroupController()
