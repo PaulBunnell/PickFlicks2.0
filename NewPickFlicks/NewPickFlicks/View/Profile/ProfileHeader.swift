@@ -20,40 +20,40 @@ class ProfileHeader: UICollectionReusableView {
     
     private let gradientLayer = CAGradientLayer()
     
-    private let imageBackground: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "jeff-pierre-5X5I20O_Vbg-unsplash"))
-        iv.contentMode = .scaleAspectFill
-        iv.alpha = 0.3
-        return iv
-    }()
-    
     //Profile Image
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.backgroundColor = .lightGray
-        iv.layer.borderColor = #colorLiteral(red: 0.8784313725, green: 0.6941176471, blue: 0.04705882353, alpha: 1)
-        iv.layer.borderWidth = 3
+//        iv.layer.borderColor = #colorLiteral(red: 0.8784313725, green: 0.6941176471, blue: 0.04705882353, alpha: 1)
+//        iv.layer.borderWidth = 3
         return iv
+    }()
+    
+    private let whiteView: UIView = {
+       let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 38
+        return view
     }()
     
     //Name Label
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 28, weight: .heavy)
+        label.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        label.font = UIFont.boldSystemFont(ofSize: 26)
         label.numberOfLines = 0
-        label.textAlignment = .center
+//        label.textAlignment = .center
         return label
     }()
     
     //username Label
     private let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
-        label.textColor = #colorLiteral(red: 0.6299297214, green: 0.6659753919, blue: 0.6834830046, alpha: 1)
-        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = .darkGray
+//        label.textAlignment = .center
         return label
     }()
     
@@ -62,11 +62,18 @@ class ProfileHeader: UICollectionReusableView {
         button.setTitle("Loading...", for: .normal)
         button.layer.cornerRadius = 5
         button.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.04705882353, blue: 0.1725490196, alpha: 1)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.setTitleColor(.white, for: .normal)
-        button.setWidth(120)
-        button.setHeight(38)
+        button.setWidth(150)
+        button.setHeight(45)
 //        button.addTarget(self, action: #selector(handleEditProfileFollowTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var infoButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "icons8-sent-50").withRenderingMode(.alwaysOriginal), for: .normal)
+//        button.addTarget(self, action: #selector(handleShowMovieDetails), for: .touchUpInside)
         return button
     }()
     
@@ -75,39 +82,58 @@ class ProfileHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = #colorLiteral(red: 0.1610715091, green: 0.1607382596, blue: 0.1691181064, alpha: 1)
-
-        addSubview(imageBackground)
-        imageBackground.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingBottom: 150)
+        backgroundColor = .white
 
         addSubview(profileImageView)
-        profileImageView.centerXToSuperview()
-        profileImageView.setDimensions(height: 150, width: 150)
-        profileImageView.layer.cornerRadius = 150 / 2
-        profileImageView.anchor(top: safeAreaLayoutGuide.topAnchor, paddingTop: 20)
+//        profileImageView.centerXToSuperview()
+//        profileImageView.setDimensions(height: 150, width: 150)
+//        profileImageView.layer.cornerRadius = 150 / 2
+//        profileImageView.anchor(top: safeAreaLayoutGuide.topAnchor, paddingTop: 20)
+        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 150, paddingRight: 0)
         
         configureGradientLayer()
 
-        configureTop()
+        
+        addSubview(whiteView)
+        whiteView.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingBottom: 10, height: 200)
         
         addSubview(editProfileFollowButton)
         editProfileFollowButton.centerXToSuperview()
-        editProfileFollowButton.anchor(top: usernameLabel.bottomAnchor, paddingTop: 20)
+        editProfileFollowButton.anchor(top: whiteView.topAnchor, paddingTop: -20)
+        
+        configureTop()
+
 
     }
     
     //MARK: - Helpers
     
     
+//    func configureTop() {
+//
+//        let stack = UIStackView(arrangedSubviews: [nameLabel, usernameLabel])
+//        stack.axis = .vertical
+//        stack.spacing = 1
+//
+//        addSubview(stack)
+//        stack.centerXToSuperview()
+//        stack.anchor(top: editProfileFollowButton.bottomAnchor, paddingTop: 10)
+//    }
+    
     func configureTop() {
-        
+
         let stack = UIStackView(arrangedSubviews: [nameLabel, usernameLabel])
         stack.axis = .vertical
-        stack.spacing = 1
-        
+        stack.spacing = 5
+
         addSubview(stack)
-        stack.centerXToSuperview()
-        stack.anchor(top: profileImageView.bottomAnchor, paddingTop: 10)
+        stack.anchor(top: editProfileFollowButton.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20)
+        
+        addSubview(infoButton)
+        infoButton.setDimensions(height: 45, width: 45)
+        infoButton.centerY(inView: usernameLabel)
+        infoButton.anchor(right: rightAnchor, paddingRight: 20)
+
     }
     
     func configureGradientLayer() {

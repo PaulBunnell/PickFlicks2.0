@@ -132,8 +132,6 @@ class StartSession: UIView {
             self.joinButton.transform = .identity
             self.dismissButton.transform = .identity
         } completion: { _ in}
-
-        
     }
     
     func configureBlurView() {

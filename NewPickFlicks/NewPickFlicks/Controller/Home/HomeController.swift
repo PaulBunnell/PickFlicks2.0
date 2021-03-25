@@ -49,7 +49,7 @@ class HomeController: UIViewController {
 
         visualEffectView.alpha = 0
                 
-        handleStartSession()
+//        handleStartSession()
         
     }
     
@@ -75,7 +75,6 @@ class HomeController: UIViewController {
     
     func configureUI() {
         navigationController?.navigationBar.isHidden = true
-
         view.backgroundColor = .white
         
         topStack.delegate = self
@@ -83,21 +82,21 @@ class HomeController: UIViewController {
         
         let stack = UIStackView(arrangedSubviews: [topStack, deckView, bottomStack])
         stack.axis = .vertical
-        stack.spacing = 15
+        stack.spacing = 10
         
         view.addSubview(stack)
-        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
+        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 0)
         
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         stack.bringSubviewToFront(deckView)
+        
     }
 }
 
 extension HomeController: HomeNavigationStackViewDelegate {
     
     func ShowProfile() {
-        
             let alert = UIAlertController(title: "", message: "Srart Matching", preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: "Host", style: .default, handler: { (_) in
                 print("User click Approve button")
@@ -148,12 +147,15 @@ extension HomeController: BottomControlStackViewDelegate {
     }
     
     func handleStartSession() {
+
         print("DEBUG: Handlo startSession here...")
                 
         view.addSubview(popUpWindow)
         popUpWindow.fillSuperview()
+
     }
     
+
     
     func showPopUpStartSession() {
 

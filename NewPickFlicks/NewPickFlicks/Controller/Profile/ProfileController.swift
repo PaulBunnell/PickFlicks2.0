@@ -49,8 +49,7 @@ class ProfileController: UICollectionViewController {
     
     func configureCollectionView() {
         
-        navigationController?.navigationBar.barStyle = .black
-        collectionView.backgroundColor = #colorLiteral(red: 0.1610715091, green: 0.1607382596, blue: 0.1691181064, alpha: 1)
+        collectionView.backgroundColor = .white
 //        navigationItem.title = "Profile"
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
@@ -110,7 +109,7 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        return CGSize(width: view.frame.width, height: 460)
+        return CGSize(width: view.frame.width, height: 700)
         
 //        let width = view.frame.width
 //        var height = width + 8 + 45 + 8
