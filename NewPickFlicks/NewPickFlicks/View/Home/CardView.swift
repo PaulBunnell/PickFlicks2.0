@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 enum swipeDirection: Int {
     case left = -1
@@ -13,12 +14,16 @@ enum swipeDirection: Int {
 }
 
 protocol cardViewDelegate: class {
-    func cardView(_ view: CardView, wantToShowProfileFor moview: Movies)
+    func cardView(_ view: CardView, wantToShowProfileFor movie: Movie)
 }
 
 class CardView: UIView {
     
     //MARK: - Properties
+    
+    let movieController = MovieController()
+    
+    private var image = UIImage()
     
     weak var delegate: cardViewDelegate?
     
@@ -62,14 +67,14 @@ class CardView: UIView {
         
         infoLabel.attributedText = viewModel.moviesInfoText
         
-        imageView.image = viewModel.movies.images.first
-        category.text = viewModel.movies.category
-        
         backgroundColor = .systemBlue
         layer.cornerRadius = 15
         clipsToBounds = true
         
         addSubview(imageView)
+       
+        self.updateUI(movieInfo: viewModel.movie)
+            
         imageView.fillSuperview()
         
         configureGradientLayer()
@@ -77,6 +82,22 @@ class CardView: UIView {
         configureInfoUI()
     }
     
+    func updateUI(movieInfo: Movie) {
+        
+        let task = URLSession.shared.dataTask(with: URL(string: "http://image.tmdb.org/t/p/w500\(movieInfo.poster_path)")!) { (data, response, error) in
+            
+            guard let data = data, let image = UIImage(data: data) else {return}
+            
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
+            
+        }
+        
+        task.resume()
+        
+    }
+   
     override func layoutSubviews() {
         gradientLayer.frame = self.frame
     }
@@ -84,7 +105,12 @@ class CardView: UIView {
     //MARK: - Actions
     
     @objc func handleShowMovieDetails() {
-        delegate?.cardView(self, wantToShowProfileFor: viewModel.movies)
+        
+        delegate?.cardView(self, wantToShowProfileFor: viewModel.movie)
+        
+        // perform segue to MovieDetailView
+        
+        
     }
     
     @objc func handlePanGesture(sender: UIPanGestureRecognizer) {
@@ -100,17 +126,6 @@ class CardView: UIView {
         }
     }
     
-    @objc func handleChangePhoto(sender: UITapGestureRecognizer) {
-        let location = sender.location(in: nil).x
-        let shouldShowNextPhoto = location > self.frame.width / 2
-        
-        if shouldShowNextPhoto {
-            viewModel.showNextPhoto()
-        } else {
-            viewModel.showPreviousPhoto()
-        }
-        imageView.image = viewModel.imageToShow
-    }
     
     //MARK: - Helpers
     
@@ -153,8 +168,6 @@ class CardView: UIView {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
         addGestureRecognizer(pan)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleChangePhoto))
-        addGestureRecognizer(tap)
     }
     
     required init?(coder: NSCoder) {
@@ -173,8 +186,9 @@ class CardView: UIView {
         addSubview(infoButton)
         infoButton.setDimensions(height: 40, width: 40)
         infoButton.centerY(inView: category)
-        infoButton.anchor(right: rightAnchor, paddingRight: 16)
+        infoButton.anchor(right: rightAnchor, paddingBottom: 16, paddingRight: 16)
 
     }
+    
 }
 
