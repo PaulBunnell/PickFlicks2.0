@@ -16,6 +16,8 @@ struct User {
     var username: String
     var profileImageUrl: String
     
+    var isFollowed = false
+    
     var isCurrentUser: Bool {
         return Auth.auth().currentUser?.uid == uid
     }
