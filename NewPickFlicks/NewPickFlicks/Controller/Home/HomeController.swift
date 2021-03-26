@@ -57,18 +57,7 @@ class HomeController: UIViewController {
     
     func configureCards() {
         
-<<<<<<< HEAD
-        //        cardView.delegate = self
-        
-        let movie1 = Movies(name: "King Kong", rating: "PG-13", category: "Adventure/Fantasy", images: [#imageLiteral(resourceName: "King-Kong-2005-movie-poster-709x1024"), #imageLiteral(resourceName: "4562400e6b92705125b2b8ef458b6603")])
-        let movie2 = Movies(name: "The Dark Night", rating: "PG-13", category: "Action/Adventure", images: [#imageLiteral(resourceName: "dark_knight_2008_graffiti_teaser_original_film_art_db2955b9-07ea-47b9-94fa-abf3e9e594a2_5000x"), #imageLiteral(resourceName: "MV5BMTk4ODQzNDY3Ml5BMl5BanBnXkFtZTcwODA0NTM4Nw@@._V1_UY1200_CR90,0,630,1200_AL_"), #imageLiteral(resourceName: "c6636d059525d610bbca10afa36a125d"), #imageLiteral(resourceName: "976d4a125f485f771d70567c2c90ec70")])
-        let movie3 = Movies(name: "Back to the Future", rating: "PG", category: "Sci-fi/Comedy", images: [#imageLiteral(resourceName: "39b39a4615f98ed1174f61a0f910e00b")])
-        let movie4 = Movies(name: "The little mermaid", rating: "G", category: "Family/Musical", images: [#imageLiteral(resourceName: "MV5BN2JlZTBhYTEtZDE3OC00NTA3LTk5NTQtNjg5M2RjODllM2M0XkEyXkFqcGdeQXVyNjk1Njg5NTA@._V1_")])
-        let movie5 = Movies(name: "Braveheart", rating: "R", category: "War/Drama", images: [#imageLiteral(resourceName: "51PvUkCVqOL._AC_"), #imageLiteral(resourceName: "e0c580fdd7a6191f7873b6071095117d_a8de0a69ff17e925e8233498ae3bc2d1"), #imageLiteral(resourceName: "282339__65385.1342528156.380.500")])
-        let movie6 = Movies(name: "Forrest Gump", rating: "PG-13", category: "Romance/Drama", images: [#imageLiteral(resourceName: "s-l640")])
-=======
         movieController.fetchItems { (movies) in
->>>>>>> 9b0e802e8aa40dd951682ecacb8026fbd7ddd473
         
             DispatchQueue.main.async {
                 for movie in movies {
@@ -158,18 +147,11 @@ extension HomeController: BottomControlStackViewDelegate {
     }
     
     func handleStartSession() {
-<<<<<<< HEAD
-        //        print("DEBUG: Handlo startSession here...")
-        //
-        //        view.addSubview(popUpWindow)
-        //        popUpWindow.fillSuperview()
-=======
 
 //        print("DEBUG: Handlo startSession here...")
 //
 //        view.addSubview(popUpWindow)
 //        popUpWindow.fillSuperview()
->>>>>>> 9b0e802e8aa40dd951682ecacb8026fbd7ddd473
         
         let alert = UIAlertController(title: "", message: "Srart Matching", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Become a Host", style: .default, handler: { (_) in
@@ -181,7 +163,6 @@ extension HomeController: BottomControlStackViewDelegate {
             controller.title = "Add Participants"
             self.present(nav, animated: true, completion: nil)
         }))
-<<<<<<< HEAD
         
         alert.addAction(UIAlertAction(title: "Join a group", style: .default, handler: { (_) in
             
@@ -202,7 +183,6 @@ extension HomeController: BottomControlStackViewDelegate {
         self.present(alert, animated: true, completion: {
             print("completion block")
         })
-=======
 
 
         print("DEBUG: Handlo startSession here...")
@@ -210,7 +190,6 @@ extension HomeController: BottomControlStackViewDelegate {
         view.addSubview(popUpWindow)
         popUpWindow.fillSuperview()
 
->>>>>>> 9b0e802e8aa40dd951682ecacb8026fbd7ddd473
     }
     
     
