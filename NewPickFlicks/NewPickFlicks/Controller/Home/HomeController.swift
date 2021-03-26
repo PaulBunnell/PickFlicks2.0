@@ -154,6 +154,7 @@ extension HomeController: BottomControlStackViewDelegate {
 //        popUpWindow.fillSuperview()
         
         let alert = UIAlertController(title: "", message: "Srart Matching", preferredStyle: .actionSheet)
+        
         alert.addAction(UIAlertAction(title: "Become a Host", style: .default, handler: { (_) in
             print("User click Approve button")
             
@@ -167,13 +168,7 @@ extension HomeController: BottomControlStackViewDelegate {
         alert.addAction(UIAlertAction(title: "Join a group", style: .default, handler: { (_) in
             
             self.joinGroupAlert()
-            
-            let joincontroller = JoinGroupViewController()
-            self.present(joincontroller, animated: true, completion: nil)
-            
             print("User click Edit button")
-            
-            
         }))
         
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (_) in
@@ -198,7 +193,7 @@ extension HomeController: BottomControlStackViewDelegate {
         
     }
     
-    
+    /// join the group seson by entering in SessionID
     func joinGroupAlert() {
         let alertController = UIAlertController(title: "Join Group", message: nil, preferredStyle: .alert)
         
@@ -208,16 +203,20 @@ extension HomeController: BottomControlStackViewDelegate {
         }
         
         let cancelButton = UIAlertAction(title: "Cancel", style: .destructive, handler: .none)
-        let joinButton = UIAlertAction(title: "Join", style: .default, handler: .none)
+        
+        let joinButton = UIAlertAction(title: "Join", style: .default){ (alert) in
+            guard let textField = alertController.textFields, let sessionIDString = textField[0].text
+            else {return}
+            
+           //Once the session ID has been entered this is the code that will add the user to the the groupSession
+            
+            let joincontroller = JoinGroupViewController()
+            self.present(joincontroller, animated: true, completion: nil)
+        }
         
         alertController.addAction(cancelButton)
         alertController.addAction(joinButton)
         
         present(alertController, animated: true, completion: nil)
-        
-        if joinButton.isEnabled {
-            
-           
-        }
     }
 }

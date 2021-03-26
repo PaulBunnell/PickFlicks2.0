@@ -49,12 +49,10 @@ class NewGroupController: UITableViewController {
         tableView.tableFooterView = UIView()
         
         tableView.register(UserCell.self, forCellReuseIdentifier: reuseIdentifier)
-<<<<<<< HEAD
-//        headerView.frame
-=======
+
         headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 150)
         tableView.tableHeaderView = headerView
->>>>>>> 9b0e802e8aa40dd951682ecacb8026fbd7ddd473
+
 
     }
     
