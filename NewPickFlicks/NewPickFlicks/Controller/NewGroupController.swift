@@ -66,7 +66,7 @@ class NewGroupController: UITableViewController {
     
     func configureNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handloDismiss))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(handloNext))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(handloNext))
 
 //        let nextButton = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handloNext))
 //        let invateButton = UIBarButtonItem(title: "Invate", style: .plain, target: self, action: #selector(handloNext))

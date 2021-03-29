@@ -12,7 +12,7 @@ class MainTabController: UITabBarController {
     
     //MARK: - Properties
     
-    private var user: User? {
+    var user: User? {
         didSet {
             guard let user = user else { return }
             configureViewController(withUser: user)
@@ -56,7 +56,7 @@ class MainTabController: UITabBarController {
 
         let home = templateNAvigationController(unselectedImage: #imageLiteral(resourceName: "icons8-movie-ticket-50"), selectedImage: #imageLiteral(resourceName: "icons8-movie-ticket-50-2"), rootViewController: HomeController())
         
-        let search = templateNAvigationController(unselectedImage: #imageLiteral(resourceName: "Search"), selectedImage: #imageLiteral(resourceName: "Search"), rootViewController: SearchController())
+        let search = templateNAvigationController(unselectedImage: #imageLiteral(resourceName: "Search"), selectedImage: #imageLiteral(resourceName: "Search"), rootViewController: SearchController(config: .all))
         
         let notification = templateNAvigationController(unselectedImage: #imageLiteral(resourceName: "icons8-notification-50"), selectedImage: #imageLiteral(resourceName: "icons8-notification-50-2"), rootViewController: NotificationController())
         

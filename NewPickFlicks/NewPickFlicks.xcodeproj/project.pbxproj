@@ -10,6 +10,8 @@
 		0396F39B3CBC1EA256966F6C /* Pods_NewPickFlicks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB19588608EDD0C04D7587AB /* Pods_NewPickFlicks.framework */; };
 		2DF8767B5839F807F19B0BF4 /* Pods_NewPickFlicks_NewPickFlicksUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58829E7820CC925A96EF2FB6 /* Pods_NewPickFlicks_NewPickFlicksUITests.framework */; };
 		481E5746260B9EAD00E03092 /* UserCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481E5745260B9EAD00E03092 /* UserCellViewModel.swift */; };
+		481E5751260CE95800E03092 /* EditProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481E5750260CE95800E03092 /* EditProfileController.swift */; };
+		481E577C260E301000E03092 /* friendsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481E577B260E301000E03092 /* friendsCell.swift */; };
 		4835053D2609BD2E007ACABD /* FiltersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4835053C2609BD2E007ACABD /* FiltersController.swift */; };
 		483505452609D5A6007ACABD /* NewGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483505442609D5A6007ACABD /* NewGroupController.swift */; };
 		4835054A2609D802007ACABD /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483505492609D802007ACABD /* UserCell.swift */; };
@@ -76,6 +78,8 @@
 /* Begin PBXFileReference section */
 		15B2F3E9F52B39A484769865 /* Pods-NewPickFlicks-NewPickFlicksUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewPickFlicks-NewPickFlicksUITests.debug.xcconfig"; path = "Target Support Files/Pods-NewPickFlicks-NewPickFlicksUITests/Pods-NewPickFlicks-NewPickFlicksUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		481E5745260B9EAD00E03092 /* UserCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellViewModel.swift; sourceTree = "<group>"; };
+		481E5750260CE95800E03092 /* EditProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileController.swift; sourceTree = "<group>"; };
+		481E577B260E301000E03092 /* friendsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = friendsCell.swift; sourceTree = "<group>"; };
 		4835053C2609BD2E007ACABD /* FiltersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersController.swift; sourceTree = "<group>"; };
 		483505442609D5A6007ACABD /* NewGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupController.swift; sourceTree = "<group>"; };
 		483505492609D802007ACABD /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
@@ -300,6 +304,7 @@
 				48E3C6822601D59B0080449D /* CustomTextField.swift */,
 				48E3C74F26042C770080449D /* FillButtonController.swift */,
 				48E3C75726044CE20080449D /* ClearButtonController.swift */,
+				481E577B260E301000E03092 /* friendsCell.swift */,
 				48E3C709260260B00080449D /* Profile */,
 				48E3C75F26044EEB0080449D /* Home */,
 				483505492609D802007ACABD /* UserCell.swift */,
@@ -349,6 +354,7 @@
 			children = (
 				48E3C6C5260247ED0080449D /* ProfileController.swift */,
 				48E3C70426025F060080449D /* SettingsController.swift */,
+				481E5750260CE95800E03092 /* EditProfileController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -627,6 +633,7 @@
 				48E3C6CB26024CE10080449D /* AuthService.swift in Sources */,
 				48E3C67E2601D5330080449D /* AuthenticationViewModel.swift in Sources */,
 				48E3C741260399C80080449D /* User.swift in Sources */,
+				481E5751260CE95800E03092 /* EditProfileController.swift in Sources */,
 				48E3C6B4260246BF0080449D /* MainTabController.swift in Sources */,
 				48E3C73C260397A90080449D /* UserService.swift in Sources */,
 				48E3C66026018D440080449D /* CardView.swift in Sources */,
@@ -634,8 +641,6 @@
 				48E3C70B260260F60080449D /* ProfileHeader.swift in Sources */,
 				48E3C75026042C770080449D /* FillButtonController.swift in Sources */,
 				48E3C6792601D09C0080449D /* RegisterController.swift in Sources */,
-				48E3C78D260505980080449D /* NewGroupController.swift in Sources */,
-				48E3C6652601A61C0080449D /* Movies.swift in Sources */,
 				48350552260A392C007ACABD /* NewGroupHeader.swift in Sources */,
 				48E3C6D026024CEA0080449D /* Service.swift in Sources */,
 				48E3C6DA260251040080449D /* Constants.swift in Sources */,
@@ -651,6 +656,7 @@
 				48E3C6512601251C0080449D /* Extensions.swift in Sources */,
 				48E3C74B2603B4F10080449D /* StartSession.swift in Sources */,
 				8070CAA0260A2C4C007D5B5E /* Cast.swift in Sources */,
+				481E577C260E301000E03092 /* friendsCell.swift in Sources */,
 				48E3C75826044CE20080449D /* ClearButtonController.swift in Sources */,
 				8070CA962608E71B007D5B5E /* APIServices.swift in Sources */,
 				48E3C66A2601AB300080449D /* CardViewModel.swift in Sources */,

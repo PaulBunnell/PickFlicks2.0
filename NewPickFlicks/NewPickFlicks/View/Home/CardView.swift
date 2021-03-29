@@ -91,11 +91,9 @@ class CardView: UIView {
             DispatchQueue.main.async {
                 self.imageView.image = image
             }
-            
         }
         
         task.resume()
-        
     }
    
     override func layoutSubviews() {
@@ -109,7 +107,6 @@ class CardView: UIView {
         delegate?.cardView(self, wantToShowProfileFor: viewModel.movie)
         
         // perform segue to MovieDetailView
-        
         
     }
     
