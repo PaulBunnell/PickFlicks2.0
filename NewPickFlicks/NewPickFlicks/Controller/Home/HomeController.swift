@@ -12,6 +12,7 @@ class HomeController: UIViewController {
     
     //MARK: - Properties
     
+    private var refreshIndexPath = 2
     private let topStack = HomeNavigationStackView()
     private let bottomStack = BottomControlStackView()
     
@@ -42,7 +43,8 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureCards()
+        configureCards(pageNum: 1)
+       
         configureUI()
         view.addSubview(visualEffectView)
         visualEffectView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
@@ -55,13 +57,15 @@ class HomeController: UIViewController {
     
     //MARK: - Helpers
     
-    func configureCards() {
+    func configureCards(pageNum: Int) {
         
-        movieController.fetchItems { (movies) in
+        movieController.fetchItems(numb: pageNum) { (movies) in
         
+            print(movies.count)
+            
             DispatchQueue.main.async {
                 for movie in movies {
-                        
+                    
                     let newCardView = CardView(viewModel: CardViewModel(movie: movie))
                         
                     self.deckView.addSubview(newCardView)
@@ -70,7 +74,6 @@ class HomeController: UIViewController {
                 }
             }
         }
-        
     }
     
     func configureUI() {
@@ -86,7 +89,7 @@ class HomeController: UIViewController {
         
         view.addSubview(stack)
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 0)
-        
+
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         stack.bringSubviewToFront(deckView)
@@ -120,24 +123,29 @@ extension HomeController: HomeNavigationStackViewDelegate {
     }
     
     func RegreshCards() {
-        print("DEBUG: Refresh cards")
+        configureCards(pageNum: refreshIndexPath)
+        refreshIndexPath += 1
     }
 }
 
 //MARK: - cardViewDelegate
 
 extension HomeController: cardViewDelegate {
-    func cardView(_ view: CardView, wantToShowProfileFor movie: Movie) {
+    
+    func showMovieDetails() {
         let controller = UIHostingController(rootView: MovieDetailView())
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
-        
+        print("tapped")
     }
+    
 }
 
 extension HomeController: BottomControlStackViewDelegate {
     
     func handleLike() {
+        
+        print("like was tapped")
         
     }
     
@@ -152,9 +160,9 @@ extension HomeController: BottomControlStackViewDelegate {
 //
 //        view.addSubview(popUpWindow)
 //        popUpWindow.fillSuperview()
-        
-        let alert = UIAlertController(title: "", message: "Srart Matching", preferredStyle: .actionSheet)
-        
+     
+        let alert = UIAlertController(title: "", message: "Start Matching", preferredStyle: .actionSheet)
+
         alert.addAction(UIAlertAction(title: "Become a Host", style: .default, handler: { (_) in
             print("User click Approve button")
             
@@ -190,7 +198,9 @@ extension HomeController: BottomControlStackViewDelegate {
     
     
     func showPopUpStartSession() {
-        
+
+        print("pop up pressed".uppercased())
+
     }
     
     /// join the group seson by entering in SessionID
