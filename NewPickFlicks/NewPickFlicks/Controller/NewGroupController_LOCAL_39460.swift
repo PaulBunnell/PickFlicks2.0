@@ -14,10 +14,6 @@ class NewGroupController: UITableViewController {
     //MARK: - Properties
     
     private let headerView = NewGroupHeader()
-    private var searchController = UISearchController(searchResultsController: nil)
-    private var inSearchModel: Bool {
-        return searchController.isActive && !searchController.searchBar.text!.isEmpty
-    }
     
 
     override func viewDidLoad() {
@@ -44,37 +40,18 @@ class NewGroupController: UITableViewController {
         configureNavigationBar()
         
         tableView.backgroundColor = .white
-        configureSearchController()
+        
         tableView.rowHeight = 65
         tableView.tableFooterView = UIView()
         
         tableView.register(UserCell.self, forCellReuseIdentifier: reuseIdentifier)
+//        headerView.frame
 
-        headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 150)
-        tableView.tableHeaderView = headerView
-
-
-    }
-    
-    func configureSearchController() {
-//        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.placeholder = "Search"
-//        searchController.searchBar.delegate = self
-        navigationItem.searchController = searchController
-        definesPresentationContext = false
     }
     
     func configureNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handloDismiss))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(handloNext))
-
-//        let nextButton = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handloNext))
-//        let invateButton = UIBarButtonItem(title: "Invate", style: .plain, target: self, action: #selector(handloNext))
-//
-//        navigationItem.rightBarButtonItems = [nextButton, invateButton]
-
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handloNext))
     }
     
 
@@ -99,8 +76,8 @@ class NewGroupController: UITableViewController {
         
         let label = UILabel()
         label.textColor = #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
-        label.text = "Add friends"
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.text = "Friends"
+        label.font = UIFont.boldSystemFont(ofSize: 13)
         
         view.addSubview(label)
         label.centerY(inView: view, leftAnchor: view.leftAnchor, paddingLeft: 12)
