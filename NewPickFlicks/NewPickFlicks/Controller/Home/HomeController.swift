@@ -48,10 +48,10 @@ class HomeController: UIViewController {
         configureUI()
         view.addSubview(visualEffectView)
         visualEffectView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
-
+        
         visualEffectView.alpha = 0
-                
-//        handleStartSession()
+        
+        //        handleStartSession()
         
     }
     
@@ -151,7 +151,7 @@ extension HomeController: BottomControlStackViewDelegate {
     
     func handleDislike() {
         print("DEBUG: Handlo disLike here...")
-
+        
     }
     
     func handleStartSession() {
@@ -160,8 +160,9 @@ extension HomeController: BottomControlStackViewDelegate {
 //
 //        view.addSubview(popUpWindow)
 //        popUpWindow.fillSuperview()
-        
+     
         let alert = UIAlertController(title: "", message: "Start Matching", preferredStyle: .actionSheet)
+
         alert.addAction(UIAlertAction(title: "Become a Host", style: .default, handler: { (_) in
             print("User click Approve button")
             
@@ -171,6 +172,20 @@ extension HomeController: BottomControlStackViewDelegate {
             controller.title = "Add Participants"
             self.present(nav, animated: true, completion: nil)
         }))
+        
+        alert.addAction(UIAlertAction(title: "Join a group", style: .default, handler: { (_) in
+            
+            self.joinGroupAlert()
+            print("User click Edit button")
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (_) in
+            print("User click Dismiss button")
+        }))
+        
+        self.present(alert, animated: true, completion: {
+            print("completion block")
+        })
 
 
         print("DEBUG: Handlo startSession here...")
@@ -180,12 +195,37 @@ extension HomeController: BottomControlStackViewDelegate {
 
     }
     
-
+    
     
     func showPopUpStartSession() {
-        
+
         print("pop up pressed".uppercased())
 
     }
     
+    /// join the group seson by entering in SessionID
+    func joinGroupAlert() {
+        let alertController = UIAlertController(title: "Join Group", message: nil, preferredStyle: .alert)
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Enter code"
+            textField.textAlignment = .center
+        }
+        
+        let cancelButton = UIAlertAction(title: "Cancel", style: .destructive, handler: .none)
+        
+        let joinButton = UIAlertAction(title: "Join", style: .default){ (alert) in
+            guard let textField = alertController.textFields, let sessionIDString = textField[0].text
+            else {return}
+           //Once the session ID has been entered this is where the code will be to add the user to the the groupSession
+            
+            let joincontroller = JoinGroupViewController()
+            self.present(joincontroller, animated: true, completion: nil)
+        }
+        
+        alertController.addAction(cancelButton)
+        alertController.addAction(joinButton)
+        
+        present(alertController, animated: true, completion: nil)
+    }
 }
