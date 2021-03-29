@@ -14,7 +14,7 @@ enum swipeDirection: Int {
 }
 
 protocol cardViewDelegate: class {
-    func cardView(_ view: CardView, wantToShowProfileFor movie: Movie)
+    func showMovieDetails()
 }
 
 class CardView: UIView {
@@ -53,7 +53,7 @@ class CardView: UIView {
     private lazy var infoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "info_icon").withRenderingMode(.alwaysOriginal), for: .normal)
-        button.addTarget(self, action: #selector(handleShowMovieDetails), for: .touchUpInside)
+        button.addTarget(self, action: #selector(ShowMovieDetails), for: .touchUpInside)
         return button
     }()
     
@@ -104,12 +104,11 @@ class CardView: UIView {
     
     //MARK: - Actions
     
-    @objc func handleShowMovieDetails() {
+    @objc func ShowMovieDetails() {
         
-        delegate?.cardView(self, wantToShowProfileFor: viewModel.movie)
+        delegate?.showMovieDetails()
         
-        // perform segue to MovieDetailView
-        
+        print("Show Movie Detail View")
         
     }
     
@@ -125,7 +124,6 @@ class CardView: UIView {
         default: break
         }
     }
-    
     
     //MARK: - Helpers
     
