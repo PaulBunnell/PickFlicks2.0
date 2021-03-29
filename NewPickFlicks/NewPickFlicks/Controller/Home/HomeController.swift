@@ -207,8 +207,7 @@ extension HomeController: BottomControlStackViewDelegate {
         let joinButton = UIAlertAction(title: "Join", style: .default){ (alert) in
             guard let textField = alertController.textFields, let sessionIDString = textField[0].text
             else {return}
-            
-           //Once the session ID has been entered this is the code that will add the user to the the groupSession
+           //Once the session ID has been entered this is where the code will be to add the user to the the groupSession
             
             let joincontroller = JoinGroupViewController()
             self.present(joincontroller, animated: true, completion: nil)
