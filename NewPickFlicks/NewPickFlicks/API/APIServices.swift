@@ -9,12 +9,12 @@ import Foundation
 
 class MovieController {
     
-    func fetchItems(completion: @escaping ([Movie]) -> Void) {
+    func fetchItems(numb: Int, completion: @escaping ([Movie]) -> Void) {
         
         // URL is just for testing. Will change based on querys and desired output.
         // Fetches top movies for the day.
         
-        let baseURL = URL(string: "https://api.themoviedb.org/3/trending/movie/day?api_key=f5e6515f73e19e17f20b9e5f6657043c")!
+        let baseURL = URL(string: "https://api.themoviedb.org/3/movie/popular?api_key=f5e6515f73e19e17f20b9e5f6657043c&page=\(String(numb))")!
         
         let task = URLSession.shared.dataTask(with: baseURL) { (data, response, error) in
             let decoder = JSONDecoder()
