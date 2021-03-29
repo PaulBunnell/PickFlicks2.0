@@ -91,11 +91,9 @@ class CardView: UIView {
             DispatchQueue.main.async {
                 self.imageView.image = image
             }
-            
         }
         
         task.resume()
-        
     }
    
     override func layoutSubviews() {
@@ -109,7 +107,7 @@ class CardView: UIView {
         delegate?.showMovieDetails()
         
         print("Show Movie Detail View")
-        
+
     }
     
     @objc func handlePanGesture(sender: UIPanGestureRecognizer) {

@@ -14,7 +14,9 @@ class ProfileController: UICollectionViewController {
     
     //MARK: - Properties
     
-    private var user: User
+    private var user: User {
+        didSet { collectionView.reloadData() }
+    }
     
     //MARK: - Lifecycle
     
@@ -31,12 +33,28 @@ class ProfileController: UICollectionViewController {
         super.viewDidLoad()
         
         configureCollectionView()
+        checkIfUserISFollowed()
+        fetchUsersStats()
     }
     
     //MARK: - API
     
-
+    func checkIfUserISFollowed() {
+        UserService.checkIfUserIsFollowed(uid: user.uid) { isFollowed in
+            self.user.isFollowed = isFollowed
+            self.collectionView.reloadData()
+        }
+    }
     
+    func fetchUsersStats() {
+        UserService.fetchUserStats(uid: user.uid) { stats in
+            self.user.stats = stats
+            self.collectionView.reloadData()
+            
+            print("DEBUG: Stats \(stats)")
+        }
+    }
+
     //MARK: - Actions
     
     @objc func handleGoToSettings() {
@@ -59,6 +77,13 @@ class ProfileController: UICollectionViewController {
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
     }
+    
+    func showEditProfileController() {
+        let controller = EditProfileController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
 }
 
 //MARK: - UICollectionViewDataSource
@@ -77,6 +102,7 @@ extension ProfileController {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
 //        header.backgroundColor = .white
+        header.delegate = self
         header.viewModel = ProfileHeaderViewModel(user: user)
 
         return header
@@ -104,12 +130,42 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        return CGSize(width: view.frame.width, height: 380)
+        return CGSize(width: view.frame.width, height: 500)
         
 //        let width = view.frame.width
 //        var height = width + 8 + 45 + 8
 //        height += 10
 //
 //        return CGSize(width: width, height: height)
+    }
+}
+
+
+
+//MARK: ProfileHeaderDelegate
+
+extension ProfileController: ProfileHeaderDelegate {
+    func header(_ profileHeader: ProfileHeader, didTapActionButtonFor user: User) {
+        guard let tab = tabBarController as? MainTabController else { return }
+        guard let currentUser = tab.user else { return }
+        
+        if user.isCurrentUser {
+            showEditProfileController()
+        } else if user.isFollowed {
+            UserService.unFollow(uid: user.uid) { error in
+                self.user.isFollowed = false
+                self.collectionView.reloadData()
+            }
+        } else {
+            UserService.follow(uid: user.uid) { error in
+                self.user.isFollowed = true
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
+    func header(_ profileHeader: ProfileHeader, wantsToViewFollowingFor user: User) {
+        let controller = SearchController(config: .following(user.uid))
+        navigationController?.pushViewController(controller, animated: true)
     }
 }

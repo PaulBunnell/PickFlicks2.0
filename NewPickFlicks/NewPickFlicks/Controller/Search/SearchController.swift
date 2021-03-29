@@ -10,10 +10,23 @@ import UIKit
 private let resuseIdentifier = "UserCell"
 private let postCellIdentifier = "ProfileCell"
 
+enum UserFilterConfig: Equatable {
+    case following(String)
+    case all
+    
+    var navigationItemTitle: String {
+        switch self {
+        case .following: return "Following"
+        case .all: return "Search"
+        }
+    }
+}
+
 class SearchController: UITableViewController {
     
     //MARK: - Properties
     
+    private let config: UserFilterConfig
     private var users = [User]()
     private var filteredUsers = [User]()
     private var searchController = UISearchController(searchResultsController: nil)
@@ -23,6 +36,15 @@ class SearchController: UITableViewController {
     
     
     //MARK: - Lifecycle
+    
+    init(config: UserFilterConfig) {
+        self.config = config
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +57,7 @@ class SearchController: UITableViewController {
     //MARK: - API
     
     func fetchUsers() {
-        UserService.fetchUsers { users in
+        UserService.fetchUsers(forConfig: config) { users in
             self.users = users
             self.tableView.reloadData()
         }

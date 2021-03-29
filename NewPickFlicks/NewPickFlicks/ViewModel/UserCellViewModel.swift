@@ -9,7 +9,7 @@ import Foundation
 
 struct UserCellViewModel {
     
-    private let user: User
+    var user: User
     
     var fullname: String { return user.fullname }
     var username: String { return user.username }

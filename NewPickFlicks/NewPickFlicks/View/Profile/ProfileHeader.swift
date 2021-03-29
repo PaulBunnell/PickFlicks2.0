@@ -8,9 +8,21 @@
 import UIKit
 import SDWebImage
 
+
+protocol ProfileHeaderDelegate: class {
+    func header(_ profileHeader: ProfileHeader, didTapActionButtonFor user: User)
+    func header(_ profileHEader: ProfileHeader, wantsToViewFollowingFor user: User)
+}
+
 class ProfileHeader: UICollectionReusableView {
     
+    var user = [User]() {
+        didSet { collectionView.reloadData()}
+    }
+    
     //MARK: - Properties
+    
+    weak var delegate: ProfileHeaderDelegate?
     
     var viewModel: ProfileHeaderViewModel? {
         didSet {
@@ -51,10 +63,13 @@ class ProfileHeader: UICollectionReusableView {
     }()
     
     private lazy var editProfileFollowButton: UIButton = {
-        let button = FillButtonController(type: .system)
+        let button = UIButton(type: .system)
         button.setTitle("Edit Profile", for: .normal)
-        button.layer.cornerRadius = 5
-        button.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.04705882353, blue: 0.1725490196, alpha: 1)
+        button.layer.cornerRadius = 20
+//        button.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.04705882353, blue: 0.1725490196, alpha: 1)
+        button.backgroundColor = .white
+        button.layer.borderColor = #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
+        button.layer.borderWidth = 1.5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.setTitleColor(.white, for: .normal)
         button.setWidth(150)
@@ -78,10 +93,34 @@ class ProfileHeader: UICollectionReusableView {
         return button
     }()
     
+    private lazy var friendsLabel: UILabel = {
+       let label = UILabel()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleFollowingTapped))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tap)
+
+        return label
+    }()
+    
+    private lazy var collectionView: UICollectionView = {
+       let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.backgroundColor = .init(white: 0.95, alpha: 1)
+        cv.delegate = self
+        cv.dataSource = self
+        cv.register(friendsCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        return cv
+    }()
+    
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        
+        
         
         backgroundColor = UIColor(white: 0.95, alpha: 1)
 
@@ -94,22 +133,34 @@ class ProfileHeader: UICollectionReusableView {
         configureGradientLayer()
 
         addSubview(whiteView)
-        whiteView.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 15, paddingBottom: 60, paddingRight: 16, height: 95)
+        whiteView.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 40, paddingLeft: 15, paddingRight: 16, height: 95)
         
         addSubview(editProfileFollowButton)
         editProfileFollowButton.centerXToSuperview()
         editProfileFollowButton.anchor(top: whiteView.topAnchor, paddingTop: -25)
         
         configureTop()
+        
+        addSubview(friendsLabel)
+        friendsLabel.anchor(top: whiteView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 16)
+        
+        addSubview(collectionView)
+        collectionView.anchor(top: friendsLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 12, paddingBottom: 45, paddingRight: 12)
+        
         configureBottomToolBar()
+
     }
     
     //MARK: - Actions
     
     @objc func handleEditProfileFollowTapped() {
-        print("DEBUG: Invite friends")
-        
-
+        guard let viewModel = viewModel else { return }
+        delegate?.header(self, didTapActionButtonFor: viewModel.user)
+    }
+    
+    @objc func handleFollowingTapped() {
+        guard let viewModel = viewModel else { return }
+        delegate?.header(self, wantsToViewFollowingFor: viewModel.user)
     }
     
     @objc func handleStartMatching () {
@@ -171,5 +222,38 @@ class ProfileHeader: UICollectionReusableView {
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
         
         editProfileFollowButton.setTitle(viewModel.followButtonText, for: .normal)
+        editProfileFollowButton.setTitleColor(viewModel.followButtonTextcolor, for: .normal)
+        editProfileFollowButton.backgroundColor = viewModel.followButtonBackgroundColor
+        
+        friendsLabel.attributedText = viewModel.numberOfFollowings
+        friendsLabel.attributedText = viewModel.numberOfFollowings
+    }
+}
+
+extension ProfileHeader: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! friendsCell
+        
+//        cell.viewModel = UserCellViewModel(user: user)
+        return cell
+    }
+}
+
+//header.delegate = self
+//header.viewModel = ProfileHeaderViewModel(user: user)
+
+
+extension ProfileHeader: UICollectionViewDelegate {
+    
+}
+
+extension ProfileHeader: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 80, height: 90)
     }
 }
