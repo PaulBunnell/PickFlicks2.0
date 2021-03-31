@@ -101,7 +101,7 @@ struct MovieDetailView: View {
                         .blur(radius: 70.0))
         .onAppear(perform: {
             DispatchQueue.main.async {
-                movieController.fetchItems { (movies) in
+                movieController.fetchItems(numb: 1) { (movies) in
                     
                     self.movies = movies
                     updateUI(movieInfo: self.movies[1])

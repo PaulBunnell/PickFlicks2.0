@@ -74,7 +74,7 @@ class StartSession: UIView {
     //MARK: - Actions
     
     @objc func didTapHost() {
-        let controller = NewGroupController()
+//        let controller = NewGroupController()
         
     }
     

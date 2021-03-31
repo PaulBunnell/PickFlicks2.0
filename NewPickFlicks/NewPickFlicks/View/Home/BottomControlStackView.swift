@@ -23,7 +23,6 @@ class BottomControlStackView: UIStackView {
     let startSessionButton = UIButton(type: .system)
     let likeButton = UIButton(type: .system)
 
-
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -36,7 +35,6 @@ class BottomControlStackView: UIStackView {
         startSessionButton.setImage(#imageLiteral(resourceName: "icons8-movie-ticket-90").withRenderingMode(.alwaysOriginal), for: .normal)
         likeButton.setImage(#imageLiteral(resourceName: "like_circle").withRenderingMode(.alwaysOriginal), for: .normal)
 
-        
         dislikeButton.addTarget(self, action: #selector(handleDislike), for: .touchUpInside)
         startSessionButton.addTarget(self, action: #selector(handleStartSession), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
@@ -54,6 +52,7 @@ class BottomControlStackView: UIStackView {
     
     @objc func handleDislike() {
         delegate?.handleDislike()
+        
     }
     
     @objc func handleLike() {
@@ -63,4 +62,5 @@ class BottomControlStackView: UIStackView {
     @objc func handleStartSession() {
         delegate?.handleStartSession()
     }
+    
 }

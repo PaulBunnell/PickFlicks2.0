@@ -49,10 +49,12 @@ class NewGroupController: UITableViewController {
         tableView.tableFooterView = UIView()
         
         tableView.register(UserCell.self, forCellReuseIdentifier: reuseIdentifier)
-
+<<<<<<< HEAD
+//        headerView.frame
+=======
         headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 150)
         tableView.tableHeaderView = headerView
-
+>>>>>>> 9b0e802e8aa40dd951682ecacb8026fbd7ddd473
 
     }
     
@@ -68,7 +70,7 @@ class NewGroupController: UITableViewController {
     
     func configureNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handloDismiss))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(handloNext))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(handloNext))
 
 //        let nextButton = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handloNext))
 //        let invateButton = UIBarButtonItem(title: "Invate", style: .plain, target: self, action: #selector(handloNext))
