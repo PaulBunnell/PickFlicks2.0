@@ -32,8 +32,6 @@ class MovieController {
         task.resume()
         
     }
-    
-    
 }
 
 class CastController {
@@ -57,6 +55,4 @@ class CastController {
         task.resume()
         
     }
-    
-    
 }

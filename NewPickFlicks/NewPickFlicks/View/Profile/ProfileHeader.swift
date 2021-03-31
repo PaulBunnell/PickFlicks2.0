@@ -11,26 +11,18 @@ import SDWebImage
 
 protocol ProfileHeaderDelegate: class {
     func header(_ profileHeader: ProfileHeader, didTapActionButtonFor user: User)
-    func header(_ profileHEader: ProfileHeader, wantsToViewFollowingFor user: User)
+    func header(_ profileHeader: ProfileHeader, wantsToViewFollowingFor user: User)
+    func header(_ profileHeader: ProfileHeader, wantsToViewFollowersFor user: User)
+    func header(_ profileHeader: ProfileHeader, didTapMatchingButtonFor user: User)
 }
 
 class ProfileHeader: UICollectionReusableView {
-    
-    var user = [User]() {
-        didSet { collectionView.reloadData()}
-    }
     
     //MARK: - Properties
     
     weak var delegate: ProfileHeaderDelegate?
     
-    var viewModel: ProfileHeaderViewModel? {
-        didSet {
-            configure()
-        }
-    }
-    
-    private let gradientLayer = CAGradientLayer()
+    var viewModel: ProfileHeaderViewModel? { didSet { configure() } }
     
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -40,18 +32,23 @@ class ProfileHeader: UICollectionReusableView {
         return iv
     }()
     
-    private let whiteView: UIView = {
+    private let whiteViewButton: UIView = {
        let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
+        view.layer.shadowColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1).cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 1.75)
+        view.layer.shadowRadius = 5
+        view.layer.shadowOpacity = 0.15
         return view
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 22)
         label.numberOfLines = 0
+        label.textAlignment = .center
         return label
     }()
     
@@ -59,6 +56,8 @@ class ProfileHeader: UICollectionReusableView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .darkGray
+        label.textAlignment = .center
+
         return label
     }()
     
@@ -66,26 +65,28 @@ class ProfileHeader: UICollectionReusableView {
         let button = UIButton(type: .system)
         button.setTitle("Edit Profile", for: .normal)
         button.layer.cornerRadius = 20
-//        button.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.04705882353, blue: 0.1725490196, alpha: 1)
         button.backgroundColor = .white
         button.layer.borderColor = #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
-        button.layer.borderWidth = 1.5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.layer.borderWidth = 1
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.setTitleColor(.white, for: .normal)
         button.setWidth(150)
-        button.setHeight(45)
+        button.setHeight(50)
         button.addTarget(self, action: #selector(handleEditProfileFollowTapped), for: .touchUpInside)
+        
         return button
     }()
     
-    private lazy var infoButton: UIButton = {
+    private lazy var inviteButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "icons8-sent-50").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "icons8-red-card-50").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
         button.addTarget(self, action: #selector(handleStartMatching), for: .touchUpInside)
+        button.layer.cornerRadius = 40
         return button
     }()
     
-    let gridButton: UIButton = {
+    let favoriteMoviesButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("My Favorites Movies", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
@@ -93,25 +94,30 @@ class ProfileHeader: UICollectionReusableView {
         return button
     }()
     
-    private lazy var friendsLabel: UILabel = {
+    private lazy var followersLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.4431372549, blue: 0.1294117647, alpha: 1)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleFollowersTapped))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tap)
+        label.layer.cornerRadius = 40
+        label.clipsToBounds = true
+        return label
+    }()
+
+    private lazy var followingLabel: UILabel = {
        let label = UILabel()
-        
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.backgroundColor = #colorLiteral(red: 0.5411764706, green: 0.137254902, blue: 0.5294117647, alpha: 1)
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleFollowingTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
-
+        label.layer.cornerRadius = 40
+        label.clipsToBounds = true
         return label
-    }()
-    
-    private lazy var collectionView: UICollectionView = {
-       let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = .init(white: 0.95, alpha: 1)
-        cv.delegate = self
-        cv.dataSource = self
-        cv.register(friendsCell.self, forCellWithReuseIdentifier: cellIdentifier)
-        return cv
     }()
     
     //MARK: - Lifecycle
@@ -119,9 +125,7 @@ class ProfileHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        
-        
-        
+        inviteButton.applyDesign()
         backgroundColor = UIColor(white: 0.95, alpha: 1)
 
         addSubview(profileImageView)
@@ -130,25 +134,14 @@ class ProfileHeader: UICollectionReusableView {
         profileImageView.layer.cornerRadius = 150 / 2
         profileImageView.anchor(top: safeAreaLayoutGuide.topAnchor, paddingTop: 20)
         
-        configureGradientLayer()
-
-        addSubview(whiteView)
-        whiteView.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 40, paddingLeft: 15, paddingRight: 16, height: 95)
+        configureMiddleView()
+        configureTop()
         
         addSubview(editProfileFollowButton)
         editProfileFollowButton.centerXToSuperview()
-        editProfileFollowButton.anchor(top: whiteView.topAnchor, paddingTop: -25)
-        
-        configureTop()
-        
-        addSubview(friendsLabel)
-        friendsLabel.anchor(top: whiteView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 16)
-        
-        addSubview(collectionView)
-        collectionView.anchor(top: friendsLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 12, paddingBottom: 45, paddingRight: 12)
-        
-        configureBottomToolBar()
+        editProfileFollowButton.anchor(top: usernameLabel.bottomAnchor, paddingTop: 30)
 
+        configureBottomToolBar()
     }
     
     //MARK: - Actions
@@ -158,13 +151,20 @@ class ProfileHeader: UICollectionReusableView {
         delegate?.header(self, didTapActionButtonFor: viewModel.user)
     }
     
+    @objc func handleFollowersTapped() {
+        guard let viewModel = viewModel else { return }
+        delegate?.header(self, wantsToViewFollowersFor: viewModel.user)
+    }
+    
     @objc func handleFollowingTapped() {
         guard let viewModel = viewModel else { return }
         delegate?.header(self, wantsToViewFollowingFor: viewModel.user)
     }
     
     @objc func handleStartMatching () {
-        print("DEBUG: Start Matching")
+        guard let viewModel = viewModel else { return }
+        delegate?.header(self, didTapMatchingButtonFor: viewModel.user)
+        
     }
     
     //MARK: - Helpers
@@ -173,15 +173,25 @@ class ProfileHeader: UICollectionReusableView {
 
         let stack = UIStackView(arrangedSubviews: [nameLabel, usernameLabel])
         stack.axis = .vertical
-        stack.spacing = 2
+        stack.spacing = 5
 
         addSubview(stack)
-        stack.anchor(top: editProfileFollowButton.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 25, paddingRight: 20)
+
+        stack.centerXToSuperview()
+        stack.anchor(top: inviteButton.bottomAnchor, paddingTop: 20)
+    }
+    
+    func configureMiddleView() {
         
-        addSubview(infoButton)
-        infoButton.setDimensions(height: 45, width: 45)
-        infoButton.centerY(inView: nameLabel)
-        infoButton.anchor(right: rightAnchor, paddingRight: 25)
+        addSubview(whiteViewButton)
+        whiteViewButton.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 55, paddingLeft: 16, paddingRight: 16, height: 170)
+        
+        let stack = UIStackView(arrangedSubviews: [followersLabel, inviteButton, followingLabel])
+        stack.distribution = .fillEqually
+        stack.spacing = 20
+        
+        addSubview(stack)
+        stack.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 60, paddingRight: 60, height: 80)
     }
     
     func configureBottomToolBar() {
@@ -192,7 +202,7 @@ class ProfileHeader: UICollectionReusableView {
         let bottomDividerView = UIView()
         bottomDividerView.backgroundColor = .lightGray
         
-        let stackView = UIStackView(arrangedSubviews: [gridButton])
+        let stackView = UIStackView(arrangedSubviews: [favoriteMoviesButton])
         
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
@@ -202,13 +212,7 @@ class ProfileHeader: UICollectionReusableView {
 
         stackView.anchor(top: nil, left: leftAnchor, bottom: self.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
     }
-    
-    func configureGradientLayer() {
-        gradientLayer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
-        gradientLayer.locations = [0.5, 1.1]
-        layer.addSublayer(gradientLayer)
 
-    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -225,22 +229,12 @@ class ProfileHeader: UICollectionReusableView {
         editProfileFollowButton.setTitleColor(viewModel.followButtonTextcolor, for: .normal)
         editProfileFollowButton.backgroundColor = viewModel.followButtonBackgroundColor
         
-        friendsLabel.attributedText = viewModel.numberOfFollowings
-        friendsLabel.attributedText = viewModel.numberOfFollowings
-    }
-}
-
-extension ProfileHeader: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! friendsCell
+        followingLabel.attributedText = viewModel.numberOfFollowings
+        followersLabel.attributedText = viewModel.numberOfFollowers
         
-//        cell.viewModel = UserCellViewModel(user: user)
-        return cell
+        inviteButton.setImage(viewModel.matchingButtonImage, for: .normal)
+        inviteButton.setTitleColor(viewModel.matchingButtonTextColor, for: .normal)
+        inviteButton.backgroundColor = viewModel.matchingButtonBackgroundColor
     }
 }
 
@@ -252,8 +246,12 @@ extension ProfileHeader: UICollectionViewDelegate {
     
 }
 
-extension ProfileHeader: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 80, height: 90)
+extension UIButton {
+    func applyDesign() {
+        self.layer.shadowColor = UIColor.darkGray.cgColor
+        self.layer.shadowRadius = 4
+        self.layer.shadowOpacity = 0.9
+        self.layer.shadowOffset = CGSize(width: 0, height: 4)
     }
 }
+

@@ -12,11 +12,13 @@ private let postCellIdentifier = "ProfileCell"
 
 enum UserFilterConfig: Equatable {
     case following(String)
+    case followers(String)
     case all
     
     var navigationItemTitle: String {
         switch self {
         case .following: return "Following"
+        case .followers:  return "Followers"
         case .all: return "Search"
         }
     }
@@ -67,7 +69,7 @@ class SearchController: UITableViewController {
     
     func configureTableView() {
         view.backgroundColor = .white
-        navigationItem.title = "Explore"
+        navigationItem.title = config.navigationItemTitle
         configureSearchController()
         tableView.rowHeight = 65
         
