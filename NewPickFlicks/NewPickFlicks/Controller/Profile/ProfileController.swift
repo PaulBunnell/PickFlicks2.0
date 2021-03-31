@@ -50,8 +50,6 @@ class ProfileController: UICollectionViewController {
         UserService.fetchUserStats(uid: user.uid) { stats in
             self.user.stats = stats
             self.collectionView.reloadData()
-            
-            print("DEBUG: Stats \(stats)")
         }
     }
 
@@ -66,13 +64,9 @@ class ProfileController: UICollectionViewController {
     //MARK: - helpers
     
     func configureCollectionView() {
-        
         collectionView.backgroundColor = .white
         navigationItem.title = "Profile"
-//        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-news-feed-50-7"), style: .done, target: self, action: #selector(handleGoToSettings))
-        
         
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
@@ -80,6 +74,18 @@ class ProfileController: UICollectionViewController {
     
     func showEditProfileController() {
         let controller = EditProfileController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    
+    func showNewGroupMatching() {
+        let controller = NewGroupController()
+        present(controller, animated: true, completion: nil)
+    }
+    
+    func showMatching() {
+        let controller = HomeController()
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
@@ -101,14 +107,12 @@ extension ProfileController {
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
-//        header.backgroundColor = .white
         header.delegate = self
         header.viewModel = ProfileHeaderViewModel(user: user)
 
         return header
     }
 }
-
 
 //MARK: - UICollectionViewDelegateFlowLayout
 
@@ -125,30 +129,22 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (view.frame.width - 2) / 3
         return CGSize(width: width, height: width)
-
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        return CGSize(width: view.frame.width, height: 500)
-        
-//        let width = view.frame.width
-//        var height = width + 8 + 45 + 8
-//        height += 10
-//
-//        return CGSize(width: width, height: height)
+        return CGSize(width: view.frame.width, height: 480)
     }
 }
-
-
 
 //MARK: ProfileHeaderDelegate
 
 extension ProfileController: ProfileHeaderDelegate {
+    
     func header(_ profileHeader: ProfileHeader, didTapActionButtonFor user: User) {
         guard let tab = tabBarController as? MainTabController else { return }
         guard let currentUser = tab.user else { return }
-        
+
         if user.isCurrentUser {
             showEditProfileController()
         } else if user.isFollowed {
@@ -167,5 +163,20 @@ extension ProfileController: ProfileHeaderDelegate {
     func header(_ profileHeader: ProfileHeader, wantsToViewFollowingFor user: User) {
         let controller = SearchController(config: .following(user.uid))
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func header(_ profileHeader: ProfileHeader, wantsToViewFollowersFor user: User) {
+        let controller = SearchController(config: .followers(user.uid))
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func header(_ profileHeader: ProfileHeader, didTapMatchingButtonFor user: User) {
+        if user.isCurrentUser {
+            print("DEBUG: Make a matching group")
+            showNewGroupMatching()
+        } else {
+            print("DEBUG: Start Matching")
+            showMatching()
+        }
     }
 }

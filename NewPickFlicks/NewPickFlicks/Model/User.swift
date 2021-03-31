@@ -17,6 +17,7 @@ struct User {
     var profileImageUrl: String
     
     var isFollowed = false
+    var startMatching = false
     
     var stats: UserStats!
     

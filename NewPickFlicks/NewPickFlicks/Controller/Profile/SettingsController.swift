@@ -34,7 +34,7 @@ final class SettingsController: UIViewController {
         configureModels()
         navigationItem.title = "Settings"
         
-        tableView.backgroundColor = #colorLiteral(red: 0.1610715091, green: 0.1607382596, blue: 0.1691181064, alpha: 1)
+        tableView.backgroundColor = .white
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
@@ -99,7 +99,7 @@ extension SettingsController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = data[indexPath.section][indexPath.row].title
-        cell.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        cell.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         return cell
     }
     

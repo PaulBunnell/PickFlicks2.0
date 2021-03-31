@@ -31,7 +31,7 @@ struct ProfileHeaderViewModel {
     }
     
     var followButtonBackgroundColor: UIColor {
-        return user.isCurrentUser ? .white : #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
+        return user.isCurrentUser ? #colorLiteral(red: 0.989223063, green: 0.9227725863, blue: 0.9294853806, alpha: 1) : #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
     }
     
     var followButtonTextcolor: UIColor {
@@ -39,22 +39,37 @@ struct ProfileHeaderViewModel {
     }
     
     var numberOfFollowers: NSAttributedString {
-        return attributedStatsText(label: "Followers", value: user.stats.followers)
+        return attributedStatsText(value: user.stats.followers, label: "Followers")
     }
     
     var numberOfFollowings: NSAttributedString {
-        return attributedStatsText(label: "Following", value: user.stats.following)
-
+        return attributedStatsText(value: user.stats.following, label: "Following")
     }
+    
+    var matchingButtonImage: UIImage {
+        if user.isCurrentUser {
+            return #imageLiteral(resourceName: "icons8-red-card-50-2")
+        }
+        return #imageLiteral(resourceName: "icons8-red-card-50")
+    }
+    
+    var matchingButtonBackgroundColor: UIColor {
+        return user.isCurrentUser ? .white : #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
+    }
+    
+    var matchingButtonTextColor: UIColor {
+        return user.isCurrentUser ? #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1) : .white
+    }
+    
     
     init(user: User) {
         self.user = user
     }
     
-    func attributedStatsText(label: String, value: Int) -> NSAttributedString {
-        let attributedText = NSMutableAttributedString(string: label, attributes: [.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: CGColor(red: 233/255, green: 64/255, blue: 87/255, alpha: 1)])
-        
-        attributedText.append(NSAttributedString(string: " \(value)", attributes: [.font: UIFont.boldSystemFont(ofSize: 14), .foregroundColor: UIColor.lightGray]))
+    func attributedStatsText(value: Int, label: String) -> NSAttributedString {
+        let attributedText = NSMutableAttributedString(string: " \(value)\n", attributes: [.font: UIFont.boldSystemFont(ofSize: 30), .foregroundColor: UIColor.white])
+        attributedText.append(NSAttributedString(string: label, attributes: [.font: UIFont.systemFont(ofSize: 10), .foregroundColor: UIColor.white]))
+
         return attributedText
     }
 }

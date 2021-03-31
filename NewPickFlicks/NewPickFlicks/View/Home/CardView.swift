@@ -92,7 +92,6 @@ class CardView: UIView {
                 self.imageView.image = image
             }
         }
-        
         task.resume()
     }
    
