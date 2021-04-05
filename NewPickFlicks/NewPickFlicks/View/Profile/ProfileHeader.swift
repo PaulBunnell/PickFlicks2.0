@@ -24,6 +24,8 @@ class ProfileHeader: UICollectionReusableView {
     
     weak var delegate: ProfileHeaderDelegate?
     
+    let cellIdentifier = "collectionCell"
+    
     var viewModel: ProfileHeaderViewModel? {
         didSet {
             configure()
@@ -118,9 +120,6 @@ class ProfileHeader: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        
-        
         
         backgroundColor = UIColor(white: 0.95, alpha: 1)
 

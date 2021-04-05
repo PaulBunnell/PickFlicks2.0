@@ -18,7 +18,7 @@ class BottomControlStackView: UIStackView {
     //MARK: - Properties
     
     weak var delegate: BottomControlStackViewDelegate?
-    
+
     let dislikeButton = UIButton(type: .system)
     let startSessionButton = UIButton(type: .system)
     let likeButton = UIButton(type: .system)
@@ -53,10 +53,15 @@ class BottomControlStackView: UIStackView {
     @objc func handleDislike() {
         delegate?.handleDislike()
         
+        //animate card view to left and dismiss card from super view
+        
     }
     
     @objc func handleLike() {
         delegate?.handleLike()
+        
+        //animate card view to right and dismiss card from super view
+        
     }
     
     @objc func handleStartSession() {
