@@ -15,6 +15,7 @@ enum swipeDirection: Int {
 
 protocol cardViewDelegate: class {
     func showMovieDetails()
+    func refreshCards()
 }
 
 class CardView: UIView {
@@ -23,13 +24,15 @@ class CardView: UIView {
     
     let movieController = MovieController()
     
+    let homeController = HomeController()
+    
+    weak var delegate: HomeNavigationStackViewDelegate?
+
+    private let viewModel: CardViewModel
+
     private var image = UIImage()
     
-    weak var delegate: cardViewDelegate?
-    
     private let gradientLayer = CAGradientLayer()
-    
-    private let viewModel: CardViewModel
     
     private let imageView: UIImageView = {
        let iv = UIImageView()
@@ -93,6 +96,7 @@ class CardView: UIView {
             }
         }
         task.resume()
+        
     }
    
     override func layoutSubviews() {
@@ -103,10 +107,10 @@ class CardView: UIView {
     
     @objc func ShowMovieDetails() {
         
-        delegate?.showMovieDetails()
+//        delegate?.showMovieDetails()
         
-        print("Show Movie Detail View")
-
+        homeController.showMovieDetails()
+        
     }
     
     @objc func handlePanGesture(sender: UIPanGestureRecognizer) {
@@ -120,6 +124,7 @@ class CardView: UIView {
             resetCardPosition(sender: sender)
         default: break
         }
+        
     }
     
     //MARK: - Helpers
@@ -148,6 +153,7 @@ class CardView: UIView {
             }
         } completion: { _ in
             if shouldDismissCard {
+                self.delegate?.refreshCards()
                 self.removeFromSuperview()
             }
         }
