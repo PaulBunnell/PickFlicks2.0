@@ -16,6 +16,15 @@
 		483505452609D5A6007ACABD /* NewGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483505442609D5A6007ACABD /* NewGroupController.swift */; };
 		4835054A2609D802007ACABD /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483505492609D802007ACABD /* UserCell.swift */; };
 		48350552260A392C007ACABD /* NewGroupHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48350551260A392C007ACABD /* NewGroupHeader.swift */; };
+		4868852626136D22000F7A2E /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4868852526136D22000F7A2E /* Onboarding.storyboard */; };
+		4868852C26136DC5000F7A2E /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4868852B26136DC5000F7A2E /* OnboardingViewController.swift */; };
+		4868853426137100000F7A2E /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4868853326137100000F7A2E /* OnboardingCell.swift */; };
+		486885392613862C000F7A2E /* Slide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486885382613862C000F7A2E /* Slide.swift */; };
+		4868856726138A42000F7A2E /* lottieMovie.json in Resources */ = {isa = PBXBuildFile; fileRef = 4868856526138A42000F7A2E /* lottieMovie.json */; };
+		4868856826138A42000F7A2E /* lottieswipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 4868856626138A42000F7A2E /* lottieswipe.json */; };
+		4868856D261390F9000F7A2E /* tinder.json in Resources */ = {isa = PBXBuildFile; fileRef = 4868856C261390F9000F7A2E /* tinder.json */; };
+		488E5945261427590048F2F1 /* engagement.json in Resources */ = {isa = PBXBuildFile; fileRef = 488E5943261427590048F2F1 /* engagement.json */; };
+		488E5946261427590048F2F1 /* notifications.json in Resources */ = {isa = PBXBuildFile; fileRef = 488E5944261427590048F2F1 /* notifications.json */; };
 		48E3C610260123660080449D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C60F260123660080449D /* AppDelegate.swift */; };
 		48E3C612260123660080449D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C611260123660080449D /* SceneDelegate.swift */; };
 		48E3C617260123660080449D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48E3C615260123660080449D /* Main.storyboard */; };
@@ -87,6 +96,15 @@
 		483505442609D5A6007ACABD /* NewGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupController.swift; sourceTree = "<group>"; };
 		483505492609D802007ACABD /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		48350551260A392C007ACABD /* NewGroupHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupHeader.swift; sourceTree = "<group>"; };
+		4868852526136D22000F7A2E /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
+		4868852B26136DC5000F7A2E /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		4868853326137100000F7A2E /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
+		486885382613862C000F7A2E /* Slide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slide.swift; sourceTree = "<group>"; };
+		4868856526138A42000F7A2E /* lottieMovie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottieMovie.json; sourceTree = "<group>"; };
+		4868856626138A42000F7A2E /* lottieswipe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottieswipe.json; sourceTree = "<group>"; };
+		4868856C261390F9000F7A2E /* tinder.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tinder.json; sourceTree = "<group>"; };
+		488E5943261427590048F2F1 /* engagement.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = engagement.json; sourceTree = "<group>"; };
+		488E5944261427590048F2F1 /* notifications.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notifications.json; sourceTree = "<group>"; };
 		48E3C60C260123660080449D /* NewPickFlicks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewPickFlicks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48E3C60F260123660080449D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48E3C611260123660080449D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -196,6 +214,26 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		4868852A26136D9C000F7A2E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				4868852B26136DC5000F7A2E /* OnboardingViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		4868856426138A2C000F7A2E /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				4868856526138A42000F7A2E /* lottieMovie.json */,
+				4868856626138A42000F7A2E /* lottieswipe.json */,
+				4868856C261390F9000F7A2E /* tinder.json */,
+				488E5943261427590048F2F1 /* engagement.json */,
+				488E5944261427590048F2F1 /* notifications.json */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		48E3C603260123660080449D = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +259,7 @@
 		48E3C60E260123660080449D /* NewPickFlicks */ = {
 			isa = PBXGroup;
 			children = (
+				4868856426138A2C000F7A2E /* Assets */,
 				48E3C647260124210080449D /* Model */,
 				48E3C6462601241F0080449D /* View */,
 				48E3C6452601241D0080449D /* ViewModel */,
@@ -230,6 +269,7 @@
 				48E3C60F260123660080449D /* AppDelegate.swift */,
 				48E3C611260123660080449D /* SceneDelegate.swift */,
 				48E3C615260123660080449D /* Main.storyboard */,
+				4868852526136D22000F7A2E /* Onboarding.storyboard */,
 				48E3C618260123680080449D /* Assets.xcassets */,
 				48E3C61A260123680080449D /* LaunchScreen.storyboard */,
 				48E3C61D260123680080449D /* Info.plist */,
@@ -281,6 +321,7 @@
 		48E3C6442601241B0080449D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4868852A26136D9C000F7A2E /* Onboarding */,
 				48E3C66F2601D07F0080449D /* Authentication */,
 				48E3C6B3260246BF0080449D /* MainTabController.swift */,
 				48E3C71F2603954F0080449D /* Home */,
@@ -312,6 +353,7 @@
 				48E3C74F26042C770080449D /* FillButtonController.swift */,
 				48E3C75726044CE20080449D /* ClearButtonController.swift */,
 				481E577B260E301000E03092 /* friendsCell.swift */,
+				4868853326137100000F7A2E /* OnboardingCell.swift */,
 				48E3C709260260B00080449D /* Profile */,
 				48E3C75F26044EEB0080449D /* Home */,
 				483505492609D802007ACABD /* UserCell.swift */,
@@ -326,8 +368,14 @@
 				48E3C740260399C80080449D /* User.swift */,
 				8070CA902608E6C0007D5B5E /* Movie.swift */,
 				8070CA9F260A2C4C007D5B5E /* Cast.swift */,
+
 				8094B52026175B9D0058F898 /* Genre.swift */,
+
+
+				486885382613862C000F7A2E /* Slide.swift */,
+
 				83825904260B7BFF006834A1 /* Session.swift */,
+
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -503,9 +551,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				488E5946261427590048F2F1 /* notifications.json in Resources */,
 				48E3C61C260123680080449D /* LaunchScreen.storyboard in Resources */,
+				4868856D261390F9000F7A2E /* tinder.json in Resources */,
+				4868856726138A42000F7A2E /* lottieMovie.json in Resources */,
+				4868852626136D22000F7A2E /* Onboarding.storyboard in Resources */,
 				48E3C689260243990080449D /* GoogleService-Info.plist in Resources */,
 				48E3C619260123680080449D /* Assets.xcassets in Resources */,
+				488E5945261427590048F2F1 /* engagement.json in Resources */,
+				4868856826138A42000F7A2E /* lottieswipe.json in Resources */,
 				48E3C617260123660080449D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -642,6 +696,7 @@
 				48E3C6CB26024CE10080449D /* AuthService.swift in Sources */,
 				48E3C67E2601D5330080449D /* AuthenticationViewModel.swift in Sources */,
 				48E3C741260399C80080449D /* User.swift in Sources */,
+				4868853426137100000F7A2E /* OnboardingCell.swift in Sources */,
 				481E5751260CE95800E03092 /* EditProfileController.swift in Sources */,
 				48E3C6B4260246BF0080449D /* MainTabController.swift in Sources */,
 				48E3C73C260397A90080449D /* UserService.swift in Sources */,
@@ -651,6 +706,7 @@
 				48E3C75026042C770080449D /* FillButtonController.swift in Sources */,
 				48E3C6792601D09C0080449D /* RegisterController.swift in Sources */,
 				48350552260A392C007ACABD /* NewGroupHeader.swift in Sources */,
+				486885392613862C000F7A2E /* Slide.swift in Sources */,
 				48E3C6D026024CEA0080449D /* Service.swift in Sources */,
 				48E3C6DA260251040080449D /* Constants.swift in Sources */,
 				48E3C612260123660080449D /* SceneDelegate.swift in Sources */,
@@ -669,6 +725,7 @@
 				8070CAA0260A2C4C007D5B5E /* Cast.swift in Sources */,
 				481E577C260E301000E03092 /* friendsCell.swift in Sources */,
 				48E3C75826044CE20080449D /* ClearButtonController.swift in Sources */,
+				4868852C26136DC5000F7A2E /* OnboardingViewController.swift in Sources */,
 				8070CA962608E71B007D5B5E /* APIServices.swift in Sources */,
 				48E3C66A2601AB300080449D /* CardViewModel.swift in Sources */,
 				4835054A2609D802007ACABD /* UserCell.swift in Sources */,

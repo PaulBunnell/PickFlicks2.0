@@ -16,9 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         guard let scene = (scene as? UIWindowScene) else { return }
         
+        let layout = UICollectionViewFlowLayout()
+        
         window = UIWindow(windowScene: scene)
         window?.makeKeyAndVisible()
         window?.rootViewController = MainTabController()
+//        window?.rootViewController = OnboardingViewController(collectionViewLayout: layout)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -39,6 +39,7 @@ class MovieController {
         task.resume()
         
     }
+
     
     func fetchGenre(completion: @escaping ([Genre]) -> Void) {
         
@@ -64,6 +65,7 @@ class MovieController {
         
     }
     
+
 }
 
 class CastController {
@@ -87,6 +89,4 @@ class CastController {
         task.resume()
         
     }
-    
-    
 }
