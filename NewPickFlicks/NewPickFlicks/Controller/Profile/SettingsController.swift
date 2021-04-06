@@ -8,58 +8,43 @@
 import UIKit
 import Firebase
 
-struct SettingCellModel {
-    let title: String
-    let handler: (() -> Void)
-}
+private let reuseIdentifier = "SettingsCell"
 
-final class SettingsController: UIViewController {
-    
+class SettingsController: UIViewController {
+
     //MARK: - Properties
-    
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        return tableView
-    }()
-    
-    private var data = [[SettingCellModel]]()
-    
-    //MARK: - Liofecycle
-    
+
+    var tableView: UITableView!
+
+    //MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureModels()
-        navigationItem.title = "Settings"
-        
-        tableView.backgroundColor = .white
-        view.addSubview(tableView)
+
+        configureUI()
+    }
+
+    //MARK: - Helpers
+
+    func configureTableView() {
+        tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 60
+
+        tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
+        view.addSubview(tableView)
+        tableView.fillSuperview()
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
+
+    func configureUI() {
+
+        configureTableView()
+        navigationItem.title = "Settings"
     }
-    
-    //MARK: - Actions
-    
-    func configureModels() {
-        let section = [
-            SettingCellModel(title: "Log Out") { [weak self] in
-                self?.didTapLogOut()
-            }
-        ]
-        data.append(section)
-    }
-    
-    //MARK: - Helpers
-    
+
     private func didTapLogOut() {
-        
+
         let actionSheet = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?", preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         actionSheet.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { _ in
@@ -82,29 +67,95 @@ final class SettingsController: UIViewController {
         actionSheet.popoverPresentationController?.sourceRect = tableView.bounds
         present(actionSheet, animated: true)
     }
+    
+    private func presentShareSheet() {
+        
+        let shareSheetVC = UIActivityViewController (activityItems: [], applicationActivities: nil)
+        present(shareSheetVC, animated: true)
+        
+    }
 }
 
-//MARK: - UITableViewDelegate & UITableViewDataSource
+//MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension SettingsController: UITableViewDelegate, UITableViewDataSource {
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
-        return data.count
+        return SettingsSection.allCases.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data[section].count
+        guard let section = SettingsSection(rawValue: section) else { return 0}
+
+        switch section {
+        case .Social: return SocialOptions.allCases.count
+        case .Communications: return CommunicationOptions.allCases.count
+        }
     }
-    
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .systemGroupedBackground
+
+        let title = UILabel()
+        title.font = UIFont.boldSystemFont(ofSize: 14)
+        title.textColor = .black
+        title.text = SettingsSection(rawValue: section)?.description
+        view.addSubview(title)
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        title.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
+        return view
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.section][indexPath.row].title
-        cell.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+        guard let section = SettingsSection(rawValue: indexPath.section) else { return UITableViewCell()}
+
+        switch section {
+        case .Social:
+            let social = SocialOptions(rawValue: indexPath.row)
+            cell.sectionType = social
+        case .Communications:
+            let communication = CommunicationOptions(rawValue: indexPath.row)
+            cell.sectionType = communication
+        }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        data[indexPath.section][indexPath.row].handler()
+        guard let section = SettingsSection(rawValue: indexPath.section) else { return }
+
+        switch section {
+        case .Social:
+            guard let socialOptions = SocialOptions(rawValue: indexPath.row) else { return }
+ 
+            switch socialOptions {
+            case .tellAFriend :
+                presentShareSheet()
+            case .resetPassword:
+                print("DEBUG: Reset your password")
+            case .logout:
+                didTapLogOut()
+            }
+
+        default:
+            guard let communicationOptions = CommunicationOptions(rawValue: indexPath.row) else { return }
+            
+            switch communicationOptions {
+            case .notification:
+                print("DEBUG: Turn On/Off on notifications")
+            case .email:
+                print("DEBUG: Turn On/Off email so others can't can see it")
+            case .activateStatus:
+                print("DEBUG: Turn On/Off status to see if you are online or not")
+            case .reportAProblem:
+                print("DEBUG: Report a problem by sending us an email")
+            }
+        }
     }
 }

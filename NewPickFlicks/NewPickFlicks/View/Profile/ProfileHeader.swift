@@ -8,7 +8,6 @@
 import UIKit
 import SDWebImage
 
-
 protocol ProfileHeaderDelegate: class {
     func header(_ profileHeader: ProfileHeader, didTapActionButtonFor user: User)
     func header(_ profileHeader: ProfileHeader, wantsToViewFollowingFor user: User)
@@ -62,10 +61,10 @@ class ProfileHeader: UICollectionReusableView {
         return label
     }()
     
-    private let usernameLabel: UILabel = {
+    private let emailLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = .darkGray
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textColor = #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
         label.textAlignment = .center
 
         return label
@@ -151,7 +150,7 @@ class ProfileHeader: UICollectionReusableView {
         
         addSubview(editProfileFollowButton)
         editProfileFollowButton.centerXToSuperview()
-        editProfileFollowButton.anchor(top: usernameLabel.bottomAnchor, paddingTop: 30)
+        editProfileFollowButton.anchor(top: emailLabel.bottomAnchor, paddingTop: 30)
 
         configureBottomToolBar()
     }
@@ -183,7 +182,7 @@ class ProfileHeader: UICollectionReusableView {
     
     func configureTop() {
 
-        let stack = UIStackView(arrangedSubviews: [nameLabel, usernameLabel])
+        let stack = UIStackView(arrangedSubviews: [nameLabel, emailLabel])
         stack.axis = .vertical
         stack.spacing = 5
 
@@ -234,7 +233,7 @@ class ProfileHeader: UICollectionReusableView {
         guard let viewModel = viewModel else { return }
 
         nameLabel.text = viewModel.fullname
-        usernameLabel.text = viewModel.username
+        emailLabel.text = viewModel.email
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
         
         editProfileFollowButton.setTitle(viewModel.followButtonText, for: .normal)

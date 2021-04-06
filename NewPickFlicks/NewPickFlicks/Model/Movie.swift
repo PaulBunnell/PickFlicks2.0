@@ -8,12 +8,15 @@
 import Foundation
 
 struct Movie: Codable {
+    
+ 
     var id: Int
     var title: String
     var overview: String
     var vote_average: Double
     var poster_path: String
     var release_date: String
+    
 }
 
 struct MovieResults: Codable {
