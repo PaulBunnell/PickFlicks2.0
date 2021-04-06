@@ -9,7 +9,7 @@ import UIKit
 
 protocol HomeNavigationStackViewDelegate: class {
     func ShowProfile()
-    func RegreshCards()
+    func refreshCards()
 }
 
 class HomeNavigationStackView: UIStackView {
@@ -54,7 +54,7 @@ class HomeNavigationStackView: UIStackView {
     }
     
     @objc func handleRefreshButton() {
-        delegate?.RegreshCards()
+        delegate?.refreshCards()
     }
     
     required init(coder: NSCoder) {
