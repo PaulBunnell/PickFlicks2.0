@@ -2,7 +2,7 @@
 //  MovieDetailView.swift
 //  NewPickFlicks
 //
-//  Created by Paul Bunnell on 3/22/21.
+//  Created by John Padilla on 3/31/21.
 //
 
 import SwiftUI
@@ -141,4 +141,3 @@ struct MovieDetailView_Previews: PreviewProvider {
             .preferredColorScheme(.light)
     }
 }
-

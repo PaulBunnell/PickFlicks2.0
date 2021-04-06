@@ -25,6 +25,11 @@
 		4868856D261390F9000F7A2E /* tinder.json in Resources */ = {isa = PBXBuildFile; fileRef = 4868856C261390F9000F7A2E /* tinder.json */; };
 		488E5945261427590048F2F1 /* engagement.json in Resources */ = {isa = PBXBuildFile; fileRef = 488E5943261427590048F2F1 /* engagement.json */; };
 		488E5946261427590048F2F1 /* notifications.json in Resources */ = {isa = PBXBuildFile; fileRef = 488E5944261427590048F2F1 /* notifications.json */; };
+		488E5963261553400048F2F1 /* AllMoviesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488E5962261553400048F2F1 /* AllMoviesViewModel.swift */; };
+		488E5973261590BE0048F2F1 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488E5972261590BE0048F2F1 /* MovieDetailView.swift */; };
+		488E59AE26160EB70048F2F1 /* ExploreMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488E59AD26160EB70048F2F1 /* ExploreMovies.swift */; };
+		488E59ED261779030048F2F1 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488E59EC261779030048F2F1 /* SettingsCell.swift */; };
+		488E59F22617EF530048F2F1 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488E59F12617EF530048F2F1 /* SettingsSection.swift */; };
 		48E3C610260123660080449D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C60F260123660080449D /* AppDelegate.swift */; };
 		48E3C612260123660080449D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C611260123660080449D /* SceneDelegate.swift */; };
 		48E3C617260123660080449D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48E3C615260123660080449D /* Main.storyboard */; };
@@ -63,7 +68,6 @@
 		5E162A96787E624614D620CA /* Pods_NewPickFlicksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D4F48D613FAE2E5068F6480 /* Pods_NewPickFlicksTests.framework */; };
 		8070CA912608E6C0007D5B5E /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA902608E6C0007D5B5E /* Movie.swift */; };
 		8070CA962608E71B007D5B5E /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA952608E71B007D5B5E /* APIServices.swift */; };
-		8070CA9B2608E740007D5B5E /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA9A2608E740007D5B5E /* MovieDetailView.swift */; };
 		8070CAA0260A2C4C007D5B5E /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA9F260A2C4C007D5B5E /* Cast.swift */; };
 		83825905260B7BFF006834A1 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83825904260B7BFF006834A1 /* Session.swift */; };
 		83825910260B87D0006834A1 /* JoinGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8382590F260B87D0006834A1 /* JoinGroupViewController.swift */; };
@@ -104,6 +108,11 @@
 		4868856C261390F9000F7A2E /* tinder.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tinder.json; sourceTree = "<group>"; };
 		488E5943261427590048F2F1 /* engagement.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = engagement.json; sourceTree = "<group>"; };
 		488E5944261427590048F2F1 /* notifications.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notifications.json; sourceTree = "<group>"; };
+		488E5962261553400048F2F1 /* AllMoviesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMoviesViewModel.swift; sourceTree = "<group>"; };
+		488E5972261590BE0048F2F1 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
+		488E59AD26160EB70048F2F1 /* ExploreMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMovies.swift; sourceTree = "<group>"; };
+		488E59EC261779030048F2F1 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		488E59F12617EF530048F2F1 /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
 		48E3C60C260123660080449D /* NewPickFlicks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewPickFlicks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48E3C60F260123660080449D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48E3C611260123660080449D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -150,7 +159,6 @@
 		7D4F48D613FAE2E5068F6480 /* Pods_NewPickFlicksTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewPickFlicksTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8070CA902608E6C0007D5B5E /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		8070CA952608E71B007D5B5E /* APIServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
-		8070CA9A2608E740007D5B5E /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		8070CA9F260A2C4C007D5B5E /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		83825904260B7BFF006834A1 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		8382590F260B87D0006834A1 /* JoinGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGroupViewController.swift; sourceTree = "<group>"; };
@@ -266,13 +274,13 @@
 				48E3C642260124130080449D /* Utils */,
 				48E3C60F260123660080449D /* AppDelegate.swift */,
 				48E3C611260123660080449D /* SceneDelegate.swift */,
+				488E5972261590BE0048F2F1 /* MovieDetailView.swift */,
 				48E3C615260123660080449D /* Main.storyboard */,
 				4868852526136D22000F7A2E /* Onboarding.storyboard */,
 				48E3C618260123680080449D /* Assets.xcassets */,
 				48E3C61A260123680080449D /* LaunchScreen.storyboard */,
 				48E3C61D260123680080449D /* Info.plist */,
 				48E3C688260243990080449D /* GoogleService-Info.plist */,
-				8070CA9A2608E740007D5B5E /* MovieDetailView.swift */,
 			);
 			path = NewPickFlicks;
 			sourceTree = "<group>";
@@ -321,11 +329,11 @@
 			children = (
 				4868852A26136D9C000F7A2E /* Onboarding */,
 				48E3C66F2601D07F0080449D /* Authentication */,
-				48E3C6B3260246BF0080449D /* MainTabController.swift */,
 				48E3C71F2603954F0080449D /* Home */,
 				48E3C72D260395650080449D /* Search */,
 				48E3C7342603956D0080449D /* Notifications */,
 				48E3C7232603955B0080449D /* Profile */,
+				48E3C6B3260246BF0080449D /* MainTabController.swift */,
 				483505442609D5A6007ACABD /* NewGroupController.swift */,
 				8382590F260B87D0006834A1 /* JoinGroupViewController.swift */,
 				4835053C2609BD2E007ACABD /* FiltersController.swift */,
@@ -340,6 +348,7 @@
 				48E3C67D2601D5330080449D /* AuthenticationViewModel.swift */,
 				48E3C74526039D0A0080449D /* ProfileHeaderViewModel.swift */,
 				481E5745260B9EAD00E03092 /* UserCellViewModel.swift */,
+				488E5962261553400048F2F1 /* AllMoviesViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -347,15 +356,16 @@
 		48E3C6462601241F0080449D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				48E3C75F26044EEB0080449D /* Home */,
+				48E3C709260260B00080449D /* Profile */,
 				48E3C6822601D59B0080449D /* CustomTextField.swift */,
 				48E3C74F26042C770080449D /* FillButtonController.swift */,
 				48E3C75726044CE20080449D /* ClearButtonController.swift */,
 				481E577B260E301000E03092 /* friendsCell.swift */,
 				4868853326137100000F7A2E /* OnboardingCell.swift */,
-				48E3C709260260B00080449D /* Profile */,
-				48E3C75F26044EEB0080449D /* Home */,
 				483505492609D802007ACABD /* UserCell.swift */,
 				48350551260A392C007ACABD /* NewGroupHeader.swift */,
+				488E59AD26160EB70048F2F1 /* ExploreMovies.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -366,11 +376,8 @@
 				48E3C740260399C80080449D /* User.swift */,
 				8070CA902608E6C0007D5B5E /* Movie.swift */,
 				8070CA9F260A2C4C007D5B5E /* Cast.swift */,
-
 				486885382613862C000F7A2E /* Slide.swift */,
-
 				83825904260B7BFF006834A1 /* Session.swift */,
-
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -389,6 +396,7 @@
 			children = (
 				48E3C712260261010080449D /* ProfileCell.swift */,
 				48E3C70A260260F60080449D /* ProfileHeader.swift */,
+				488E59EC261779030048F2F1 /* SettingsCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -434,6 +442,7 @@
 				48E3C65F26018D440080449D /* CardView.swift */,
 				48E3C65A260186A90080449D /* BottomControlStackView.swift */,
 				48E3C74A2603B4F10080449D /* StartSession.swift */,
+				488E59F12617EF530048F2F1 /* SettingsSection.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -683,18 +692,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				488E59F22617EF530048F2F1 /* SettingsSection.swift in Sources */,
 				48E3C6832601D59B0080449D /* CustomTextField.swift in Sources */,
 				48E3C74626039D0A0080449D /* ProfileHeaderViewModel.swift in Sources */,
 				481E5746260B9EAD00E03092 /* UserCellViewModel.swift in Sources */,
 				48E3C6B9260247D70080449D /* SearchController.swift in Sources */,
+				488E59AE26160EB70048F2F1 /* ExploreMovies.swift in Sources */,
 				48E3C6C1260247E10080449D /* NotificationController.swift in Sources */,
 				48E3C6CB26024CE10080449D /* AuthService.swift in Sources */,
 				48E3C67E2601D5330080449D /* AuthenticationViewModel.swift in Sources */,
 				48E3C741260399C80080449D /* User.swift in Sources */,
 				4868853426137100000F7A2E /* OnboardingCell.swift in Sources */,
+				488E5973261590BE0048F2F1 /* MovieDetailView.swift in Sources */,
 				481E5751260CE95800E03092 /* EditProfileController.swift in Sources */,
 				48E3C6B4260246BF0080449D /* MainTabController.swift in Sources */,
 				48E3C73C260397A90080449D /* UserService.swift in Sources */,
+				488E59ED261779030048F2F1 /* SettingsCell.swift in Sources */,
 				48E3C66026018D440080449D /* CardView.swift in Sources */,
 				48E3C610260123660080449D /* AppDelegate.swift in Sources */,
 				48E3C70B260260F60080449D /* ProfileHeader.swift in Sources */,
@@ -708,7 +721,6 @@
 				4835053D2609BD2E007ACABD /* FiltersController.swift in Sources */,
 				83825905260B7BFF006834A1 /* Session.swift in Sources */,
 				48E3C656260125770080449D /* HomeNavigationStackView.swift in Sources */,
-				8070CA9B2608E740007D5B5E /* MovieDetailView.swift in Sources */,
 				8070CA912608E6C0007D5B5E /* Movie.swift in Sources */,
 				83825910260B87D0006834A1 /* JoinGroupViewController.swift in Sources */,
 				483505452609D5A6007ACABD /* NewGroupController.swift in Sources */,
@@ -724,6 +736,7 @@
 				8070CA962608E71B007D5B5E /* APIServices.swift in Sources */,
 				48E3C66A2601AB300080449D /* CardViewModel.swift in Sources */,
 				4835054A2609D802007ACABD /* UserCell.swift in Sources */,
+				488E5963261553400048F2F1 /* AllMoviesViewModel.swift in Sources */,
 				48E3C6D526024F4E0080449D /* ImageUploader.swift in Sources */,
 				48E3C713260261010080449D /* ProfileCell.swift in Sources */,
 				48E3C6712601D0920080449D /* LoginController.swift in Sources */,
