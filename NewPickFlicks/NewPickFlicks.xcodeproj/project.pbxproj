@@ -65,6 +65,7 @@
 		8070CA962608E71B007D5B5E /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA952608E71B007D5B5E /* APIServices.swift */; };
 		8070CA9B2608E740007D5B5E /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA9A2608E740007D5B5E /* MovieDetailView.swift */; };
 		8070CAA0260A2C4C007D5B5E /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA9F260A2C4C007D5B5E /* Cast.swift */; };
+		8094B52126175B9D0058F898 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8094B52026175B9D0058F898 /* Genre.swift */; };
 		83825905260B7BFF006834A1 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83825904260B7BFF006834A1 /* Session.swift */; };
 		83825910260B87D0006834A1 /* JoinGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8382590F260B87D0006834A1 /* JoinGroupViewController.swift */; };
 /* End PBXBuildFile section */
@@ -152,6 +153,7 @@
 		8070CA952608E71B007D5B5E /* APIServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
 		8070CA9A2608E740007D5B5E /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		8070CA9F260A2C4C007D5B5E /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
+		8094B52026175B9D0058F898 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		83825904260B7BFF006834A1 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		8382590F260B87D0006834A1 /* JoinGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGroupViewController.swift; sourceTree = "<group>"; };
 		98A1F1E84E0B2A61CCD72E83 /* Pods-NewPickFlicksTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewPickFlicksTests.debug.xcconfig"; path = "Target Support Files/Pods-NewPickFlicksTests/Pods-NewPickFlicksTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				48E3C740260399C80080449D /* User.swift */,
 				8070CA902608E6C0007D5B5E /* Movie.swift */,
 				8070CA9F260A2C4C007D5B5E /* Cast.swift */,
+				8094B52026175B9D0058F898 /* Genre.swift */,
 				486885382613862C000F7A2E /* Slide.swift */,
 				83825904260B7BFF006834A1 /* Session.swift */,
 			);
@@ -722,6 +725,7 @@
 				48E3C66A2601AB300080449D /* CardViewModel.swift in Sources */,
 				4835054A2609D802007ACABD /* UserCell.swift in Sources */,
 				48E3C6D526024F4E0080449D /* ImageUploader.swift in Sources */,
+				8094B52126175B9D0058F898 /* Genre.swift in Sources */,
 				48E3C713260261010080449D /* ProfileCell.swift in Sources */,
 				48E3C6712601D0920080449D /* LoginController.swift in Sources */,
 				48E3C6C6260247ED0080449D /* ProfileController.swift in Sources */,

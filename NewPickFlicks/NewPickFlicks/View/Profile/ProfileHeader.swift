@@ -22,7 +22,17 @@ class ProfileHeader: UICollectionReusableView {
     
     weak var delegate: ProfileHeaderDelegate?
     
-    var viewModel: ProfileHeaderViewModel? { didSet { configure() } }
+
+    let cellIdentifier = "collectionCell"
+    
+    var viewModel: ProfileHeaderViewModel? {
+        didSet {
+            configure()
+        }
+    }
+    
+    private let gradientLayer = CAGradientLayer()
+
     
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -125,7 +135,9 @@ class ProfileHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+
         inviteButton.applyDesign()
+
         backgroundColor = UIColor(white: 0.95, alpha: 1)
 
         addSubview(profileImageView)

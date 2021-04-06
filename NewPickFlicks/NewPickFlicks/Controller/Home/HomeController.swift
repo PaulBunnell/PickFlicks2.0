@@ -13,8 +13,31 @@ class HomeController: UIViewController {
     //MARK: - Properties
     
     private var refreshIndexPath = 2
+    private var genreIndexPath = 1
+    private var indexPath = 12
+    private var hasSelectedGenre = false
+    private var selectedGenreID: Int?
     private let topStack = HomeNavigationStackView()
     private let bottomStack = BottomControlStackView()
+    
+    var cardView: CardView?
+    
+    var cardViewArray = [CardView]()
+    
+    var listOfMovies = [Movie]()
+    
+    var listOfGenres = [Genre]()
+    
+    weak var delegate: cardViewDelegate?
+    
+    let movieController = MovieController()
+    
+    let keyWindow = UIApplication.shared.connectedScenes
+            .filter({$0.activationState == .foregroundActive})
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows
+            .filter({$0.isKeyWindow}).first
     
     private let popUpWindow: StartSession = {
         let view = StartSession()
@@ -35,16 +58,13 @@ class HomeController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    let movieController = MovieController()
-    
+        
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureCards(pageNum: 1)
-       
+        configureCards(ID: nil, pageNum: 1)
         configureUI()
         view.addSubview(visualEffectView)
         visualEffectView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
@@ -57,26 +77,36 @@ class HomeController: UIViewController {
     
     //MARK: - Helpers
     
-    func configureCards(pageNum: Int) {
-        
-        movieController.fetchItems(numb: pageNum) { (movies) in
+    func configureCards(ID: Int?, pageNum: Int) {
+                        
+        movieController.fetchItems(genreID: ID, numb: pageNum) { (movies) in
         
             print(movies.count)
             
             DispatchQueue.main.async {
+                
+                self.listOfMovies = movies
+                
                 for movie in movies {
-                    
+                                        
                     let newCardView = CardView(viewModel: CardViewModel(movie: movie))
-                        
+                    
+                    self.cardView = newCardView
+                    
+                    self.cardViewArray.append(self.cardView!)
+                                            
                     self.deckView.addSubview(newCardView)
                         
                     newCardView.fillSuperview()
+                    
                 }
             }
         }
+        
     }
     
     func configureUI() {
+        
         navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
         
@@ -95,71 +125,182 @@ class HomeController: UIViewController {
         stack.bringSubviewToFront(deckView)
         
     }
+    
+    func refreshWithGenre(genreId: Int) {
+        
+        for card in cardViewArray {
+            card.removeFromSuperview()
+        }
+        
+        configureCards(ID: genreId, pageNum: genreIndexPath)
+        
+        genreIndexPath += 1
+        
+    }
+    
 }
 
 extension HomeController: HomeNavigationStackViewDelegate {
     
+    //MARK: Filter Function
+    
     func ShowProfile() {
-            let alert = UIAlertController(title: "", message: "Srart Matching", preferredStyle: .actionSheet)
-            alert.addAction(UIAlertAction(title: "Host", style: .default, handler: { (_) in
-                print("User click Approve button")
+        
+        for card in cardViewArray {
+            card.removeFromSuperview()
+        }
+        
+        cardViewArray.removeAll()
+        
+        print("Genre functionality")
                 
-                let controller = NewGroupController()
-                self.present(controller, animated: true, completion: nil)
-            }))
-
-            alert.addAction(UIAlertAction(title: "Join", style: .default, handler: { (_) in
-                print("User click Edit button")
-            }))
-
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (_) in
-                print("User click Dismiss button".uppercased())
+        let alert = UIAlertController(title: "Genre", message: "Pick a Genre", preferredStyle: .actionSheet)
+        
+        let defaultAction = UIAlertAction(title: "All", style: .default) { (alert) in
+            self.refreshCards()
+        }
+        alert.addAction(defaultAction)
+        
+        movieController.fetchGenre { (genres) in
+            
+            for genre in genres {
                 
-            }))
+                let action = UIAlertAction(title: "\(genre.name)", style: .default) { (action) in
+                    self.selectedGenreID = genre.id
+                    self.refreshWithGenre(genreId: self.selectedGenreID!)
+                }
+                
+                DispatchQueue.main.async {
+                    alert.addAction(action)
+                }
+            
+            }
+        }
+        
+        present(alert, animated: true) {
+            self.hasSelectedGenre = true
+        }
 
-            self.present(alert, animated: true, completion: {
-                print("completion block")
-            })
     }
     
-    func RegreshCards() {
-        configureCards(pageNum: refreshIndexPath)
-        refreshIndexPath += 1
-    }
 }
 
 //MARK: - cardViewDelegate
 
 extension HomeController: cardViewDelegate {
     
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+
+        return topMostViewController
+    }
+    
     func showMovieDetails() {
         let controller = UIHostingController(rootView: MovieDetailView())
-        controller.modalPresentationStyle = .fullScreen
-        present(controller, animated: true, completion: nil)
-        print("tapped")
+        controller.modalPresentationStyle = .pageSheet
+        DispatchQueue.main.async {
+            self.getTopMostViewController()?.present(controller, animated: true, completion: nil)
+        }
     }
     
 }
 
 extension HomeController: BottomControlStackViewDelegate {
     
+    func refreshCards() {
+        
+        for card in cardViewArray {
+            card.removeFromSuperview()
+        }
+        configureCards(ID: nil, pageNum: refreshIndexPath)
+        refreshIndexPath += 1
+        
+    }
+    
+    func animateLike(view: UIView) {
+        
+//        view.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 7)
+        view.center.x += 400
+
+    }
+    
+    func animateDislike(view: UIView) {
+        
+//        view.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 7)
+        view.center.x -= 400
+
+    }
+    
     func handleLike() {
         
-        print("like was tapped")
+        indexPath = cardViewArray.count - 1
+        UIView.animate(withDuration: 0.3) {
+            self.animateLike(view: self.cardViewArray[self.indexPath])
+        } completion: { _ in
+            self.cardViewArray[self.indexPath].removeFromSuperview()
+            self.cardViewArray.remove(at: self.indexPath)
+            self.indexPath -= 1
+        }
+        
+        // TODO: When cards refresh indexPath count is off
+        
+        if hasSelectedGenre == false && self.indexPath == 0 {
+            self.refreshCards()
+        }
+        
+        print(indexPath)
+        
+        if hasSelectedGenre == true && indexPath == 0 {
+            
+            if let genreID = selectedGenreID {
+                self.refreshWithGenre(genreId: genreID)
+            }
+            else {
+                self.refreshCards()
+            }
+            
+        }
         
     }
     
     func handleDislike() {
-        print("DEBUG: Handlo disLike here...")
         
+        indexPath = cardViewArray.count - 1
+        
+        UIView.animate(withDuration: 0.3) {
+            self.animateDislike(view: self.cardViewArray[self.indexPath])
+        } completion: { _ in
+            self.cardViewArray[self.indexPath].removeFromSuperview()
+            self.cardViewArray.remove(at: self.indexPath)
+            self.indexPath -= 1
+        }
+        
+        // TODO: When cards refresh indexPath count is off
+        
+        if self.indexPath == 0 {
+            self.refreshCards()
+        }
+        
+        print(indexPath)
+        
+        if hasSelectedGenre == true && indexPath == 0 {
+            
+            if let genreID = selectedGenreID {
+                self.refreshWithGenre(genreId: genreID)
+            }
+            else {
+                self.refreshCards()
+            }
+            
+        }
+            
     }
     
     func handleStartSession() {
-
-//        print("DEBUG: Handlo startSession here...")
-//
-//        view.addSubview(popUpWindow)
-//        popUpWindow.fillSuperview()
      
         let alert = UIAlertController(title: "", message: "Start Matching", preferredStyle: .actionSheet)
 
@@ -187,15 +328,12 @@ extension HomeController: BottomControlStackViewDelegate {
             print("completion block")
         })
 
-
         print("DEBUG: Handlo startSession here...")
                 
         view.addSubview(popUpWindow)
         popUpWindow.fillSuperview()
 
     }
-    
-    
     
     func showPopUpStartSession() {
 
