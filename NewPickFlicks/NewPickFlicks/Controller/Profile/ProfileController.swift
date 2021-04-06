@@ -53,6 +53,7 @@ class ProfileController: UICollectionViewController {
         }
     }
 
+    
     //MARK: - Actions
     
     @objc func handleGoToSettings() {

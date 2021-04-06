@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 private let reuseIdentifier = "UserCell"
 
@@ -24,6 +25,8 @@ class NewGroupController: UITableViewController {
         super.viewDidLoad()
         
         configureTableView()
+        
+       
 
     }
     
@@ -37,7 +40,13 @@ class NewGroupController: UITableViewController {
         
     }
     
+
+    
     //MARK: - Helpers
+    
+//    func createSession() {
+//        UserService.fetchUser
+//    }
     
     func configureTableView() {
         

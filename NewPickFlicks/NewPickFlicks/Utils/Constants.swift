@@ -14,3 +14,5 @@ let COLLECTION_FOLLOWERS = Firestore.firestore().collection("Followers")
 let COLLECTION_FOLLOWINGS = Firestore.firestore().collection("Followings")
 
 let COLLECTION_NOTIFICATIONS = Firestore.firestore().collection("Notifications")
+
+let COLLECTION_SESSION =    Firestore.firestore().collection("Session")

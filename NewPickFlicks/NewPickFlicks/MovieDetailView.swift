@@ -34,7 +34,7 @@ struct MovieDetailView: View {
                 
                 Text("Ratings: \(String(movies[1].vote_average))")
                     .bold()
-                    .padding(.leading)
+                .padding(.leading)
                 Text("Status: \(details.status)")
                     .bold()
                     .padding(.leading)
