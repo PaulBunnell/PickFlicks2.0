@@ -36,14 +36,14 @@ struct User {
         self.stats = UserStats(followers: 0, following: 0)
     }
     
-    func isFavoritMovie() {
-        guard var myMovies = favortieMovies else {return}
-        myMovies.append(Movie)
+    func isFavoritMovie(movie: Movie) {
+                guard var myMovies = favortieMovies else {return}
+                myMovies.append(movie)
     }
-}
-
-struct UserStats {
-    let followers: Int
-    let following: Int
-//    let posts: Int
+    
+    struct UserStats {
+        let followers: Int
+        let following: Int
+        //    let posts: Int
+    }
 }
