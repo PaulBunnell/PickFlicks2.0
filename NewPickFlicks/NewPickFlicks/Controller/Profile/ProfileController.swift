@@ -65,7 +65,7 @@ class ProfileController: UICollectionViewController {
     
     func configureCollectionView() {
         collectionView.backgroundColor = .white
-        navigationItem.title = "Profile"
+        navigationItem.title = user.username
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-news-feed-50-7"), style: .done, target: self, action: #selector(handleGoToSettings))
         
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: cellIdentifier)
@@ -172,10 +172,8 @@ extension ProfileController: ProfileHeaderDelegate {
     
     func header(_ profileHeader: ProfileHeader, didTapMatchingButtonFor user: User) {
         if user.isCurrentUser {
-            print("DEBUG: Make a matching group")
             showNewGroupMatching()
         } else {
-            print("DEBUG: Start Matching")
             showMatching()
         }
     }
