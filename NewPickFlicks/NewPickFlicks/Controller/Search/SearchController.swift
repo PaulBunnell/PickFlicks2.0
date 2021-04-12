@@ -8,32 +8,48 @@
 import UIKit
 
 private let resuseIdentifier = "UserCell"
-private let postCellIdentifier = "ProfileCell"
+private let postCellIdentifier = "ExploreMovies"
 
 enum UserFilterConfig: Equatable {
     case following(String)
+    case followers(String)
     case all
     
     var navigationItemTitle: String {
         switch self {
         case .following: return "Following"
-        case .all: return "Search"
+        case .followers:  return "Followers"
+        case .all: return "Explore"
         }
     }
 }
 
-class SearchController: UITableViewController {
+class SearchController: UIViewController {
     
     //MARK: - Properties
-    
+
     private let config: UserFilterConfig
     private var users = [User]()
     private var filteredUsers = [User]()
-    private var searchController = UISearchController(searchResultsController: nil)
+    private var movies = [Movie]()
+    private let searchController = UISearchController(searchResultsController: nil)
+
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.delegate = self
+        cv.dataSource = self
+        cv.backgroundColor = .white
+        cv.register(ExploreMovies.self, forCellWithReuseIdentifier: postCellIdentifier)
+        return cv
+    }()
+    
+    private var tableView = UITableView()
+    
     private var inSearchModel: Bool {
         return searchController.isActive && !searchController.searchBar.text!.isEmpty
     }
-    
     
     //MARK: - Lifecycle
     
@@ -49,10 +65,10 @@ class SearchController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureTableView()
+        configureSearchController()
+        configureUI()
         fetchUsers()
     }
-    
     
     //MARK: - API
     
@@ -65,13 +81,21 @@ class SearchController: UITableViewController {
     
     //MARK: - Helpers
     
-    func configureTableView() {
+    func configureUI() {
         view.backgroundColor = .white
-        navigationItem.title = "Explore"
-        configureSearchController()
-        tableView.rowHeight = 65
-        
         tableView.register(UserCell.self, forCellReuseIdentifier: resuseIdentifier)
+        tableView.rowHeight = 70
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        view.addSubview(tableView)
+        tableView.fillSuperview()
+        navigationItem.title = config.navigationItemTitle
+        tableView.isHidden = config == .all
+        
+        guard config == .all else { return }
+        view.addSubview(collectionView)
+        collectionView.fillSuperview()
     }
     
     func configureSearchController() {
@@ -79,29 +103,41 @@ class SearchController: UITableViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "Search"
-//        searchController.searchBar.delegate = self
+        searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         definesPresentationContext = false
-    }
+    } 
+}
+
+//MARK: - UITableViewDataSource
+
+extension SearchController: UITableViewDataSource {
     
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return inSearchModel ? filteredUsers.count : users.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: resuseIdentifier, for: indexPath) as! UserCell
 
         let user = inSearchModel ? filteredUsers[indexPath.row] : users[indexPath.row]
         cell.viewModel = UserCellViewModel(user: user)
         return cell
     }
+}
+
+//MARK: - UITableViewDelegate
+
+extension SearchController: UITableViewDelegate {
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = ProfileController(user: users[indexPath.row])
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = inSearchModel ? filteredUsers[indexPath.row] : users[indexPath.row]
+        let controller = ProfileController(user: user)
         navigationController?.pushViewController(controller, animated: true)
     }
 }
+
+//MARK: - UISearchResultsUpdating
 
 extension SearchController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -114,4 +150,65 @@ extension SearchController: UISearchResultsUpdating {
     }
 }
 
+// MARK: - UISearchBarDelegate
+
+extension SearchController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+        
+        guard config == .all else { return }
+        collectionView.isHidden = true
+        tableView.isHidden = false
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+        searchBar.showsCancelButton = false
+        searchBar.text = nil
+        
+        tableView.reloadData()
+        
+        guard config == .all else { return }
+        collectionView.isHidden = false
+        tableView.isHidden = true
+    }
+}
+
+
+//MARK: - UICollectionViewDataSource
+
+extension SearchController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: postCellIdentifier, for: indexPath) as!  ExploreMovies
+        return cell
+    }
+}
+
+//MARK: - UICollectionViewDelegate
+
+extension SearchController: UICollectionViewDelegate {
+    
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension SearchController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 15, left: 8, bottom: 8, right: 8)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let width = (view.frame.width) / 3
+        let width = 92
+        let height = 130
+
+        return CGSize(width: width, height: height)
+    }
+}
 

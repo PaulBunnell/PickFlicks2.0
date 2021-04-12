@@ -16,9 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         guard let scene = (scene as? UIWindowScene) else { return }
         
+        let layout = UICollectionViewFlowLayout()
+        
         window = UIWindow(windowScene: scene)
         window?.makeKeyAndVisible()
         window?.rootViewController = MainTabController()
+//        window?.rootViewController = OnboardingViewController(collectionViewLayout: layout)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -49,6 +52,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            print(url)
+            
+            let urlString = url.absoluteString
+            
+            let component = urlString.components(separatedBy: "=")
+            
+            if component.count > 1, let product = component.last {
+                print(product)
+            }
+        }
+    }
 
 }
 

@@ -19,6 +19,7 @@ target 'NewPickFlicks' do
 	pod 'YPImagePicker'
 	pod 'IQKeyboardManagerSwift'
 	pod 'BATabBarController', '~> 2.0.0'
+	pod 'lottie-ios'
 
   target 'NewPickFlicksTests' do
     inherit! :search_paths

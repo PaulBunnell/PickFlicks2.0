@@ -18,7 +18,6 @@ class Session {
     var groupName : String
     var favoriteMovies : [Movie]
     var sessionID : String
-
     
     init(hostUser: User, users: [User], movieHostID: String, time: Date, groupName: String, favoriteMovies: [Movie], sessionID: String) {
         
@@ -29,9 +28,9 @@ class Session {
         self.groupName = groupName
         self.favoriteMovies = favoriteMovies
         self.sessionID = sessionID
-        
     }
 }
+
 //identify who the Host is going to be and assgin Host and ID
 //create a session over Firebase assign Host to session
 //send session id

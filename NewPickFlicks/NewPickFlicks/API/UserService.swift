@@ -47,6 +47,11 @@ struct UserService {
         case .following(let uid):
             let ref = COLLECTION_FOLLOWINGS.document(uid).collection("user-following")
             fetchUsers(fromCollection: ref, completion: completion)
+            
+        case .followers(let uid):
+            let ref = COLLECTION_FOLLOWERS.document(uid).collection("user-followers")
+            fetchUsers(fromCollection: ref, completion: completion)
+            
         case .all:
             COLLECTION_USERS.getDocuments { (snapshot, error) in
                 guard let snapshot = snapshot else { return }

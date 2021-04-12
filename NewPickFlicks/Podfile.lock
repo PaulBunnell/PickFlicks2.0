@@ -356,6 +356,7 @@ PODS:
   - IQKeyboardManagerSwift (6.5.6)
   - JGProgressHUD (2.2)
   - leveldb-library (1.22.1)
+  - lottie-ios (3.2.1)
   - nanopb (2.30907.0):
     - nanopb/decode (= 2.30907.0)
     - nanopb/encode (= 2.30907.0)
@@ -383,6 +384,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - IQKeyboardManagerSwift
   - JGProgressHUD
+  - lottie-ios
   - SDWebImage (~> 5.0)
   - YPImagePicker
 
@@ -412,6 +414,7 @@ SPEC REPOS:
     - IQKeyboardManagerSwift
     - JGProgressHUD
     - leveldb-library
+    - lottie-ios
     - nanopb
     - PromisesObjC
     - PryntTrimmerView
@@ -445,6 +448,7 @@ SPEC CHECKSUMS:
   IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
+  lottie-ios: 106e92eaf11fbed0a76590b4cdb9b5ec26123ff7
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   PryntTrimmerView: 6a43cc90df5d99addeabd33d4ba09b1365322130
@@ -453,6 +457,6 @@ SPEC CHECKSUMS:
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   YPImagePicker: 15aed8bcaa4dad976e11b6114126d731a2f9f3c9
 
-PODFILE CHECKSUM: 14e0016d5fc7a76ef40528c330a39cff38b8cd05
+PODFILE CHECKSUM: b3f419b4acec55f86bd245c2b4091a19dae31a41
 
 COCOAPODS: 1.10.0

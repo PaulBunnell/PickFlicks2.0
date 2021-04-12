@@ -12,12 +12,8 @@ class MainTabController: UITabBarController {
     
     //MARK: - Properties
     
-    var user: User? {
-        didSet {
-            guard let user = user else { return }
-            configureViewController(withUser: user)
-        }
-    }
+    var user: User? { didSet { guard let user = user else { return }
+            configureViewController(withUser: user) } }
     
     //MARK: - Lifecycle
     
