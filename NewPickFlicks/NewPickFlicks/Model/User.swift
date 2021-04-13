@@ -15,7 +15,6 @@ struct User {
     var fullname: String
     var username: String
     var profileImageUrl: String
-    var favortieMovies: [Movie]?
     
     var isFollowed = false
     var startMatching = false
@@ -36,9 +35,14 @@ struct User {
         self.stats = UserStats(followers: 0, following: 0)
     }
     
-    func isFavoritMovie(movie: Movie) {
-                guard var myMovies = favortieMovies else {return}
-                myMovies.append(movie)
+    struct FavoriteMovies {
+        var favortieMovies: [Movie]
+        
+        static func addFavoriteMovies(movie: Movie, completion: @escaping(Error?) ->Void) {
+            
+        }
+         
+        
     }
     
     struct UserStats {

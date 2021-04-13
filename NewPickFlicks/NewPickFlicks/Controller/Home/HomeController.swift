@@ -26,7 +26,7 @@ class HomeController: UIViewController {
     
     var listOfMovies = [Movie]()
     
-    var listOfGenres = [Genre]()
+//    var listOfGenres = [Genre]()
     
     weak var delegate: cardViewDelegate?
     
@@ -161,21 +161,21 @@ extension HomeController: HomeNavigationStackViewDelegate {
         }
         alert.addAction(defaultAction)
         
-        movieController.fetchGenre { (genres) in
-            
-            for genre in genres {
-                
-                let action = UIAlertAction(title: "\(genre.name)", style: .default) { (action) in
-                    self.selectedGenreID = genre.id
-                    self.refreshWithGenre(genreId: self.selectedGenreID!)
-                }
-                
-                DispatchQueue.main.async {
-                    alert.addAction(action)
-                }
-            
-            }
-        }
+//        movieController.fetchGenre { (genres) in
+//            
+//            for genre in genres {
+//                
+//                let action = UIAlertAction(title: "\(genre.name)", style: .default) { (action) in
+//                    self.selectedGenreID = genre.id
+//                    self.refreshWithGenre(genreId: self.selectedGenreID!)
+//                }
+//                
+//                DispatchQueue.main.async {
+//                    alert.addAction(action)
+//                }
+//            
+//            }
+//        }
         
         present(alert, animated: true) {
             self.hasSelectedGenre = true
