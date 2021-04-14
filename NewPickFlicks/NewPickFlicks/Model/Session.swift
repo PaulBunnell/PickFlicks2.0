@@ -14,25 +14,40 @@ class Session {
     var hostUser : User
     var movieHostID : String
     var users : [User]
-    var time : Date
+    var timeRemaining : Int
     var groupName : String
     var favoriteMovies : [Movie]
     var sessionID : String
     var startSession : Bool
-
     
-    init(hostUser: User, users: [User], movieHostID: String, time: Date, groupName: String, favoriteMovies: [Movie], sessionID: String, startSession: Bool) {
+    
+    init(hostUser: User, users: [User], movieHostID: String, time: Int, groupName: String, favoriteMovies: [Movie], sessionID: String, startSession: Bool) {
         
         self.hostUser = hostUser
         self.movieHostID = movieHostID
         self.users = users
-        self.time = time
+        self.timeRemaining = time
         self.groupName = groupName
         self.favoriteMovies = favoriteMovies
         self.sessionID = sessionID
         self.startSession = startSession
         
     }
+    
+    
+    func ToggleSession() {
+        
+        if Auth.auth().currentUser?.uid == hostUser.uid {
+            startSession.toggle()
+        } else {
+            print("Error, non-host changing to toggle StartSession")
+        }
+    }
+    
+    func sessionTimer() {
+    }
+    
+    
 }
 
 
