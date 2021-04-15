@@ -35,7 +35,7 @@ class Session {
     }
     
     
-    func ToggleSession() {
+    func toggleSession() {
         
         if Auth.auth().currentUser?.uid == hostUser.uid {
             startSession.toggle()

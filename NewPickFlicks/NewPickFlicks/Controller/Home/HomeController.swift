@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Firebase
 
 class HomeController: UIViewController {
     
@@ -312,6 +313,21 @@ extension HomeController: BottomControlStackViewDelegate {
             nav.modalPresentationStyle = .automatic
             controller.title = "Add Participants"
             self.present(nav, animated: true, completion: nil)
+            
+            //when Start Matching button is pushed, create the session to firestore database
+            
+            //confirm that the newGroupController is being presented
+            if controller.isBeingPresented == true {
+                
+                //find a way to create and add a collection "session" to firestore
+               
+                
+                //identify the current user
+                guard let uid = Auth.auth().currentUser?.uid else {return}
+                
+                //create the session's document in firestore's collecion
+                COLLECTION_SESSION
+            }
         }))
         
         alert.addAction(UIAlertAction(title: "Join a group", style: .default, handler: { (_) in
