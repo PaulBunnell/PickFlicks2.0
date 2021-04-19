@@ -47,6 +47,10 @@ class Session {
     func sessionTimer() {
     }
     
+    func randomSessionID() -> Int {
+        return 1234
+    }
+    
     
 }
 
