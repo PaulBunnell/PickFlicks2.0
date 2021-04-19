@@ -11,12 +11,16 @@ private let cellIdentifier = "ProfileCell"
 private let headerIdentifier = "ProfileHeader"
 
 class ProfileController: UICollectionViewController {
-    
+
     //MARK: - Properties
     
     private var user: User {
         didSet { collectionView.reloadData() }
     }
+    
+    var likedCardViews = [CardView]()
+    
+    var likedMovies = [Movie]()
     
     //MARK: - Lifecycle
     
@@ -31,10 +35,15 @@ class ProfileController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                            
         configureCollectionView()
         checkIfUserISFollowed()
         fetchUsersStats()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        collectionView.reloadData()
     }
     
     //MARK: - API
@@ -85,22 +94,43 @@ class ProfileController: UICollectionViewController {
     }
     
     func showMatching() {
-        let controller = HomeController()
+        let controller = HomeController(user: user)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
     }
+    
 }
 
 //MARK: - UICollectionViewDataSource
 
 extension ProfileController {
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        
+        if User.favoriteMovies == nil {
+            return 0
+        }
+        else {
+            return User.favoriteMovies!.count
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ProfileCell
+        
+        // Use array of liked movies to populate instead of making api call
+        
+        let task = URLSession.shared.dataTask(with: URL(string: "http://image.tmdb.org/t/p/w500\(User.favoriteMovies![indexPath.row].poster_path)")!) { (data, response, error) in
+            
+            guard let data = data, let image = UIImage(data: data) else {return}
+                
+            DispatchQueue.main.async {
+                cell.posterImageView.image = image
+            }
+        }
+        task.resume()
+            
         return cell
     }
     
@@ -112,6 +142,7 @@ extension ProfileController {
 
         return header
     }
+    
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
@@ -128,7 +159,7 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (view.frame.width - 2) / 3
-        return CGSize(width: width, height: width)
+        return CGSize(width: width, height: 205)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

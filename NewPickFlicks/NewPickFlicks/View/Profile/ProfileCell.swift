@@ -13,13 +13,34 @@ class ProfileCell: UICollectionViewCell {
     
     //MARK: - Lifecycle
     
+    var posterImageView: UIImageView = {
+        var posterView = UIImageView()
+        posterView.contentMode = .scaleAspectFit
+        
+        return posterView
+    } ()
+        
+    let movieController = MovieController()
+    
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         
-        backgroundColor = .lightGray
+        addSubview(posterImageView)
+        
+        posterImageView.translatesAutoresizingMaskIntoConstraints = false
+        posterImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        posterImageView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        posterImageView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        posterImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        posterImageView.layer.cornerRadius = 20
+        posterImageView.clipsToBounds = true
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
