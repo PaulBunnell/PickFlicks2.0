@@ -12,6 +12,17 @@ class HomeController: UIViewController {
     
     //MARK: - Properties
     
+    var user: User
+    
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private var refreshIndexPath = 2
     private var genreIndexPath = 1
     private var indexPath = 12
@@ -24,14 +35,16 @@ class HomeController: UIViewController {
     
     var cardViewArray = [CardView]()
     
+    var likedMovies = [Movie]()
+    
+    var dislikedCards = [CardView]()
+    
     var listOfMovies = [Movie]()
     
     var listOfGenres = [Genre]()
-    
-    weak var delegate: cardViewDelegate?
-    
+        
     let movieController = MovieController()
-    
+        
     let keyWindow = UIApplication.shared.connectedScenes
             .filter({$0.activationState == .foregroundActive})
             .map({$0 as? UIWindowScene})
@@ -71,7 +84,7 @@ class HomeController: UIViewController {
         
         visualEffectView.alpha = 0
         
-        //        handleStartSession()
+//        handleStartSession()
         
     }
     
@@ -185,7 +198,7 @@ extension HomeController: HomeNavigationStackViewDelegate {
     
 }
 
-//MARK: - cardViewDelegate
+//MARK: - Card View Delegate
 
 extension HomeController: cardViewDelegate {
     
@@ -210,6 +223,8 @@ extension HomeController: cardViewDelegate {
 }
 
 extension HomeController: BottomControlStackViewDelegate {
+    
+    //MARK: Like and Dislike
     
     func refreshCards() {
         
@@ -237,10 +252,22 @@ extension HomeController: BottomControlStackViewDelegate {
     
     func handleLike() {
         
+        /* when movie is liked it needs to be appended to users array of like movies */
+                
         indexPath = cardViewArray.count - 1
         UIView.animate(withDuration: 0.3) {
             self.animateLike(view: self.cardViewArray[self.indexPath])
         } completion: { _ in
+            self.likedMovies.append(self.cardViewArray[self.indexPath].viewModel.movie)
+            print(self.likedMovies.count)
+            
+            User.favoriteMovies?.append(self.cardViewArray[self.indexPath].viewModel.movie)
+            
+            User.favoriteMovies = self.likedMovies
+
+            // How to acess movie poster info through card view
+            print(self.cardViewArray[self.indexPath].viewModel.movie.poster_path)
+            
             self.cardViewArray[self.indexPath].removeFromSuperview()
             self.cardViewArray.remove(at: self.indexPath)
             self.indexPath -= 1
@@ -274,6 +301,8 @@ extension HomeController: BottomControlStackViewDelegate {
         UIView.animate(withDuration: 0.3) {
             self.animateDislike(view: self.cardViewArray[self.indexPath])
         } completion: { _ in
+            self.dislikedCards.append(self.cardViewArray[self.indexPath])
+            print(self.dislikedCards.count)
             self.cardViewArray[self.indexPath].removeFromSuperview()
             self.cardViewArray.remove(at: self.indexPath)
             self.indexPath -= 1

@@ -24,11 +24,11 @@ class CardView: UIView {
     
     let movieController = MovieController()
     
-    let homeController = HomeController()
+//    let homeController = HomeController(user: )
     
     weak var delegate: HomeNavigationStackViewDelegate?
 
-    private let viewModel: CardViewModel
+    let viewModel: CardViewModel
 
     private var image = UIImage()
     
@@ -109,7 +109,7 @@ class CardView: UIView {
         
 //        delegate?.showMovieDetails()
         
-        homeController.showMovieDetails()
+//        homeController.showMovieDetails()
         
     }
     
