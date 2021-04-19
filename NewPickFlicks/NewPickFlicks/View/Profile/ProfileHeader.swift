@@ -97,7 +97,7 @@ class ProfileHeader: UICollectionReusableView {
     
     let favoriteMoviesButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("My Favorites Movies", for: .normal)
+        button.setTitle("My Favorite Movies", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.tintColor = .black
         return button
@@ -235,6 +235,13 @@ class ProfileHeader: UICollectionReusableView {
         nameLabel.text = viewModel.fullname
         emailLabel.text = viewModel.email
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+        
+        if User.favoriteMovies == nil {
+            favoriteMoviesButton.setTitle("No Favorite Movies", for: .normal)
+        }
+        else {
+            favoriteMoviesButton.setTitle("My Favorite Movies", for: .normal)
+        }
         
         editProfileFollowButton.setTitle(viewModel.followButtonText, for: .normal)
         editProfileFollowButton.setTitleColor(viewModel.followButtonTextcolor, for: .normal)

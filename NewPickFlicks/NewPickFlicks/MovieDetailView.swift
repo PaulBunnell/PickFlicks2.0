@@ -13,7 +13,9 @@ struct MovieDetailView: View {
     
     let castController = CastController()
     
-    let homeController = HomeController()
+//    var user: User
+//    
+//    let homeController = HomeController(user: user)
             
     @State private var isExpanded: Bool = false
     

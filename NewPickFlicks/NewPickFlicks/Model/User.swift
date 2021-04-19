@@ -15,7 +15,8 @@ struct User {
     var fullname: String
     var username: String
     var profileImageUrl: String
-    
+    static var favoriteMovies: [Movie]?
+        
     var isFollowed = false
     var startMatching = false
     
