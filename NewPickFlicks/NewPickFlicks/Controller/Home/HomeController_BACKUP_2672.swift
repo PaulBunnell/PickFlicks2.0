@@ -103,8 +103,13 @@ class HomeController: UIViewController {
                 self.listOfMovies = movies
                 
                 for movie in movies {
+<<<<<<< HEAD
+                    
+                    let newCardView = CardView(viewModel: CardViewModel(movie: movie))
+=======
                                         
                     let newCardView = CardView(viewModel: CardViewModel(movie: movie), user: self.user)
+>>>>>>> 9015401c5b15b9aaf0f8d5981231d59c16d672dc
                     
                     self.cardView = newCardView
                     

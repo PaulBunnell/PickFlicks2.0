@@ -13,9 +13,7 @@ struct MovieDetailView: View {
     
     let castController = CastController()
     
-//    var user: User
-//    
-//    let homeController = HomeController(user: user)
+    @Environment(\.presentationMode) var presentationMode
             
     @State private var isExpanded: Bool = false
     
@@ -30,21 +28,24 @@ struct MovieDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: .some(15)) {
                 HStack {
-                    Text(movies[1].title)
+                    Text(movies[0].title)
                         .font(Font.custom("helvetica", size: 45))
                         .padding(.leading)
                     Spacer()
+                    Button(action: {presentationMode.wrappedValue.dismiss()}, label: {
+                        Text("Close")
+                            .padding(.trailing)
+                            .accentColor(.black)
+                    })
                 }
                 
-                Text("Ratings: \(String(movies[1].vote_average))")
-                    .bold()
-                .padding(.leading)
-                Text("Status: \(details.status)")
+                Text("Ratings: \(String(movies[0].vote_average))")
                     .bold()
                     .padding(.leading)
-                Text("Release Date: \(movies[1].release_date)")
+                Text("Release Date: \(movies[0].release_date)")
                     .bold()
                     .padding(.leading)
+                    .padding(.bottom)
                 
                     
                 HStack(alignment: .center) {
@@ -59,19 +60,17 @@ struct MovieDetailView: View {
                     
                     Spacer()
                 }
+                .padding(.top)
+                .padding(.bottom)
         
                 VStack (alignment: .leading){
-                    
-                    Text(details.tagline)
-                        .padding(.top)
-                        .padding(.bottom)
                     
                     Text("Overview: ")
                         .bold()
                         .padding(.bottom)
                         .lineLimit(isExpanded ? nil : 3)
                                              
-                    Text(movies[1].overview)
+                    Text(movies[0].overview)
                         .padding(.bottom)
                         .lineLimit(isExpanded ? nil : 3)
                         .overlay(
@@ -105,22 +104,13 @@ struct MovieDetailView: View {
                         .blur(radius: 70.0))
         .onAppear(perform: {
             DispatchQueue.main.async {
-                movieController.fetchItems(genreID: nil, numb: 1) { (movies) in
-                    
-                    self.movies = movies
-                    
-                    print(self.movies.count)
-                    
-                    updateUI(movieInfo: self.movies[1])
-                    
-                    castController.fetchCast(movieId: self.movies[1]) { (details) in
-                        self.details = details
-                    }
-                    
-                }
+                movies.removeAll()
+                updateUI(movieInfo: MovieDetail.detailedMovie!)
+                movies.append(MovieDetail.detailedMovie!)
             }
         
         })
+        .padding(.top)
         
     }
     

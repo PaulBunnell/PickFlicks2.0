@@ -7,7 +7,6 @@
 
 import UIKit
 import SwiftUI
-import Firebase
 
 class HomeController: UIViewController {
     
@@ -31,7 +30,6 @@ class HomeController: UIViewController {
     private var selectedGenreID: Int?
     private let topStack = HomeNavigationStackView()
     private let bottomStack = BottomControlStackView()
-    let database = Firestore.firestore()
     
     var cardView: CardView?
     
@@ -48,11 +46,11 @@ class HomeController: UIViewController {
     let movieController = MovieController()
         
     let keyWindow = UIApplication.shared.connectedScenes
-        .filter({$0.activationState == .foregroundActive})
-        .map({$0 as? UIWindowScene})
-        .compactMap({$0})
-        .first?.windows
-        .filter({$0.isKeyWindow}).first
+            .filter({$0.activationState == .foregroundActive})
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows
+            .filter({$0.isKeyWindow}).first
     
     private let popUpWindow: StartSession = {
         let view = StartSession()
@@ -73,7 +71,7 @@ class HomeController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
+        
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -93,9 +91,9 @@ class HomeController: UIViewController {
     //MARK: - Helpers
     
     func configureCards(ID: Int?, pageNum: Int) {
-        
+                        
         movieController.fetchItems(genreID: ID, numb: pageNum) { (movies) in
-            
+        
             print(movies.count)
             
             DispatchQueue.main.async {
@@ -104,23 +102,20 @@ class HomeController: UIViewController {
                 
                 for movie in movies {
                                         
-                    let newCardView = CardView(viewModel: CardViewModel(movie: movie), user: self.user)
+                    let newCardView = CardView(viewModel: CardViewModel(movie: movie))
                     
                     self.cardView = newCardView
                     
                     self.cardViewArray.append(self.cardView!)
-                    
+                                            
                     self.deckView.addSubview(newCardView)
-                    
+                        
                     newCardView.fillSuperview()
                     
                 }
-                
-                MovieDetail.detailedMovie = movies[19]
-                
             }
         }
-                
+        
     }
     
     func configureUI() {
@@ -137,7 +132,7 @@ class HomeController: UIViewController {
         
         view.addSubview(stack)
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 0)
-        
+
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         stack.bringSubviewToFront(deckView)
@@ -171,7 +166,7 @@ extension HomeController: HomeNavigationStackViewDelegate {
         cardViewArray.removeAll()
         
         print("Genre functionality")
-        
+                
         let alert = UIAlertController(title: "Genre", message: "Pick a Genre", preferredStyle: .actionSheet)
         
         let defaultAction = UIAlertAction(title: "All", style: .default) { (alert) in
@@ -179,26 +174,26 @@ extension HomeController: HomeNavigationStackViewDelegate {
         }
         alert.addAction(defaultAction)
         
-        //        movieController.fetchGenre { (genres) in
-        //
-        //            for genre in genres {
-        //
-        //                let action = UIAlertAction(title: "\(genre.name)", style: .default) { (action) in
-        //                    self.selectedGenreID = genre.id
-        //                    self.refreshWithGenre(genreId: self.selectedGenreID!)
-        //                }
-        //
-        //                DispatchQueue.main.async {
-        //                    alert.addAction(action)
-        //                }
-        //
-        //            }
-        //        }
+        movieController.fetchGenre { (genres) in
+            
+            for genre in genres {
+                
+                let action = UIAlertAction(title: "\(genre.name)", style: .default) { (action) in
+                    self.selectedGenreID = genre.id
+                    self.refreshWithGenre(genreId: self.selectedGenreID!)
+                }
+                
+                DispatchQueue.main.async {
+                    alert.addAction(action)
+                }
+            
+            }
+        }
         
         present(alert, animated: true) {
             self.hasSelectedGenre = true
         }
-        
+
     }
     
 }
@@ -209,11 +204,11 @@ extension HomeController: cardViewDelegate {
     
     func getTopMostViewController() -> UIViewController? {
         var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-        
+
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController
         }
-        
+
         return topMostViewController
     }
     
@@ -233,8 +228,6 @@ extension HomeController: BottomControlStackViewDelegate {
     
     func refreshCards() {
         
-        MovieDetail.detailedMovie = likedMovies[0]
-        
         for card in cardViewArray {
             card.removeFromSuperview()
         }
@@ -245,16 +238,16 @@ extension HomeController: BottomControlStackViewDelegate {
     
     func animateLike(view: UIView) {
         
-        //        view.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 7)
+//        view.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 7)
         view.center.x += 400
-        
+
     }
     
     func animateDislike(view: UIView) {
         
-        //        view.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 7)
+//        view.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 7)
         view.center.x -= 400
-        
+
     }
     
     func handleLike() {
@@ -269,7 +262,7 @@ extension HomeController: BottomControlStackViewDelegate {
             print(self.likedMovies.count)
             
             User.favoriteMovies?.append(self.cardViewArray[self.indexPath].viewModel.movie)
-                        
+            
             User.favoriteMovies = self.likedMovies
 
             // How to acess movie poster info through card view
@@ -283,12 +276,7 @@ extension HomeController: BottomControlStackViewDelegate {
         // TODO: When cards refresh indexPath count is off
         
         if hasSelectedGenre == false && self.indexPath == 0 {
-            MovieDetail.detailedMovie = likedMovies[0]
             self.refreshCards()
-        }
-        
-        if self.indexPath > 0 {
-            MovieDetail.detailedMovie = self.cardViewArray[indexPath - 1].viewModel.movie
         }
         
         print(indexPath)
@@ -316,8 +304,6 @@ extension HomeController: BottomControlStackViewDelegate {
             self.dislikedCards.append(self.cardViewArray[self.indexPath])
             print(self.dislikedCards.count)
             self.cardViewArray[self.indexPath].removeFromSuperview()
-            
-            
             self.cardViewArray.remove(at: self.indexPath)
             self.indexPath -= 1
         }
@@ -325,12 +311,7 @@ extension HomeController: BottomControlStackViewDelegate {
         // TODO: When cards refresh indexPath count is off
         
         if self.indexPath == 0 {
-            MovieDetail.detailedMovie = likedMovies[0]
             self.refreshCards()
-        }
-        
-        if self.indexPath > 0 {
-            MovieDetail.detailedMovie = self.cardViewArray[self.indexPath-1].viewModel.movie
         }
         
         print(indexPath)
@@ -345,13 +326,13 @@ extension HomeController: BottomControlStackViewDelegate {
             }
             
         }
-        
+            
     }
     
     func handleStartSession() {
-        
+     
         let alert = UIAlertController(title: "", message: "Start Matching", preferredStyle: .actionSheet)
-        
+
         alert.addAction(UIAlertAction(title: "Become a Host", style: .default, handler: { (_) in
             print("User click Approve button")
             
@@ -360,8 +341,6 @@ extension HomeController: BottomControlStackViewDelegate {
             nav.modalPresentationStyle = .automatic
             controller.title = "Add Participants"
             self.present(nav, animated: true, completion: nil)
-            
-                self.addSessionToFirebase()
         }))
         
         alert.addAction(UIAlertAction(title: "Join a group", style: .default, handler: { (_) in
@@ -377,41 +356,18 @@ extension HomeController: BottomControlStackViewDelegate {
         self.present(alert, animated: true, completion: {
             print("completion block")
         })
-        
+
         print("DEBUG: Handlo startSession here...")
-        
+                
         view.addSubview(popUpWindow)
         popUpWindow.fillSuperview()
-        
+
     }
-    func addSessionToFirebase() {
-        
-        //identify the current user
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-       
-        //create the session's document in firestore's collecion
-        database.collection("Session").document("Session hosted by \(uid)").setData([
-            "user" : [user.uid],
-            "userFavoriteMovies" : "all of them",
-            "date" : Date(),
-            "sessionStarted" : false
-            
-            
-        ])
-        { (error) in
-            if error == nil {
-                print(error?.localizedDescription as Any)
-            }
-            
-        }
-    
-    }
-    
     
     func showPopUpStartSession() {
-        
+
         print("pop up pressed".uppercased())
-        
+
     }
     
     /// join the group seson by entering in SessionID
@@ -428,7 +384,7 @@ extension HomeController: BottomControlStackViewDelegate {
         let joinButton = UIAlertAction(title: "Join", style: .default){ (alert) in
             guard let textField = alertController.textFields, let sessionIDString = textField[0].text
             else {return}
-            //Once the session ID has been entered this is where the code will be to add the user to the the groupSession
+           //Once the session ID has been entered this is where the code will be to add the user to the the groupSession
             
             let joincontroller = JoinGroupViewController()
             self.present(joincontroller, animated: true, completion: nil)
@@ -439,8 +395,4 @@ extension HomeController: BottomControlStackViewDelegate {
         
         present(alertController, animated: true, completion: nil)
     }
-}
-
-struct MovieDetail {
-    static var detailedMovie: Movie?
 }
