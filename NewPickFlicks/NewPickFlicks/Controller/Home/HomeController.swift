@@ -344,13 +344,7 @@ extension HomeController: BottomControlStackViewDelegate {
             controller.title = "Add Participants"
             self.present(nav, animated: true, completion: nil)
             
-            //when Start Matching button is pushed, create the session to firestore database
-            
-            //confirm that the newGroupController is being presented
-//            if controller.isBeingPresented == true {
                 self.addSessionToFirebase()
-                //create the session's document in firestore's collecion
-//            }
         }))
         
         alert.addAction(UIAlertAction(title: "Join a group", style: .default, handler: { (_) in
@@ -377,17 +371,26 @@ extension HomeController: BottomControlStackViewDelegate {
         
         //identify the current user
         guard let uid = Auth.auth().currentUser?.uid else {return}
-        
-        //find a way to create and add a collection "session" to firestore
-        database.collection("Session").document("SessionID").setData([
-                                                                            "userID" : uid,"userFavoriteMovies" : "all of them"]) { (error) in
+       
+        //create the session's document in firestore's collecion
+        database.collection("Session").document("Session hosted by \(uid)").setData([
+            "user" : [user.uid],
+            "userFavoriteMovies" : "all of them",
+            "date" : Date(),
+            "sessionStarted" : false
+            
+            
+        ])
+        { (error) in
             if error == nil {
-                print(error!)
+                print(error?.localizedDescription as Any)
             }
             
         }
     
     }
+    
+    
     func showPopUpStartSession() {
         
         print("pop up pressed".uppercased())
