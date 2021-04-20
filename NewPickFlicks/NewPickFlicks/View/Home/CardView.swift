@@ -29,6 +29,8 @@ class CardView: UIView {
     weak var delegate: HomeNavigationStackViewDelegate?
 
     let viewModel: CardViewModel
+    
+    private var user: User
 
     private var image = UIImage()
     
@@ -62,8 +64,9 @@ class CardView: UIView {
     
     //MARK: - Lifecycle
     
-    init(viewModel: CardViewModel) {
+    init(viewModel: CardViewModel, user: User) {
         self.viewModel = viewModel
+        self.user = user
         super.init(frame: .zero)
         
         configureGestureRecognizers()
@@ -107,9 +110,11 @@ class CardView: UIView {
     
     @objc func ShowMovieDetails() {
         
+        let homeController = HomeController(user: user)
+        
 //        delegate?.showMovieDetails()
         
-//        homeController.showMovieDetails()
+        homeController.showMovieDetails()
         
     }
     

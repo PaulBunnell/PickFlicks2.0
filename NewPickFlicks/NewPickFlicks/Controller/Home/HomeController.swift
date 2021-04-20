@@ -102,7 +102,7 @@ class HomeController: UIViewController {
                 
                 for movie in movies {
                                         
-                    let newCardView = CardView(viewModel: CardViewModel(movie: movie))
+                    let newCardView = CardView(viewModel: CardViewModel(movie: movie), user: self.user)
                     
                     self.cardView = newCardView
                     
@@ -113,9 +113,12 @@ class HomeController: UIViewController {
                     newCardView.fillSuperview()
                     
                 }
+                
+                MovieDetail.detailedMovie = movies[19]
+                
             }
         }
-        
+                
     }
     
     func configureUI() {
@@ -228,6 +231,8 @@ extension HomeController: BottomControlStackViewDelegate {
     
     func refreshCards() {
         
+        MovieDetail.detailedMovie = likedMovies[0]
+        
         for card in cardViewArray {
             card.removeFromSuperview()
         }
@@ -262,7 +267,7 @@ extension HomeController: BottomControlStackViewDelegate {
             print(self.likedMovies.count)
             
             User.favoriteMovies?.append(self.cardViewArray[self.indexPath].viewModel.movie)
-            
+                        
             User.favoriteMovies = self.likedMovies
 
             // How to acess movie poster info through card view
@@ -276,7 +281,12 @@ extension HomeController: BottomControlStackViewDelegate {
         // TODO: When cards refresh indexPath count is off
         
         if hasSelectedGenre == false && self.indexPath == 0 {
+            MovieDetail.detailedMovie = likedMovies[0]
             self.refreshCards()
+        }
+        
+        if self.indexPath > 0 {
+            MovieDetail.detailedMovie = self.cardViewArray[indexPath - 1].viewModel.movie
         }
         
         print(indexPath)
@@ -304,6 +314,8 @@ extension HomeController: BottomControlStackViewDelegate {
             self.dislikedCards.append(self.cardViewArray[self.indexPath])
             print(self.dislikedCards.count)
             self.cardViewArray[self.indexPath].removeFromSuperview()
+            
+            
             self.cardViewArray.remove(at: self.indexPath)
             self.indexPath -= 1
         }
@@ -311,7 +323,12 @@ extension HomeController: BottomControlStackViewDelegate {
         // TODO: When cards refresh indexPath count is off
         
         if self.indexPath == 0 {
+            MovieDetail.detailedMovie = likedMovies[0]
             self.refreshCards()
+        }
+        
+        if self.indexPath > 0 {
+            MovieDetail.detailedMovie = self.cardViewArray[self.indexPath-1].viewModel.movie
         }
         
         print(indexPath)
@@ -395,4 +412,8 @@ extension HomeController: BottomControlStackViewDelegate {
         
         present(alertController, animated: true, completion: nil)
     }
+}
+
+struct MovieDetail {
+    static var detailedMovie: Movie?
 }
