@@ -85,20 +85,31 @@ struct UserService {
         }
     }
     
-    static func fetchUserStats(uid: String, completion: @escaping(UserStats) -> Void) {
-        COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments { (snapshot, _) in
-            let followers = snapshot?.documents.count ?? 0
-            
-            COLLECTION_FOLLOWINGS.document(uid).collection("user-following").getDocuments { (snapshot, _) in
-                let following = snapshot?.documents.count ?? 0
-                
-//                COLLECTION_POTSTS.whereField("ownerUid", isEqualTo: uid).getDocuments { (snapshot, _) in
-//                    let posts = snapshot?.documents.count ?? 0
-//                    completion(UserStats(followers: followers, following: following, posts: posts))
-//                }
-                completion(UserStats(followers: followers, following: following))
-
-            }
-        }
-    }
+//    static func addFavoriteMovie(movie: Movie, completion: @escaping(FirestoreCompletion)) {
+//        guard let uid = Auth.auth().currentUser?.uid else {return}
+//        
+//        Collection_MOVIES.document(movie.id).updateData(["likedMovies": movie.likedMovie + 1])
+//        
+//        Collection_MOVIES.document(movie.id).collection("FavoriteMovies").document(uid).setData([:]) { _ in
+//            COLLECTION_USERS.document(uid).collection("MoviesLiked").document(movie.id).setData([:], completion: completion)
+//        }
+//    }
+    
+//    static func fetchUserStats(uid: String, completion: @escaping(UserStats) -> Void) {
+//        COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments { (snapshot, _) in
+//            let followers = snapshot?.documents.count ?? 0
+//            
+//            COLLECTION_FOLLOWINGS.document(uid).collection("user-following").getDocuments { (snapshot, _) in
+//                let following = snapshot?.documents.count ?? 0
+//                
+////                COLLECTION_POTSTS.whereField("ownerUid", isEqualTo: uid).getDocuments { (snapshot, _) in
+////                    let posts = snapshot?.documents.count ?? 0
+////                    completion(UserStats(followers: followers, following: following, posts: posts))
+////                }
+//                completion(UserStats(followers: followers, following: following))
+//
+//            }
+//        }
+//    }
+    
 }

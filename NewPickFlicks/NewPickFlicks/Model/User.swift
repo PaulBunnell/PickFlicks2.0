@@ -16,7 +16,7 @@ struct User {
     var username: String
     var profileImageUrl: String
     static var favoriteMovies: [Movie]?
-        
+    var likedMovie : Int
     var isFollowed = false
     var startMatching = false
     
@@ -32,13 +32,24 @@ struct User {
         self.username = dictionary["username"] as? String ?? ""
         self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
         self.uid = dictionary["uid"] as? String ?? ""
+        self.likedMovie = dictionary["likedmovies"] as? Int ?? 0
         
         self.stats = UserStats(followers: 0, following: 0)
     }
-}
-
-struct UserStats {
-    let followers: Int
-    let following: Int
-//    let posts: Int
+    
+    struct FavoriteMovies {
+        var favortieMovies: [Movie]
+        
+        static func addFavoriteMovies(movie: Movie, completion: @escaping(Error?) ->Void) {
+            
+        }
+         
+        
+    }
+    
+    struct UserStats {
+        let followers: Int
+        let following: Int
+        //    let posts: Int
+    }
 }

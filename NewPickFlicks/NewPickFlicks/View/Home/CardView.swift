@@ -7,6 +7,8 @@
 
 import UIKit
 import SwiftUI
+import Firebase
+
 
 enum swipeDirection: Int {
     case left = -1
@@ -88,6 +90,8 @@ class CardView: UIView {
         configureInfoUI()
     }
     
+    
+    
     func updateUI(movieInfo: Movie) {
         
         let task = URLSession.shared.dataTask(with: URL(string: "http://image.tmdb.org/t/p/w500\(movieInfo.poster_path)")!) { (data, response, error) in
@@ -160,6 +164,7 @@ class CardView: UIView {
             if shouldDismissCard {
                 self.delegate?.refreshCards()
                 self.removeFromSuperview()
+                
             }
         }
     }
