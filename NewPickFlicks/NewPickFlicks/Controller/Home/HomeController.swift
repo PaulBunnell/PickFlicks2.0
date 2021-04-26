@@ -271,7 +271,12 @@ extension HomeController: BottomControlStackViewDelegate {
             User.favoriteMovies?.append(self.cardViewArray[self.indexPath].viewModel.movie)
                         
             User.favoriteMovies = self.likedMovies
-
+            
+            //Add movie to Firebase
+            
+            self.addFavoriteMovie(movie: self.cardViewArray[self.indexPath].viewModel.movie)
+            
+            
             // How to acess movie poster info through card view
             print(self.cardViewArray[self.indexPath].viewModel.movie.poster_path)
             
@@ -304,6 +309,31 @@ extension HomeController: BottomControlStackViewDelegate {
             
         }
         
+    }
+    
+    func addFavoriteMovie(movie: Movie) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        COLLECTION_USERS.document(uid).updateData(["likedmovies" : user.likedMovie + 1])
+        
+//        database.collection("Users").document(uid).setData([
+//            "email" : user.email,
+//            "fullname" : user.fullname,
+//            "likedmovies" : user.likedMovie,
+//            "profileImageUrl" : user.profileImageUrl,
+//            "uid" : uid,
+//            "username" : user.username
+//        ])
+        COLLECTION_USERS.document(uid).collection("Movies").document(String(movie.id)).setData([
+            "id" : movie.id,
+            "title": movie.title,
+            "overview": movie.overview,
+            "vote_average": movie.vote_average,
+            "poster_path": movie.poster_path,
+            "release_date": movie.release_date
+        ])
+ 
+        print("saved \(movie.title)\(movie.id)")
     }
     
     func handleDislike() {
@@ -388,7 +418,7 @@ extension HomeController: BottomControlStackViewDelegate {
         
         //identify the current user
         guard let uid = Auth.auth().currentUser?.uid else {return}
-       
+        print("Session \(uid) created")
         //create the session's document in firestore's collecion
         database.collection("Session").document("Session hosted by \(uid)").setData([
             "user" : [user.uid],
@@ -396,9 +426,7 @@ extension HomeController: BottomControlStackViewDelegate {
             "date" : Date(),
             "sessionStarted" : false
             
-            
-        ])
-        { (error) in
+            ]) { (error) in
             if error == nil {
                 print(error?.localizedDescription as Any)
             }

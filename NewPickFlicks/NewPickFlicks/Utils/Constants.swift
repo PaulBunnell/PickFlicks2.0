@@ -15,6 +15,6 @@ let COLLECTION_FOLLOWINGS = Firestore.firestore().collection("Followings")
 
 let COLLECTION_NOTIFICATIONS = Firestore.firestore().collection("Notifications")
 
-let Collection_FAVORITEMOVIES = Firestore.firestore().collection("FavoriteMovies")
+let COLLECTIONS_MOVIES = Firestore.firestore().collection("Movies")
 
 let COLLECTION_SESSION =    Firestore.firestore().collection("Session")

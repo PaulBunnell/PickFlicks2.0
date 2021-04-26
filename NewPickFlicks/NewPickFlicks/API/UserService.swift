@@ -85,6 +85,16 @@ struct UserService {
         }
     }
     
+//    static func addFavoriteMovie(movie: Movie, completion: @escaping(FirestoreCompletion)) {
+//        guard let uid = Auth.auth().currentUser?.uid else {return}
+//        
+//        Collection_MOVIES.document(movie.id).updateData(["likedMovies": movie.likedMovie + 1])
+//        
+//        Collection_MOVIES.document(movie.id).collection("FavoriteMovies").document(uid).setData([:]) { _ in
+//            COLLECTION_USERS.document(uid).collection("MoviesLiked").document(movie.id).setData([:], completion: completion)
+//        }
+//    }
+    
 //    static func fetchUserStats(uid: String, completion: @escaping(UserStats) -> Void) {
 //        COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments { (snapshot, _) in
 //            let followers = snapshot?.documents.count ?? 0
