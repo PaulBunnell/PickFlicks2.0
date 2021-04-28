@@ -26,8 +26,7 @@ class MovieController {
         let task = URLSession.shared.dataTask(with: baseURL) { (data, response, error) in
             let decoder = JSONDecoder()
             if let data = data, let movieResults = try? decoder.decode(MovieResults.self, from: data) {
-                print("Data has been recieved")
-                print(data)
+                print("Movie data has been recieved")
                 completion(movieResults.results)
             } else {
                 print("Either no data was returned, or data was not was not serialized")
@@ -41,29 +40,29 @@ class MovieController {
     }
 
     
-//    func fetchGenre(completion: @escaping ([Genre]) -> Void) {
-//        
-//        var dataWasReturned = true
-//        
-//        let baseURL = URL(string: "https://api.themoviedb.org/3/genre/movie/list?api_key=f5e6515f73e19e17f20b9e5f6657043c&language=en-US")!
-//        
-//        let task = URLSession.shared.dataTask(with: baseURL) { (data, response, error) in
-//            let decoder = JSONDecoder()
-//            if let data = data, let genreResults = try? decoder.decode(GenreResults.self, from: data) {
-//                print("Genre data has been recieved")
-//                print(data)
-//                completion(genreResults.genres)
-//            } else {
-//                print("Either no Genre data was returned, or data was not serialized")
-//                dataWasReturned = false
-//                return
-//            }
-//            
-//        }
-//        
-//        task.resume()
-//        
-//    }
+    func fetchGenre(completion: @escaping ([Genre]) -> Void) {
+        
+        var dataWasReturned = true
+        
+        let baseURL = URL(string: "https://api.themoviedb.org/3/genre/movie/list?api_key=f5e6515f73e19e17f20b9e5f6657043c&language=en-US")!
+        
+        let task = URLSession.shared.dataTask(with: baseURL) { (data, response, error) in
+            let decoder = JSONDecoder()
+            if let data = data, let genreResults = try? decoder.decode(GenreResults.self, from: data) {
+                print("Genre data has been recieved")
+                completion(genreResults.genres)
+            } else {
+                print("Either no Genre data was returned, or data was not serialized")
+                dataWasReturned = false
+                return
+            }
+            
+        }
+        
+        task.resume()
+        
+    }
+
     
 
 }
@@ -78,7 +77,6 @@ class CastController {
             let decoder = JSONDecoder()
             if let data = data, let returnedCast = try? decoder.decode(MovieDetails.self, from: data) {
                 print("Data has been recieved for cast")
-                print(data)
                 completion(returnedCast)
             } else {
                 print("ERROR no data was returned")

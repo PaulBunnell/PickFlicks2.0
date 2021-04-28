@@ -19,14 +19,22 @@ class ProfileCell: UICollectionViewCell {
         
         return posterView
     } ()
-        
+    
+    
     let movieController = MovieController()
+    
+    let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.systemUltraThinMaterial)
+    let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffect.Style.dark))
+    
     
     override init(frame: CGRect) {
         
         super.init(frame: frame)
         
         addSubview(posterImageView)
+                
+        blurEffectView.frame = posterImageView.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
         posterImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
