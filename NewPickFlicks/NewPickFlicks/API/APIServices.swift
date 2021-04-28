@@ -26,8 +26,7 @@ class MovieController {
         let task = URLSession.shared.dataTask(with: baseURL) { (data, response, error) in
             let decoder = JSONDecoder()
             if let data = data, let movieResults = try? decoder.decode(MovieResults.self, from: data) {
-                print("Data has been recieved")
-                print(data)
+                print("Movie data has been recieved")
                 completion(movieResults.results)
             } else {
                 print("Either no data was returned, or data was not was not serialized")
@@ -51,7 +50,6 @@ class MovieController {
             let decoder = JSONDecoder()
             if let data = data, let genreResults = try? decoder.decode(GenreResults.self, from: data) {
                 print("Genre data has been recieved")
-                print(data)
                 completion(genreResults.genres)
             } else {
                 print("Either no Genre data was returned, or data was not serialized")
@@ -78,7 +76,6 @@ class CastController {
             let decoder = JSONDecoder()
             if let data = data, let returnedCast = try? decoder.decode(MovieDetails.self, from: data) {
                 print("Data has been recieved for cast")
-                print(data)
                 completion(returnedCast)
             } else {
                 print("ERROR no data was returned")

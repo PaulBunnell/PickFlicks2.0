@@ -378,13 +378,7 @@
 				48E3C740260399C80080449D /* User.swift */,
 				8070CA902608E6C0007D5B5E /* Movie.swift */,
 				8070CA9F260A2C4C007D5B5E /* Cast.swift */,
-
-
-
 				8094B52026175B9D0058F898 /* Genre.swift */,
-
-
-
 				486885382613862C000F7A2E /* Slide.swift */,
 				83825904260B7BFF006834A1 /* Session.swift */,
 			);

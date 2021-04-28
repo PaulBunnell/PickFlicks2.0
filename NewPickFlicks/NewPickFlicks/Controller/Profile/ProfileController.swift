@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 private let cellIdentifier = "ProfileCell"
 private let headerIdentifier = "ProfileHeader"
@@ -21,7 +22,7 @@ class ProfileController: UICollectionViewController {
     var likedCardViews = [CardView]()
     
     var likedMovies = [Movie]()
-    
+
     //MARK: - Lifecycle
     
     init(user: User) {
@@ -44,6 +45,14 @@ class ProfileController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         collectionView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        if let movies = User.favoriteMovies {
+            MovieDetail.likedMovies = movies
+        }
+        
     }
     
     //MARK: - API
@@ -72,6 +81,10 @@ class ProfileController: UICollectionViewController {
     
     //MARK: - helpers
     
+    func updateCollectionView() {
+        collectionView.reloadData()
+    }
+    
     func configureCollectionView() {
         collectionView.backgroundColor = .white
         navigationItem.title = user.username
@@ -96,8 +109,18 @@ class ProfileController: UICollectionViewController {
     func showMatching() {
         let controller = HomeController(user: user)
         let nav = UINavigationController(rootViewController: controller)
-        nav.modalPresentationStyle = .fullScreen
+        nav.modalPresentationStyle = .popover
         present(nav, animated: true, completion: nil)
+    }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
+        
     }
     
 }
@@ -116,21 +139,47 @@ extension ProfileController {
         }
     }
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if MovieDetail.editTapped == true {
+            
+            User.favoriteMovies?.remove(at: indexPath.row)
+            collectionView.deleteItems(at: [indexPath])
+            collectionView.reloadData()
+            
+        }
+        else {
+            
+            MovieDetail.detailedMovie = User.favoriteMovies![indexPath.row]
+            let controller = UIHostingController(rootView: MovieDetailView(user: user))
+            controller.modalPresentationStyle = .popover
+            DispatchQueue.main.async {
+                self.getTopMostViewController()?.present(controller, animated: true, completion: nil)
+            }
+            
+        }
+        
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ProfileCell
-        
+                
         // Use array of liked movies to populate instead of making api call
         
-        let task = URLSession.shared.dataTask(with: URL(string: "http://image.tmdb.org/t/p/w500\(User.favoriteMovies![indexPath.row].poster_path)")!) { (data, response, error) in
+        if let movies = User.favoriteMovies {
             
+            let task = URLSession.shared.dataTask(with: URL(string: "http://image.tmdb.org/t/p/w500\(movies[indexPath.row].poster_path)")!) { (data, response, error) in
+                    
             guard let data = data, let image = UIImage(data: data) else {return}
-                
-            DispatchQueue.main.async {
-                cell.posterImageView.image = image
+                        
+                DispatchQueue.main.async {
+                    cell.posterImageView.image = image
+                }
             }
-        }
-        task.resume()
+            task.resume()
             
+        }
+        
         return cell
     }
     
