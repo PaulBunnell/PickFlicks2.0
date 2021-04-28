@@ -65,12 +65,13 @@ class ProfileController: UICollectionViewController {
     }
     
     func fetchUsersStats() {
-        UserService.fetchUserStats(uid: user.uid) { stats in
-            self.user.stats = stats
-            self.collectionView.reloadData()
-        }
+//        UserService.fetchUserStats(uid: user.uid) { stats in
+//            self.user.stats = stats
+//            self.collectionView.reloadData()
+//        }
     }
 
+    
     //MARK: - Actions
     
     @objc func handleGoToSettings() {

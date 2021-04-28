@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 private let reuseIdentifier = "UserCell"
 
@@ -18,12 +19,14 @@ class NewGroupController: UITableViewController {
     private var inSearchModel: Bool {
         return searchController.isActive && !searchController.searchBar.text!.isEmpty
     }
-    
+    let database = Firestore.firestore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureTableView()
+        
+       
 
     }
     
@@ -31,13 +34,23 @@ class NewGroupController: UITableViewController {
     
     @objc func handloDismiss() {
         dismiss(animated: true, completion: nil)
+         
+        if let host = Auth.auth().currentUser?.uid {
+        database.collection("Session").document("Session hosted by \(host)").delete()
+        }
     }
     
     @objc func handloNext() {
         
     }
     
+
+    
     //MARK: - Helpers
+    
+//    func createSession() {
+//        UserService.fetchUser
+//    }
     
     func configureTableView() {
         

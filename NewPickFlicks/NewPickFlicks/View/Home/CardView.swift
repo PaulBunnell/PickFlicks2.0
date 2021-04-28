@@ -7,6 +7,8 @@
 
 import UIKit
 import SwiftUI
+import Firebase
+
 
 enum swipeDirection: Int {
     case left = -1
@@ -87,6 +89,8 @@ class CardView: UIView {
         
         configureInfoUI()
     }
+    
+    
     
     func updateUI(movieInfo: Movie) {
         
@@ -180,7 +184,7 @@ class CardView: UIView {
                 }
                 
                 print("Index Path: \(MovieDetail.indexPath)")
-                
+  
             }
         }
     }
