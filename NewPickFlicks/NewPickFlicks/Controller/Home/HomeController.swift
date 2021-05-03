@@ -296,12 +296,12 @@ extension HomeController: BottomControlStackViewDelegate {
 
             //Add movie to Firebase
             
-//            if MovieDetail.indexPath > 0 {
-//                self.addFavoriteMovie(movie: MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
-//            }
-//            else {
-//                self.addFavoriteMovie(movie: self.refreshMovie)
-//            }
+           if MovieDetail.indexPath > 0 {
+               self.addFavoriteMovie(movie: MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
+           }
+           else {
+               self.addFavoriteMovie(movie: self.refreshMovie)
+           }
             
             // How to acess movie poster info through card view
 //            print(MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
