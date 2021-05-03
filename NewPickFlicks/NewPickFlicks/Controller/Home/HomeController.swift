@@ -96,28 +96,32 @@ class HomeController: UIViewController {
             
             print("Number of loaded Movies: \(movies.count)")
 
+            if MovieDetail.dataWasReturned == true {
             
-            DispatchQueue.main.async {
-                
-                self.listOfMovies = movies
-                
-                for movie in movies {
-                                        
-                    let newCardView = CardView(viewModel: CardViewModel(movie: movie), user: self.user)
+                DispatchQueue.main.async {
                     
-                    self.cardView = newCardView
+                    self.listOfMovies = movies
                     
-                    MovieDetail.cardViewArray.append(self.cardView!)
+                    for movie in movies {
                                             
-                    self.deckView.addSubview(newCardView)
+                        let newCardView = CardView(viewModel: CardViewModel(movie: movie), user: self.user)
+                        
+                        self.cardView = newCardView
+                        
+                        MovieDetail.cardViewArray.append(self.cardView!)
+                                                
+                        self.deckView.addSubview(newCardView)
+                        
+                        newCardView.fillSuperview()
+                        
+                    }
                     
-                    newCardView.fillSuperview()
+                    MovieDetail.detailedMovie = movies[19]
                     
                 }
                 
-                MovieDetail.detailedMovie = movies[19]
-                
             }
+            
         }
                 
     }
@@ -161,16 +165,16 @@ extension HomeController: HomeNavigationStackViewDelegate {
     
     //MARK: Filter Function
     
-    func ShowProfile() {
+    func filterGenre() {
+        
+        //Genre Filtering
         
         for card in MovieDetail.cardViewArray {
             card.removeFromSuperview()
         }
         
         MovieDetail.cardViewArray.removeAll()
-        
-        print("Genre functionality")
-        
+                
         let alert = UIAlertController(title: "Genre", message: "Pick a Genre", preferredStyle: .actionSheet)
         
         let defaultAction = UIAlertAction(title: "All", style: .default) { (alert) in
@@ -178,21 +182,24 @@ extension HomeController: HomeNavigationStackViewDelegate {
         }
         alert.addAction(defaultAction)
         
-        //        movieController.fetchGenre { (genres) in
-        //
-        //            for genre in genres {
-        //
-        //                let action = UIAlertAction(title: "\(genre.name)", style: .default) { (action) in
-        //                    self.selectedGenreID = genre.id
-        //                    self.refreshWithGenre(genreId: self.selectedGenreID!)
-        //                }
-        //
-        //                DispatchQueue.main.async {
-        //                    alert.addAction(action)
-        //                }
-        //
-        //            }
-        //        }
+        movieController.fetchGenre { (genres) in
+        
+            for genre in genres {
+        
+                let action = UIAlertAction(title: "\(genre.name)", style: .default) { (action) in
+                    self.selectedGenreID = genre.id
+                    self.refreshWithGenre(genreId: self.selectedGenreID!)
+                }
+        
+                DispatchQueue.main.async {
+                    alert.addAction(action)
+                }
+        
+            }
+            
+        }
+        
+        alert.view.tintColor = .systemPink
         
         present(alert, animated: true) {
             self.hasSelectedGenre = true
@@ -237,9 +244,22 @@ extension HomeController: BottomControlStackViewDelegate {
         for card in MovieDetail.cardViewArray {
             card.removeFromSuperview()
         }
-        configureCards(ID: nil, pageNum: refreshIndexPath)
-        refreshIndexPath += 1
         
+        if hasSelectedGenre == true {
+            
+            if let genreID = selectedGenreID {
+                self.refreshWithGenre(genreId: genreID)
+            }
+            else {
+                self.refreshCards()
+            }
+            
+        }
+        else {
+            configureCards(ID: nil, pageNum: refreshIndexPath)
+            refreshIndexPath += 1
+        }
+    
     }
     
     func animateLike(view: UIView) {
@@ -257,9 +277,7 @@ extension HomeController: BottomControlStackViewDelegate {
     }
     
     func handleLike() {
-        
-        /* when movie is liked it needs to be appended to users array of like movies */
-                
+                        
         MovieDetail.indexPath = MovieDetail.cardViewArray.count - 1
                 
         UIView.animate(withDuration: 0.3) {
@@ -276,14 +294,17 @@ extension HomeController: BottomControlStackViewDelegate {
             MovieDetail.cardViewArray.remove(at: MovieDetail.indexPath)
             MovieDetail.indexPath -= 1
 
-            
             //Add movie to Firebase
             
-            self.addFavoriteMovie(movie: MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
-            
+//            if MovieDetail.indexPath > 0 {
+//                self.addFavoriteMovie(movie: MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
+//            }
+//            else {
+//                self.addFavoriteMovie(movie: self.refreshMovie)
+//            }
             
             // How to acess movie poster info through card view
-            print(MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
+//            print(MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
             
         }
         
@@ -326,6 +347,7 @@ extension HomeController: BottomControlStackViewDelegate {
 //            "uid" : uid,
 //            "username" : user.username
 //        ])
+        
         COLLECTION_USERS.document(uid).collection("Movies").document(String(movie.id)).setData([
             "id" : movie.id,
             "title": movie.title,
@@ -435,7 +457,6 @@ extension HomeController: BottomControlStackViewDelegate {
     
     }
     
-    
     func showPopUpStartSession() {
         
         print("pop up pressed".uppercased())
@@ -475,4 +496,5 @@ struct MovieDetail {
     static var likedMovies = [Movie]()
     static var detailedMovie: Movie?
     static var editTapped = false
+    static var dataWasReturned = true
 }
