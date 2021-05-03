@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie: Codable, Equatable {
+struct Movie: Codable, Equatable, Identifiable {
     
     var id: Int
     var title: String
