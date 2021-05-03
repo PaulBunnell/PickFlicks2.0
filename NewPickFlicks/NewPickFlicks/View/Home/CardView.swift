@@ -179,8 +179,7 @@ class CardView: UIView {
                 }
                 
                 if MovieDetail.indexPath == 0 {
-                    let homeController = HomeController(user: user)
-                    homeController.refreshCards()
+                    delegate?.refreshCards()
                 }
                 
                 print("Index Path: \(MovieDetail.indexPath)")

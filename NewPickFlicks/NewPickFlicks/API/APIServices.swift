@@ -26,9 +26,11 @@ class MovieController {
         let task = URLSession.shared.dataTask(with: baseURL) { (data, response, error) in
             let decoder = JSONDecoder()
             if let data = data, let movieResults = try? decoder.decode(MovieResults.self, from: data) {
+                MovieDetail.dataWasReturned = true
                 print("Movie data has been recieved")
                 completion(movieResults.results)
             } else {
+                MovieDetail.dataWasReturned = false
                 print("Either no data was returned, or data was not was not serialized")
                 return
             }

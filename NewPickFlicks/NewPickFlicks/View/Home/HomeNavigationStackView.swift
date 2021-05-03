@@ -8,7 +8,7 @@
 import UIKit
 
 protocol HomeNavigationStackViewDelegate: class {
-    func ShowProfile()
+    func filterGenre()
     func refreshCards()
 }
 
@@ -20,7 +20,7 @@ class HomeNavigationStackView: UIStackView {
     
     let refreshButton = UIButton(type: .system)
     let profileButton = UIButton(type: .system)
-    let tinderIcon = UIImageView(image: #imageLiteral(resourceName: "app_icon"))
+    let tinderIcon = UIImageView(image: UIImage(named: "new_icon"))
     
     //MARK: - Lifecycle
     
@@ -42,15 +42,15 @@ class HomeNavigationStackView: UIStackView {
         isLayoutMarginsRelativeArrangement = true
         layoutMargins = .init(top: 0, left: 0, bottom: 0, right: 0)
         
-        profileButton.addTarget(self, action: #selector(handleShowProfile), for: .touchUpInside)
+        profileButton.addTarget(self, action: #selector(handleFilterGenre), for: .touchUpInside)
         refreshButton.addTarget(self, action: #selector(handleRefreshButton), for: .touchUpInside)
 
     }
     
     //MARK: - Actions
     
-    @objc func handleShowProfile() {
-        delegate?.ShowProfile()
+    @objc func handleFilterGenre() {
+        delegate?.filterGenre()
     }
     
     @objc func handleRefreshButton() {
