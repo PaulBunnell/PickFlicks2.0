@@ -40,6 +40,7 @@ class ProfileController: UICollectionViewController {
         configureCollectionView()
         checkIfUserISFollowed()
         fetchUsersStats()
+        view.backgroundColor = .secondarySystemBackground
         
     }
     
@@ -87,7 +88,7 @@ class ProfileController: UICollectionViewController {
     }
     
     func configureCollectionView() {
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .secondarySystemBackground
         navigationItem.title = user.username
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-news-feed-50-7"), style: .done, target: self, action: #selector(handleGoToSettings))
         

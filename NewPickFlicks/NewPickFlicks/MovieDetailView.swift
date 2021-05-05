@@ -77,11 +77,11 @@ struct MovieDetailView: View {
                                     isExpanded.toggle()
                                     }) {
                                 Text(isExpanded ? "Less" : "Read More")
-                                    .font(.body).bold()
+                                    .font(.title3).bold()
                                     .padding(.leading, 8.0)
-                                    .padding(.top, 4.0)
+                                    .padding(.top, 7.0)
                                     .background(Color.clear)
-                                    .foregroundColor(Color.black)
+                                    .foregroundColor(Color.white)
                                     }
                                     .frame(width: proxy.size.width, height: proxy.size.height, alignment: .bottomTrailing)
                             }

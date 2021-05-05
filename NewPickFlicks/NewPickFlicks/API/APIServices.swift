@@ -11,7 +11,6 @@ class MovieController {
     
     func fetchItems(genreID: Int?, numb: Int, completion: @escaping ([Movie]) -> Void) {
         
-        // URL is just for testing. Will change based on querys and desired output.
         // Fetches top movies for the day.
         
         var baseURL = URL(string: "testForNow")!

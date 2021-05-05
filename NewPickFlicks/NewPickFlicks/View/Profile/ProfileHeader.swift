@@ -41,7 +41,7 @@ class ProfileHeader: UICollectionReusableView {
     
     private let whiteViewButton: UIView = {
        let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.layer.cornerRadius = 20
         view.layer.shadowColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1).cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 1.75)
@@ -52,7 +52,7 @@ class ProfileHeader: UICollectionReusableView {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        label.textColor = .secondaryLabel
         label.font = UIFont.boldSystemFont(ofSize: 22)
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -147,7 +147,7 @@ class ProfileHeader: UICollectionReusableView {
         
         inviteButton.applyDesign()
 
-        backgroundColor = UIColor(white: 0.95, alpha: 1)
+        backgroundColor = .secondarySystemBackground
 
         addSubview(profileImageView)
         profileImageView.centerXToSuperview()
@@ -213,7 +213,9 @@ class ProfileHeader: UICollectionReusableView {
         let stack = UIStackView(arrangedSubviews: [nameLabel, emailLabel])
         stack.axis = .vertical
         stack.spacing = 5
+        
 
+        stack.backgroundColor = .clear
         addSubview(stack)
 
         stack.centerXToSuperview()
@@ -229,6 +231,7 @@ class ProfileHeader: UICollectionReusableView {
         stack.distribution = .fillEqually
         stack.spacing = 20
         
+        stack.backgroundColor = .clear
         addSubview(stack)
         stack.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 60, paddingBottom: 20, paddingRight: 60, height: 80)
     }
@@ -246,6 +249,8 @@ class ProfileHeader: UICollectionReusableView {
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
         
+        stackView.backgroundColor = .clear
+        bottomDividerView.backgroundColor = .clear
         addSubview(stackView)
         addSubview(bottomDividerView)
 
