@@ -40,7 +40,7 @@ class SearchController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.delegate = self
         cv.dataSource = self
-        cv.backgroundColor = .white
+        cv.backgroundColor = .secondarySystemBackground
         cv.register(ExploreUsers.self, forCellWithReuseIdentifier: postCellIdentifier)
         return cv
     }()
