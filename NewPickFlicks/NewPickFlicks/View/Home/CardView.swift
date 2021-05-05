@@ -215,7 +215,7 @@ class CardView: UIView {
         addSubview(infoButton)
         infoButton.setDimensions(height: 40, width: 40)
         infoButton.centerY(inView: category)
-        infoButton.anchor(right: rightAnchor, paddingBottom: 16, paddingRight: 16)
+        infoButton.anchor(right: rightAnchor, paddingBottom: 20, paddingRight: 16)
 
     }
     

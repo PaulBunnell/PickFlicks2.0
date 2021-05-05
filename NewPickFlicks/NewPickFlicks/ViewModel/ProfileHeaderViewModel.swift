@@ -50,7 +50,7 @@ struct ProfileHeaderViewModel {
         if user.isCurrentUser {
             return #imageLiteral(resourceName: "icons8-red-card-50-2")
         }
-        return #imageLiteral(resourceName: "icons8-red-card-50")
+        return #imageLiteral(resourceName: "top_right_messages")
     }
     
     var matchingButtonBackgroundColor: UIColor {

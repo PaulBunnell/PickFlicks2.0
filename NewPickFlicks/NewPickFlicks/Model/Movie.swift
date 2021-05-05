@@ -15,6 +15,7 @@ struct Movie: Codable, Equatable, Identifiable {
     var vote_average: Double
     var poster_path: String
     var release_date: String
+
     
 //    var didLike = false
     

@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         guard let scene = (scene as? UIWindowScene) else { return }
         
-        let layout = UICollectionViewFlowLayout()
+//        let layout = UICollectionViewFlowLayout()
         
         window = UIWindow(windowScene: scene)
         window?.makeKeyAndVisible()
