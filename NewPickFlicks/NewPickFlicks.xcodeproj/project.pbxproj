@@ -61,7 +61,7 @@
 		48E3C6C1260247E10080449D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C6C0260247E10080449D /* NotificationController.swift */; };
 		48E3C6C6260247ED0080449D /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C6C5260247ED0080449D /* ProfileController.swift */; };
 		48E3C6CB26024CE10080449D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C6CA26024CE10080449D /* AuthService.swift */; };
-		48E3C6D026024CEA0080449D /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C6CF26024CEA0080449D /* Service.swift */; };
+		48E3C6D026024CEA0080449D /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C6CF26024CEA0080449D /* DatabaseManager.swift */; };
 		48E3C6D526024F4E0080449D /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C6D426024F4E0080449D /* ImageUploader.swift */; };
 		48E3C6DA260251040080449D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C6D9260251040080449D /* Constants.swift */; };
 		48E3C70526025F060080449D /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C70426025F060080449D /* SettingsController.swift */; };
@@ -80,6 +80,7 @@
 		8070CA912608E6C0007D5B5E /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA902608E6C0007D5B5E /* Movie.swift */; };
 		8070CA962608E71B007D5B5E /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA952608E71B007D5B5E /* APIServices.swift */; };
 		8070CAA0260A2C4C007D5B5E /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA9F260A2C4C007D5B5E /* Cast.swift */; };
+		8080080B2639AFBF003668AD /* SessionResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080080A2639AFBF003668AD /* SessionResults.swift */; };
 		8094B52126175B9D0058F898 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8094B52026175B9D0058F898 /* Genre.swift */; };
 		83825905260B7BFF006834A1 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83825904260B7BFF006834A1 /* Session.swift */; };
 		83825910260B87D0006834A1 /* JoinGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8382590F260B87D0006834A1 /* JoinGroupViewController.swift */; };
@@ -162,7 +163,7 @@
 		48E3C6C0260247E10080449D /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		48E3C6C5260247ED0080449D /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		48E3C6CA26024CE10080449D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		48E3C6CF26024CEA0080449D /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		48E3C6CF26024CEA0080449D /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		48E3C6D426024F4E0080449D /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		48E3C6D9260251040080449D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		48E3C70426025F060080449D /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
@@ -183,6 +184,7 @@
 		8070CA902608E6C0007D5B5E /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		8070CA952608E71B007D5B5E /* APIServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
 		8070CA9F260A2C4C007D5B5E /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
+		8080080A2639AFBF003668AD /* SessionResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionResults.swift; sourceTree = "<group>"; };
 		8094B52026175B9D0058F898 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		83825904260B7BFF006834A1 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		8382590F260B87D0006834A1 /* JoinGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGroupViewController.swift; sourceTree = "<group>"; };
@@ -299,12 +301,12 @@
 				48E3C60F260123660080449D /* AppDelegate.swift */,
 				48E3C611260123660080449D /* SceneDelegate.swift */,
 				488E5972261590BE0048F2F1 /* MovieDetailView.swift */,
+				8080080A2639AFBF003668AD /* SessionResults.swift */,
 				48E3C615260123660080449D /* Main.storyboard */,
 				4868852526136D22000F7A2E /* Onboarding.storyboard */,
 				48E3C618260123680080449D /* Assets.xcassets */,
 				48E3C61A260123680080449D /* LaunchScreen.storyboard */,
 				48E3C61D260123680080449D /* Info.plist */,
-				48E3C688260243990080449D /* GoogleService-Info.plist */,
 			);
 			path = NewPickFlicks;
 			sourceTree = "<group>";
@@ -340,7 +342,7 @@
 			isa = PBXGroup;
 			children = (
 				48E3C6CA26024CE10080449D /* AuthService.swift */,
-				48E3C6CF26024CEA0080449D /* Service.swift */,
+				48E3C6CF26024CEA0080449D /* DatabaseManager.swift */,
 				48E3C6D426024F4E0080449D /* ImageUploader.swift */,
 				48E3C73B260397A90080449D /* UserService.swift */,
 				8070CA952608E71B007D5B5E /* APIServices.swift */,
@@ -405,6 +407,8 @@
 				8070CA902608E6C0007D5B5E /* Movie.swift */,
 				8070CA9F260A2C4C007D5B5E /* Cast.swift */,
 				8094B52026175B9D0058F898 /* Genre.swift */,
+
+				48E3C688260243990080449D /* GoogleService-Info.plist */,
 				486885382613862C000F7A2E /* Slide.swift */,
 				83825904260B7BFF006834A1 /* Session.swift */,
 				48B985CD26330E600035FD07 /* Notification.swift */,
@@ -766,10 +770,11 @@
 				48E3C6792601D09C0080449D /* RegisterController.swift in Sources */,
 				48350552260A392C007ACABD /* NewGroupHeader.swift in Sources */,
 				486885392613862C000F7A2E /* Slide.swift in Sources */,
-				48E3C6D026024CEA0080449D /* Service.swift in Sources */,
+				48E3C6D026024CEA0080449D /* DatabaseManager.swift in Sources */,
 				48E3C6DA260251040080449D /* Constants.swift in Sources */,
 				48E3C612260123660080449D /* SceneDelegate.swift in Sources */,
 				4835053D2609BD2E007ACABD /* FiltersController.swift in Sources */,
+				8080080B2639AFBF003668AD /* SessionResults.swift in Sources */,
 				83825905260B7BFF006834A1 /* Session.swift in Sources */,
 				48E3C656260125770080449D /* HomeNavigationStackView.swift in Sources */,
 				8070CA912608E6C0007D5B5E /* Movie.swift in Sources */,
@@ -974,7 +979,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H8YQBNNYZ2;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = NewPickFlicks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -994,7 +999,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H8YQBNNYZ2;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = NewPickFlicks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

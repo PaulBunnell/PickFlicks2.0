@@ -7,6 +7,8 @@
 
 import UIKit
 import SwiftUI
+import Firebase
+
 
 enum swipeDirection: Int {
     case left = -1
@@ -23,12 +25,12 @@ class CardView: UIView {
     //MARK: - Properties
     
     let movieController = MovieController()
-    
-//    let homeController = HomeController(user: )
-    
+        
     weak var delegate: HomeNavigationStackViewDelegate?
 
     let viewModel: CardViewModel
+    
+    var likedMovies = [Movie]()
     
     private var user: User
 
@@ -88,6 +90,8 @@ class CardView: UIView {
         configureInfoUI()
     }
     
+    
+    
     func updateUI(movieInfo: Movie) {
         
         let task = URLSession.shared.dataTask(with: URL(string: "http://image.tmdb.org/t/p/w500\(movieInfo.poster_path)")!) { (data, response, error) in
@@ -111,9 +115,6 @@ class CardView: UIView {
     @objc func ShowMovieDetails() {
         
         let homeController = HomeController(user: user)
-        
-//        delegate?.showMovieDetails()
-        
         homeController.showMovieDetails()
         
     }
@@ -156,10 +157,33 @@ class CardView: UIView {
                 self.transform = .identity
 
             }
-        } completion: { _ in
+        } completion: { [self] _ in
             if shouldDismissCard {
-                self.delegate?.refreshCards()
-                self.removeFromSuperview()
+                
+                MovieDetail.indexPath = MovieDetail.cardViewArray.count - 1
+                
+                MovieDetail.likedMovies.append(MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
+                
+                print("Liked Movies Count: \(MovieDetail.likedMovies.count)")
+                
+                User.favoriteMovies?.append(MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
+                
+                User.favoriteMovies = MovieDetail.likedMovies
+                            
+                MovieDetail.cardViewArray[MovieDetail.indexPath].removeFromSuperview()
+                MovieDetail.cardViewArray.remove(at: MovieDetail.indexPath)
+                MovieDetail.indexPath -= 1
+                
+                if MovieDetail.indexPath > 0 {
+                    MovieDetail.detailedMovie = MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie
+                }
+                
+                if MovieDetail.indexPath == 0 {
+                    delegate?.refreshCards()
+                }
+                
+                print("Index Path: \(MovieDetail.indexPath)")
+  
             }
         }
     }
@@ -173,7 +197,6 @@ class CardView: UIView {
     func configureGestureRecognizers() {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
         addGestureRecognizer(pan)
-        
     }
     
     required init?(coder: NSCoder) {
