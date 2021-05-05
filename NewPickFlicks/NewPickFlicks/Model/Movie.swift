@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie: Codable, Equatable {
+struct Movie: Codable, Equatable, Identifiable {
     
     var id: Int
     var title: String
@@ -15,6 +15,7 @@ struct Movie: Codable, Equatable {
     var vote_average: Double
     var poster_path: String
     var release_date: String
+
     
 //    var didLike = false
     

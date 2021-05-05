@@ -15,12 +15,9 @@ class ProfileController: UICollectionViewController {
 
     //MARK: - Properties
     
-    private var user: User {
-        didSet { collectionView.reloadData() }
-    }
+    private var user: User { didSet { collectionView.reloadData() }}
     
     var likedCardViews = [CardView]()
-    
     var likedMovies = [Movie]()
 
     //MARK: - Lifecycle
@@ -81,6 +78,12 @@ class ProfileController: UICollectionViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
+    @objc func handleRefresh() {
+        likedMovies.removeAll()
+        collectionView.reloadData()
+        collectionView.refreshControl?.endRefreshing()
+    }
+    
     //MARK: - helpers
     
     func updateCollectionView() {
@@ -89,31 +92,39 @@ class ProfileController: UICollectionViewController {
     
     func configureCollectionView() {
         collectionView.backgroundColor = .secondarySystemBackground
+
         navigationItem.title = user.username
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-news-feed-50-7"), style: .done, target: self, action: #selector(handleGoToSettings))
         
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+        
+        let refresher = UIRefreshControl()
+        refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView.refreshControl = refresher
     }
     
     func showEditProfileController() {
-        let controller = EditProfileController()
+        let controller = EditProfileController(user: user)
+        controller.delegate = self
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
     }
     
-    func showNewGroupMatching() {
+    func showMessage() {
         let controller = NewGroupController()
         present(controller, animated: true, completion: nil)
     }
     
     func showMatching() {
-        let controller = HomeController(user: user)
+        let controller = PlayController(user: self.user)
         let nav = UINavigationController(rootViewController: controller)
-        nav.modalPresentationStyle = .popover
-        present(nav, animated: true, completion: nil)
+
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
     }
+
     
     func getTopMostViewController() -> UIViewController? {
         var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
@@ -207,6 +218,7 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
+
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (view.frame.width - 3) / 3
@@ -233,12 +245,12 @@ extension ProfileController: ProfileHeaderDelegate {
         } else if user.isFollowed {
             UserService.unFollow(uid: user.uid) { error in
                 self.user.isFollowed = false
-                self.collectionView.reloadData()
+                NotificationService.deleteNotification(toUid: user.uid, type: .follow)
             }
         } else {
             UserService.follow(uid: user.uid) { error in
                 self.user.isFollowed = true
-                self.collectionView.reloadData()
+                NotificationService.uploadNotification(toUid: user.uid, fromUser: currentUser, type: .follow)
             }
         }
     }
@@ -255,9 +267,19 @@ extension ProfileController: ProfileHeaderDelegate {
     
     func header(_ profileHeader: ProfileHeader, didTapMatchingButtonFor user: User) {
         if user.isCurrentUser {
-            showNewGroupMatching()
-        } else {
+//            showNewGroupMatching()
             showMatching()
+        } else {
+            showMessage()
         }
+    }
+}
+
+//MARK: - EditProfileControllerDelegate
+
+extension ProfileController: EditProfileControllerDelegate {
+    func controller(_ controller: EditProfileController, wantsToUpdate user: User) {
+        controller.dismiss(animated: true, completion: nil)
+        self.user = user
     }
 }

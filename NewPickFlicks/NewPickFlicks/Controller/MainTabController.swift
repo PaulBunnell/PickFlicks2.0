@@ -59,7 +59,7 @@ class MainTabController: UITabBarController {
         let profileController = ProfileController(user: user)
         let profile = templateNAvigationController(unselectedImage: #imageLiteral(resourceName: "icons8-user-96-2"), selectedImage: #imageLiteral(resourceName: "icons8-user-96-2"), rootViewController: profileController)
         
-        viewControllers = [home, search, notification, profile]
+        viewControllers = [profile, search, notification]
         
         tabBar.tintColor = #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
         tabBar.barStyle = .default
