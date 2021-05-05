@@ -215,7 +215,11 @@ extension PlayController: PlayNavigationStackViewDelegate {
 
 //MARK: - Card View Delegate
 
-extension PlayController: cardViewDelegate {
+extension PlayController: CardViewDelegate {
+    func refreshWithSwipe() {
+        print("hotfix")
+    }
+    
 
     func getTopMostViewController() -> UIViewController? {
         var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
@@ -228,7 +232,7 @@ extension PlayController: cardViewDelegate {
     }
     
     func showMovieDetails() {
-        let controller = UIHostingController(rootView: MovieDetailView())
+        let controller = UIHostingController(rootView: MovieDetailView(user: user))
         controller.modalPresentationStyle = .pageSheet
         DispatchQueue.main.async {
             self.getTopMostViewController()?.present(controller, animated: true, completion: nil)

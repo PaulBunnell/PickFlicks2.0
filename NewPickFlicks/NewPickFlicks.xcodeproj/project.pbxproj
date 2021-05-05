@@ -42,7 +42,6 @@
 		48E3C612260123660080449D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C611260123660080449D /* SceneDelegate.swift */; };
 		48E3C617260123660080449D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48E3C615260123660080449D /* Main.storyboard */; };
 		48E3C619260123680080449D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48E3C618260123680080449D /* Assets.xcassets */; };
-		48E3C61C260123680080449D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48E3C61A260123680080449D /* LaunchScreen.storyboard */; };
 		48E3C627260123680080449D /* NewPickFlicksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C626260123680080449D /* NewPickFlicksTests.swift */; };
 		48E3C632260123680080449D /* NewPickFlicksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C631260123680080449D /* NewPickFlicksUITests.swift */; };
 		48E3C64C260124850080449D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E3C64B260124850080449D /* HomeController.swift */; };
@@ -77,6 +76,7 @@
 		48F293222639B53A0064ADDB /* PlayNavigationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F293212639B53A0064ADDB /* PlayNavigationStackView.swift */; };
 		48F293282639B5EB0064ADDB /* PlayBottomControllerStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F293272639B5EB0064ADDB /* PlayBottomControllerStackView.swift */; };
 		5E162A96787E624614D620CA /* Pods_NewPickFlicksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D4F48D613FAE2E5068F6480 /* Pods_NewPickFlicksTests.framework */; };
+		8028EC4F2642E78300BCC8BB /* LaunchScreenFix.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8028EC4E2642E78300BCC8BB /* LaunchScreenFix.storyboard */; };
 		8070CA912608E6C0007D5B5E /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA902608E6C0007D5B5E /* Movie.swift */; };
 		8070CA962608E71B007D5B5E /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA952608E71B007D5B5E /* APIServices.swift */; };
 		8070CAA0260A2C4C007D5B5E /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA9F260A2C4C007D5B5E /* Cast.swift */; };
@@ -139,7 +139,6 @@
 		48E3C611260123660080449D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		48E3C616260123660080449D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		48E3C618260123680080449D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		48E3C61B260123680080449D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		48E3C61D260123680080449D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48E3C622260123680080449D /* NewPickFlicksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewPickFlicksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48E3C626260123680080449D /* NewPickFlicksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPickFlicksTests.swift; sourceTree = "<group>"; };
@@ -181,6 +180,7 @@
 		4B4B62FD6BD952EC49C5EBF9 /* Pods-NewPickFlicks-NewPickFlicksUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewPickFlicks-NewPickFlicksUITests.release.xcconfig"; path = "Target Support Files/Pods-NewPickFlicks-NewPickFlicksUITests/Pods-NewPickFlicks-NewPickFlicksUITests.release.xcconfig"; sourceTree = "<group>"; };
 		58829E7820CC925A96EF2FB6 /* Pods_NewPickFlicks_NewPickFlicksUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewPickFlicks_NewPickFlicksUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D4F48D613FAE2E5068F6480 /* Pods_NewPickFlicksTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewPickFlicksTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8028EC4E2642E78300BCC8BB /* LaunchScreenFix.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreenFix.storyboard; sourceTree = "<group>"; };
 		8070CA902608E6C0007D5B5E /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		8070CA952608E71B007D5B5E /* APIServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
 		8070CA9F260A2C4C007D5B5E /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
@@ -305,7 +305,7 @@
 				48E3C615260123660080449D /* Main.storyboard */,
 				4868852526136D22000F7A2E /* Onboarding.storyboard */,
 				48E3C618260123680080449D /* Assets.xcassets */,
-				48E3C61A260123680080449D /* LaunchScreen.storyboard */,
+				8028EC4E2642E78300BCC8BB /* LaunchScreenFix.storyboard */,
 				48E3C61D260123680080449D /* Info.plist */,
 			);
 			path = NewPickFlicks;
@@ -407,7 +407,6 @@
 				8070CA902608E6C0007D5B5E /* Movie.swift */,
 				8070CA9F260A2C4C007D5B5E /* Cast.swift */,
 				8094B52026175B9D0058F898 /* Genre.swift */,
-
 				48E3C688260243990080449D /* GoogleService-Info.plist */,
 				486885382613862C000F7A2E /* Slide.swift */,
 				83825904260B7BFF006834A1 /* Session.swift */,
@@ -604,8 +603,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				488E5946261427590048F2F1 /* notifications.json in Resources */,
-				48E3C61C260123680080449D /* LaunchScreen.storyboard in Resources */,
 				4868856D261390F9000F7A2E /* tinder.json in Resources */,
+				8028EC4F2642E78300BCC8BB /* LaunchScreenFix.storyboard in Resources */,
 				4868856726138A42000F7A2E /* lottieMovie.json in Resources */,
 				4868852626136D22000F7A2E /* Onboarding.storyboard in Resources */,
 				48E3C689260243990080449D /* GoogleService-Info.plist in Resources */,
@@ -843,14 +842,6 @@
 				48E3C616260123660080449D /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		48E3C61A260123680080449D /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				48E3C61B260123680080449D /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
