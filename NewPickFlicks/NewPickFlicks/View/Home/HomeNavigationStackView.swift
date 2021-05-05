@@ -20,7 +20,7 @@ class HomeNavigationStackView: UIStackView {
     
     let refreshButton = UIButton(type: .system)
     let profileButton = UIButton(type: .system)
-    let tinderIcon = UIImageView(image: UIImage(named: "new_icon"))
+    let appIcon = UIImageView(image: UIImage(named: "new_icon"))
     
     //MARK: - Lifecycle
     
@@ -28,14 +28,14 @@ class HomeNavigationStackView: UIStackView {
         super.init(frame: frame)
         
         heightAnchor.constraint(equalToConstant: 80).isActive = true
-        tinderIcon.contentMode = .scaleAspectFit
+        appIcon.contentMode = .scaleAspectFit
         
         refreshButton.setImage(#imageLiteral(resourceName: "icons8-refresh-50").withRenderingMode(.alwaysOriginal), for: .normal)
         profileButton.setImage(#imageLiteral(resourceName: "icons8-tune-50-2").withRenderingMode(.alwaysOriginal), for: .normal)
-
         
-        [refreshButton, UIView(), tinderIcon, UIView(), profileButton].forEach { view in
+        [refreshButton, UIView(), appIcon, UIView(), profileButton].forEach { view in
             addArrangedSubview(view)
+            view.backgroundColor = .clear
         }
         
         distribution = .equalCentering

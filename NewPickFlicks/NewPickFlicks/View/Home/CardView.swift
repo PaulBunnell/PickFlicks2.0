@@ -15,9 +15,9 @@ enum swipeDirection: Int {
     case right = 1
 }
 
-protocol cardViewDelegate: class {
+protocol CardViewDelegate: AnyObject {
     func showMovieDetails()
-    func refreshCards()
+    func refreshWithSwipe()
 }
 
 class CardView: UIView {
@@ -26,7 +26,7 @@ class CardView: UIView {
     
     let movieController = MovieController()
         
-    weak var delegate: HomeNavigationStackViewDelegate?
+    weak var delegate: CardViewDelegate?
 
     let viewModel: CardViewModel
     
@@ -71,23 +71,43 @@ class CardView: UIView {
         self.user = user
         super.init(frame: .zero)
         
-        configureGestureRecognizers()
-        
-        infoLabel.attributedText = viewModel.moviesInfoText
-        
-        backgroundColor = .systemBlue
-        layer.cornerRadius = 15
-        clipsToBounds = true
-        
-        addSubview(imageView)
-       
-        self.updateUI(movieInfo: viewModel.movie)
+        if MovieDetail.dataWasReturned == true {
+            configureGestureRecognizers()
             
-        imageView.fillSuperview()
-        
-        configureGradientLayer()
-        
-        configureInfoUI()
+            infoLabel.attributedText = viewModel.moviesInfoText
+            
+            backgroundColor = .systemBlue
+            layer.cornerRadius = 15
+            clipsToBounds = true
+            
+            addSubview(imageView)
+           
+            self.updateUI(movieInfo: viewModel.movie)
+                
+            imageView.fillSuperview()
+            
+            configureGradientLayer()
+            
+            configureInfoUI()
+        }
+        else {
+            
+            infoLabel.attributedText = NSAttributedString(string: "No data was recieved(Reload).")
+            
+            backgroundColor = .systemBlue
+            layer.cornerRadius = 15
+            clipsToBounds = true
+            
+            addSubview(imageView)
+           
+            imageView.image = UIImage(named: "new_icon")
+                
+            imageView.fillSuperview()
+            
+            configureGradientLayer()
+            
+            configureInfoUI()
+        }
     }
     
     
@@ -179,7 +199,7 @@ class CardView: UIView {
                 }
                 
                 if MovieDetail.indexPath == 0 {
-                    delegate?.refreshCards()
+                    delegate?.refreshWithSwipe()
                 }
                 
                 print("Index Path: \(MovieDetail.indexPath)")

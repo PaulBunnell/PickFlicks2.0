@@ -36,9 +36,7 @@ class HomeController: UIViewController {
     let database = Firestore.firestore()
     
     var cardView: CardView?
-    
-    weak var delegate: cardViewDelegate?
-    
+        
     var listOfMovies = [Movie]()
     
     var listOfGenres = [Genre]()
@@ -60,7 +58,7 @@ class HomeController: UIViewController {
     
     private let deckView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
         view.layer.cornerRadius = 15
         return view
     }()
@@ -77,7 +75,6 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        delegate = self
         configureCards(ID: nil, pageNum: 1)
         configureUI()
         view.addSubview(visualEffectView)
@@ -85,12 +82,14 @@ class HomeController: UIViewController {
         
         visualEffectView.alpha = 0
         
+        view.backgroundColor = .secondarySystemBackground
         
     }
     
     //MARK: - Helpers
     
     func configureCards(ID: Int?, pageNum: Int) {
+        
         
         movieController.fetchItems(genreID: ID, numb: pageNum) { (movies) in
             
@@ -211,7 +210,29 @@ extension HomeController: HomeNavigationStackViewDelegate {
 
 //MARK: - Card View Delegate
 
-extension HomeController: cardViewDelegate {
+extension HomeController: CardViewDelegate {
+    func refreshWithSwipe() {
+        MovieDetail.detailedMovie = refreshMovie
+        
+        for card in MovieDetail.cardViewArray {
+            card.removeFromSuperview()
+        }
+        
+        if hasSelectedGenre == true {
+            
+            if let genreID = selectedGenreID {
+                self.refreshWithGenre(genreId: genreID)
+            }
+            else {
+                self.refreshCards()
+            }
+            
+        }
+        else {
+            configureCards(ID: nil, pageNum: refreshIndexPath)
+            refreshIndexPath += 1
+        }
+    }
     
     func getTopMostViewController() -> UIViewController? {
         var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
@@ -302,9 +323,6 @@ extension HomeController: BottomControlStackViewDelegate {
            else {
                self.addFavoriteMovie(movie: self.refreshMovie)
            }
-            
-            // How to acess movie poster info through card view
-//            print(MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
             
         }
         
