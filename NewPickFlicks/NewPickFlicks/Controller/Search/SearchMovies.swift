@@ -19,6 +19,8 @@ class SearchMovies: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .secondarySystemBackground
+        
         configureUI()
         configureSearchController()
         
