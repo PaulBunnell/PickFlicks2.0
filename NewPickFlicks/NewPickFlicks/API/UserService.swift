@@ -101,4 +101,36 @@ struct UserService {
             }
         }
     }
+    
+    static func updateProfileImage(forUser user: User, image: UIImage, completion: @escaping(String?, Error?) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        Storage.storage().reference(withPath: user.profileImageUrl).delete(completion: nil)
+        
+        ImageUploader.uploadImage(image: image) { profileImageUrl in
+            let data = ["profileImageUrl": profileImageUrl]
+            
+            COLLECTION_USERS.document(uid).updateData(data) { error in
+                if let error = error {
+                    completion(nil, error)
+                    return
+                }
+                completion(profileImageUrl, nil)
+            }
+        }
+    }
+    
+    static func saveUserData(user: User,  completion: @escaping(FirestoreCompletion)) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let data: [String: Any] = ["email": user.email, "fullname": user.fullname, "profileImageUrl1": user.profileImageUrl, "uid": uid, "username": user.username]
+        COLLECTION_USERS.document(uid).setData(data, completion: completion)
+    }
+    
+    static func setUserFCToken() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let fcmToken = Messaging.messaging().fcmToken else { return }
+
+        COLLECTION_USERS.document(uid).updateData(["fcmToken": fcmToken])
+    }
 }

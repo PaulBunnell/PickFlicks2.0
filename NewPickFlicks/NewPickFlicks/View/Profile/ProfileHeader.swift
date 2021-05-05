@@ -31,7 +31,6 @@ class ProfileHeader: UICollectionReusableView {
     }
     
     private let gradientLayer = CAGradientLayer()
-
     
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -91,6 +90,7 @@ class ProfileHeader: UICollectionReusableView {
         button.setImage(#imageLiteral(resourceName: "icons8-red-card-50").withRenderingMode(.alwaysOriginal), for: .normal)
         button.backgroundColor = #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
         button.addTarget(self, action: #selector(handleStartMatching), for: .touchUpInside)
+        button.setDimensions(height: 50, width: 50)
         button.layer.cornerRadius = 40
         return button
     }()
@@ -111,6 +111,7 @@ class ProfileHeader: UICollectionReusableView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleFollowersTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
+        label.setDimensions(height: 50, width: 50)
         label.layer.cornerRadius = 40
         label.clipsToBounds = true
         return label
@@ -124,6 +125,7 @@ class ProfileHeader: UICollectionReusableView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleFollowingTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
+        label.setDimensions(height: 50, width: 50)
         label.layer.cornerRadius = 40
         label.clipsToBounds = true
         return label
@@ -202,7 +204,7 @@ class ProfileHeader: UICollectionReusableView {
         stack.spacing = 20
         
         addSubview(stack)
-        stack.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 60, paddingRight: 60, height: 80)
+        stack.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 45, paddingRight: 45, height: 80)
     }
     
     func configureBottomToolBar() {

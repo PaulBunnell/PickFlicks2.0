@@ -1,14 +1,14 @@
 //
-//  HomeController.swift
+//  PlayController.swift
 //  NewPickFlicks
 //
-//  Created by John Padilla on 3/16/21.
+//  Created by John Padilla on 4/28/21.
 //
 
 import UIKit
 import SwiftUI
 
-class HomeController: UIViewController {
+class PlayController: UIViewController {
     
     //MARK: - Properties
     
@@ -28,8 +28,8 @@ class HomeController: UIViewController {
     private var indexPath = 12
     private var hasSelectedGenre = false
     private var selectedGenreID: Int?
-    private let topStack = HomeNavigationStackView()
-    private let bottomStack = BottomControlStackView()
+    private let playTopStack = PlayNavigationStackView()
+    private let playBottomStack = PlayBottomControllerStackView()
     
     var cardView: CardView?
     
@@ -126,10 +126,10 @@ class HomeController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
         
-        topStack.delegate = self
-        bottomStack.delegate = self
+        playTopStack.delegate = self
+        playBottomStack.delegate = self
         
-        let stack = UIStackView(arrangedSubviews: [topStack, deckView, bottomStack])
+        let stack = UIStackView(arrangedSubviews: [playTopStack, deckView, playBottomStack])
         stack.axis = .vertical
         stack.spacing = 10
         
@@ -156,11 +156,16 @@ class HomeController: UIViewController {
     
 }
 
-extension HomeController: HomeNavigationStackViewDelegate {
+extension PlayController: PlayNavigationStackViewDelegate {
+    func showMovies() {
+        let controller = SearchMovies()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        controller.title = "Explore Movies"
+        self.present(nav, animated: true, completion: nil)
+    }
     
-    //MARK: Filter Function
-    
-    func ShowProfile() {
+    func showMore() {
         
         for card in cardViewArray {
             card.removeFromSuperview()
@@ -198,13 +203,20 @@ extension HomeController: HomeNavigationStackViewDelegate {
         }
 
     }
+
     
+    //MARK: Filter Function
+    
+    func ShowProfile() {
+        dismiss(animated: true, completion: nil)
+ 
+    }
 }
 
 //MARK: - Card View Delegate
 
-extension HomeController: cardViewDelegate {
-    
+extension PlayController: cardViewDelegate {
+
     func getTopMostViewController() -> UIViewController? {
         var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
 
@@ -225,20 +237,19 @@ extension HomeController: cardViewDelegate {
     
 }
 
-extension HomeController: BottomControlStackViewDelegate {
+extension PlayController: PlayBottomControlStackViewDelegate {
     
     //MARK: Like and Dislike
     
     func refreshCards() {
         
-        MovieDetail.detailedMovie = likedMovies[0]
+        PlayMovieDetail.detailedMovie = likedMovies[0]
         
         for card in cardViewArray {
             card.removeFromSuperview()
         }
         configureCards(ID: nil, pageNum: refreshIndexPath)
         refreshIndexPath += 1
-        
     }
     
     func animateLike(view: UIView) {
@@ -406,6 +417,6 @@ extension HomeController: BottomControlStackViewDelegate {
     }
 }
 
-struct MovieDetail {
+struct PlayMovieDetail {
     static var detailedMovie: Movie?
 }

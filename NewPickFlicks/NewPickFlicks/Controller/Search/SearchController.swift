@@ -31,7 +31,7 @@ class SearchController: UIViewController {
     private let config: UserFilterConfig
     private var users = [User]()
     private var filteredUsers = [User]()
-    private var movies = [Movie]()
+//    private var movies = [Movie]()
     private let searchController = UISearchController(searchResultsController: nil)
 
     private lazy var collectionView: UICollectionView = {
@@ -41,7 +41,7 @@ class SearchController: UIViewController {
         cv.delegate = self
         cv.dataSource = self
         cv.backgroundColor = .white
-        cv.register(ExploreMovies.self, forCellWithReuseIdentifier: postCellIdentifier)
+        cv.register(ExploreUsers.self, forCellWithReuseIdentifier: postCellIdentifier)
         return cv
     }()
     
@@ -76,6 +76,7 @@ class SearchController: UIViewController {
         UserService.fetchUsers(forConfig: config) { users in
             self.users = users
             self.tableView.reloadData()
+            self.collectionView.reloadData()
         }
     }
     
@@ -102,7 +103,7 @@ class SearchController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.placeholder = "Search users"
         searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         definesPresentationContext = false
@@ -180,11 +181,14 @@ extension SearchController: UISearchBarDelegate {
 extension SearchController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return users.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: postCellIdentifier, for: indexPath) as!  ExploreMovies
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: postCellIdentifier, for: indexPath) as!  ExploreUsers
+        
+        let user = users[indexPath.row]
+        cell.viewModel = UserCellViewModel(user: user)
         return cell
     }
 }
@@ -192,23 +196,28 @@ extension SearchController: UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegate
 
 extension SearchController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let user = users[indexPath.row]
+        let controller = ProfileController(user: user)
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension SearchController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 15, left: 8, bottom: 8, right: 8)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let width = (view.frame.width) / 3
-        let width = 92
-        let height = 130
-
-        return CGSize(width: width, height: height)
+        let width = (view.frame.width - 2) / 3
+        return CGSize(width: width, height: width)
     }
 }
 
