@@ -333,9 +333,9 @@ extension HomeController: BottomControlStackViewDelegate {
     }
     
     func addFavoriteMovie(movie: Movie) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        COLLECTION_USERS.document(uid).updateData(["likedmovies" : user.likedMovie + 1])
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//
+//        COLLECTION_USERS.document(uid).updateData(["likedmovies" : user.likedMovie + 1])
         
 //        database.collection("Users").document(uid).setData([
 //            "email" : user.email,
@@ -346,14 +346,14 @@ extension HomeController: BottomControlStackViewDelegate {
 //            "username" : user.username
 //        ])
         
-        COLLECTION_USERS.document(uid).collection("Movies").document(String(movie.id)).setData([
-            "id" : movie.id,
-            "title": movie.title,
-            "overview": movie.overview,
-            "vote_average": movie.vote_average,
-            "poster_path": movie.poster_path,
-            "release_date": movie.release_date
-        ])
+//        COLLECTION_USERS.document(uid).collection("Movies").document(String(movie.id)).setData([
+//            "id" : movie.id,
+//            "title": movie.title,
+//            "overview": movie.overview,
+//            "vote_average": movie.vote_average,
+//            "poster_path": movie.poster_path,
+//            "release_date": movie.release_date
+//        ])
  
         print("saved \(movie.title)\(movie.id)")
     }
@@ -476,8 +476,6 @@ extension HomeController: BottomControlStackViewDelegate {
             else {return}
             //Once the session ID has been entered this is where the code will be to add the user to the the groupSession
             
-            let joincontroller = JoinGroupViewController()
-            self.present(joincontroller, animated: true, completion: nil)
         }
         
         alertController.addAction(cancelButton)

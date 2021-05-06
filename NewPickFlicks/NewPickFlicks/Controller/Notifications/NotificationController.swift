@@ -57,6 +57,11 @@ class NotificationController: UITableViewController {
         refresher.endRefreshing()
     }
     
+    @objc func handleGoToMessage() {
+        let controller = ConversationsController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
     //MARK: - Helpers
     
     func configureTableView() {
@@ -69,6 +74,9 @@ class NotificationController: UITableViewController {
         
         refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         tableView.refreshControl = refresher
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "top_right_messages"), style: .done, target: self, action: #selector(handleGoToMessage))
+
     }
 }
 

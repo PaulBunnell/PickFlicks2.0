@@ -228,7 +228,7 @@ extension PlayController: cardViewDelegate {
     }
     
     func showMovieDetails() {
-        let controller = UIHostingController(rootView: MovieDetailView())
+        let controller = UIHostingController(rootView: MovieDetailView(user: user))
         controller.modalPresentationStyle = .pageSheet
         DispatchQueue.main.async {
             self.getTopMostViewController()?.present(controller, animated: true, completion: nil)
@@ -406,8 +406,8 @@ extension PlayController: PlayBottomControlStackViewDelegate {
             else {return}
            //Once the session ID has been entered this is where the code will be to add the user to the the groupSession
             
-            let joincontroller = JoinGroupViewController()
-            self.present(joincontroller, animated: true, completion: nil)
+//            let joincontroller = JoinGroupViewController()
+//            self.present(joincontroller, animated: true, completion: nil)
         }
         
         alertController.addAction(cancelButton)

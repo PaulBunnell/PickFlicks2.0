@@ -11,6 +11,7 @@ import FirebaseFirestore
 let COLLECTION_USERS = Firestore.firestore().collection("Users")
 
 let COLLECTION_FOLLOWERS = Firestore.firestore().collection("Followers")
+
 let COLLECTION_FOLLOWINGS = Firestore.firestore().collection("Followings")
 
 let COLLECTION_NOTIFICATIONS = Firestore.firestore().collection("Notifications")
@@ -18,3 +19,6 @@ let COLLECTION_NOTIFICATIONS = Firestore.firestore().collection("Notifications")
 let COLLECTIONS_MOVIES = Firestore.firestore().collection("Movies")
 
 let COLLECTION_SESSION =    Firestore.firestore().collection("Session")
+
+let COLLECTION_MESSAGES = Firestore.firestore().collection("messages")
+

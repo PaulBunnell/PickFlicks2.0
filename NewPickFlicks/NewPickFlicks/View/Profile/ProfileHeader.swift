@@ -20,6 +20,7 @@ class ProfileHeader: UICollectionReusableView {
     //MARK: - Properties
     
     weak var delegate: ProfileHeaderDelegate?
+    
 
     let cellIdentifier = "collectionCell"
     
@@ -30,7 +31,7 @@ class ProfileHeader: UICollectionReusableView {
     }
     
     private let gradientLayer = CAGradientLayer()
-
+    
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -98,18 +99,7 @@ class ProfileHeader: UICollectionReusableView {
         let button = UIButton(type: .system)
         button.setTitle("My Favorite Movies", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.backgroundColor = #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
-        button.addTarget(self, action: #selector(editMoviesList), for: .touchUpInside)
-        button.tintColor = .white
-        return button
-    }()
-    
-    let editButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("   Edit   ", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.backgroundColor = #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
-        button.tintColor = .white
+        button.tintColor = .black
         return button
     }()
     
@@ -141,13 +131,12 @@ class ProfileHeader: UICollectionReusableView {
         return label
     }()
     
-    var localEditButtonTapped: Bool = true
-    
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+
         inviteButton.applyDesign()
 
         backgroundColor = UIColor(white: 0.95, alpha: 1)
@@ -164,10 +153,7 @@ class ProfileHeader: UICollectionReusableView {
         addSubview(editProfileFollowButton)
         editProfileFollowButton.centerXToSuperview()
         editProfileFollowButton.anchor(top: emailLabel.bottomAnchor, paddingTop: 30)
-        
-        favoriteMoviesButton.layer.cornerRadius = 20
-        favoriteMoviesButton.clipsToBounds = true
-        
+
         configureBottomToolBar()
     }
     
@@ -191,21 +177,6 @@ class ProfileHeader: UICollectionReusableView {
     @objc func handleStartMatching () {
         guard let viewModel = viewModel else { return }
         delegate?.header(self, didTapMatchingButtonFor: viewModel.user)
-        
-    }
-    
-    @objc func editMoviesList() {
-        
-        if localEditButtonTapped == true {
-            favoriteMoviesButton.setTitle("Tap a Movie to delete", for: .normal)
-            MovieDetail.editTapped = true
-            localEditButtonTapped = false
-        }
-        else if localEditButtonTapped == false {
-            favoriteMoviesButton.setTitle("Tap to Edit Movies", for: .normal)
-            MovieDetail.editTapped = false
-            localEditButtonTapped = true
-        }
         
     }
     
@@ -234,7 +205,6 @@ class ProfileHeader: UICollectionReusableView {
         
         addSubview(stack)
         stack.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 45, paddingRight: 45, height: 80)
-
     }
     
     func configureBottomToolBar() {
@@ -248,13 +218,12 @@ class ProfileHeader: UICollectionReusableView {
         let stackView = UIStackView(arrangedSubviews: [favoriteMoviesButton])
         
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fillEqually
         
         addSubview(stackView)
         addSubview(bottomDividerView)
 
-        stackView.anchor(top: nil, left: leftAnchor, bottom: self.bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 16, paddingBottom: 5, paddingRight: 16, width: 0, height: 50)
-        
+        stackView.anchor(top: nil, left: leftAnchor, bottom: self.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
     }
 
     
@@ -273,7 +242,7 @@ class ProfileHeader: UICollectionReusableView {
             favoriteMoviesButton.setTitle("No Favorite Movies", for: .normal)
         }
         else {
-            favoriteMoviesButton.setTitle("Tap to Edit Movies", for: .normal)
+            favoriteMoviesButton.setTitle("My Favorite Movies", for: .normal)
         }
         
         editProfileFollowButton.setTitle(viewModel.followButtonText, for: .normal)
@@ -288,6 +257,10 @@ class ProfileHeader: UICollectionReusableView {
         inviteButton.backgroundColor = viewModel.matchingButtonBackgroundColor
     }
 }
+
+//header.delegate = self
+//header.viewModel = ProfileHeaderViewModel(user: user)
+
 
 extension ProfileHeader: UICollectionViewDelegate {
     
