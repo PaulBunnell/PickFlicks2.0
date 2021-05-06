@@ -31,7 +31,7 @@ class ExploreUsers: UICollectionViewCell {
     //MARK: - Helper
     
     func configureViewComponents() {
-        backgroundColor = .white
+        backgroundColor = .secondarySystemBackground
         
         addSubview(categoryImageView)
         categoryImageView.setDimensions(height: 125, width: 125)

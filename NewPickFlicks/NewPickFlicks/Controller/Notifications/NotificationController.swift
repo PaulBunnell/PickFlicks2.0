@@ -24,6 +24,8 @@ class NotificationController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .secondarySystemBackground
+        
         configureTableView()
         fetchNotifications()
     }
@@ -65,7 +67,7 @@ class NotificationController: UITableViewController {
     //MARK: - Helpers
     
     func configureTableView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
         navigationItem.title = "Notifications"
         
         tableView.register(NotificationCell.self, forCellReuseIdentifier: reuseIdentifier)

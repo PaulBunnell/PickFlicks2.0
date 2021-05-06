@@ -22,8 +22,6 @@ class CardViewModel {
         let attributedText = NSMutableAttributedString(string: movie.title, attributes: [.font: UIFont.boldSystemFont(ofSize: 30), .foregroundColor: UIColor.white])
         attributedText.append(NSAttributedString(string: "  Ratings: \(movie.vote_average)", attributes:  [.font: UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.white]))
         
-        
-        
         self.moviesInfoText = attributedText
     }
     

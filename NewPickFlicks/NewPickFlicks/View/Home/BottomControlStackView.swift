@@ -40,6 +40,7 @@ class BottomControlStackView: UIStackView {
         likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
 
         [dislikeButton, startSessionButton, likeButton].forEach { view in
+            view.backgroundColor = .clear
             addArrangedSubview(view)
         }
     }
