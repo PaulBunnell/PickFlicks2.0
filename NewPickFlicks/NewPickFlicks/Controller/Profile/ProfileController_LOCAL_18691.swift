@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Firebase
 
 private let cellIdentifier = "ProfileCell"
 private let headerIdentifier = "ProfileHeader"
@@ -14,6 +15,7 @@ private let headerIdentifier = "ProfileHeader"
 class ProfileController: UICollectionViewController {
 
     //MARK: - Properties
+    let database = Firestore.firestore()
     
     private var user: User { didSet { collectionView.reloadData() }}
     
@@ -163,6 +165,7 @@ extension ProfileController {
         }
         else {
             
+            database.collection("Movie")
             MovieDetail.detailedMovie = User.favoriteMovies![indexPath.row]
             let controller = UIHostingController(rootView: MovieDetailView(user: user))
             controller.modalPresentationStyle = .popover
