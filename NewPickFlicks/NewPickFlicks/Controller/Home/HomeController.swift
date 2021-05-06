@@ -355,15 +355,6 @@ extension HomeController: BottomControlStackViewDelegate {
         
         COLLECTION_USERS.document(uid).updateData(["likedmovies" : user.likedMovie + 1])
         
-//        database.collection("Users").document(uid).setData([
-//            "email" : user.email,
-//            "fullname" : user.fullname,
-//            "likedmovies" : user.likedMovie,
-//            "profileImageUrl" : user.profileImageUrl,
-//            "uid" : uid,
-//            "username" : user.username
-//        ])
-        
         COLLECTION_USERS.document(uid).collection("Movies").document(String(movie.id)).setData([
             "id" : movie.id,
             "title": movie.title,

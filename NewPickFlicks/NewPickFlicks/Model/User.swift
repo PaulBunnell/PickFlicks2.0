@@ -26,6 +26,15 @@ struct User {
         return Auth.auth().currentUser?.uid == uid
     }
     
+    static func addMovieToFavorites(movie: Movie) {
+        guard let _ = favoriteMovies else {
+            favoriteMovies = [movie]
+            return
+        }
+        
+        favoriteMovies?.append(movie)
+    }
+    
     init(dictionary: [String: Any]) {
         self.email = dictionary["email"] as? String ?? ""
         self.fullname = dictionary["fullname"] as? String ?? ""
@@ -36,18 +45,6 @@ struct User {
         
         self.stats = UserStats(followers: 0, following: 0)
     }
-    
-    struct FavoriteMovies {
-        var favortieMovies: [Movie]
-        
-        static func addFavoriteMovies(movie: Movie, completion: @escaping(Error?) ->Void) {
-            
-        }
-         
-        
-    }
-    
-    
 }
 
 struct UserStats {
