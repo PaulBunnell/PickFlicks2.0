@@ -21,7 +21,6 @@ class ProfileHeader: UICollectionReusableView {
     
     weak var delegate: ProfileHeaderDelegate?
     
-
     let cellIdentifier = "collectionCell"
     
     var viewModel: ProfileHeaderViewModel? {
@@ -99,7 +98,9 @@ class ProfileHeader: UICollectionReusableView {
         let button = UIButton(type: .system)
         button.setTitle("My Favorite Movies", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.tintColor = .black
+        button.backgroundColor = #colorLiteral(red: 0.9137254902, green: 0.2509803922, blue: 0.3411764706, alpha: 1)
+        button.addTarget(self, action: #selector(editMoviesList), for: .touchUpInside)
+        button.tintColor = .white
         return button
     }()
     
@@ -131,6 +132,8 @@ class ProfileHeader: UICollectionReusableView {
         return label
     }()
     
+    var localEditButtonTapped: Bool = true
+    
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -153,6 +156,9 @@ class ProfileHeader: UICollectionReusableView {
         addSubview(editProfileFollowButton)
         editProfileFollowButton.centerXToSuperview()
         editProfileFollowButton.anchor(top: emailLabel.bottomAnchor, paddingTop: 30)
+        
+        favoriteMoviesButton.layer.cornerRadius = 20
+        favoriteMoviesButton.clipsToBounds = true
 
         configureBottomToolBar()
     }
@@ -177,6 +183,21 @@ class ProfileHeader: UICollectionReusableView {
     @objc func handleStartMatching () {
         guard let viewModel = viewModel else { return }
         delegate?.header(self, didTapMatchingButtonFor: viewModel.user)
+        
+    }
+    
+    @objc func editMoviesList() {
+        
+        if localEditButtonTapped == true {
+            favoriteMoviesButton.setTitle("Tap a Movie to delete", for: .normal)
+            MovieDetail.editTapped = true
+            localEditButtonTapped = false
+        }
+        else if localEditButtonTapped == false {
+            favoriteMoviesButton.setTitle("Tap to Edit Movies", for: .normal)
+            MovieDetail.editTapped = false
+            localEditButtonTapped = true
+        }
         
     }
     
@@ -228,7 +249,7 @@ class ProfileHeader: UICollectionReusableView {
         addSubview(stackView)
         addSubview(bottomDividerView)
 
-        stackView.anchor(top: nil, left: leftAnchor, bottom: self.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+        stackView.anchor(top: nil, left: leftAnchor, bottom: self.bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 16, paddingBottom: 5, paddingRight: 16, width: 0, height: 50)
     }
 
     
@@ -249,6 +270,7 @@ class ProfileHeader: UICollectionReusableView {
         else {
             favoriteMoviesButton.setTitle("My Favorite Movies", for: .normal)
         }
+       
         
         editProfileFollowButton.setTitle(viewModel.followButtonText, for: .normal)
         editProfileFollowButton.setTitleColor(viewModel.followButtonTextcolor, for: .normal)
