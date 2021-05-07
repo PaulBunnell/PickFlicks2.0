@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 private let cellIdentifier = "ProfileCell"
 private let headerIdentifier = "ProfileHeader"
@@ -36,6 +37,7 @@ class ProfileController: UICollectionViewController {
         configureCollectionView()
         checkIfUserISFollowed()
         fetchUsersStats()
+        
         view.backgroundColor = .secondarySystemBackground
         
     }
@@ -73,6 +75,17 @@ class ProfileController: UICollectionViewController {
         collectionView.reloadData()
         collectionView.refreshControl?.endRefreshing()
     }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        
+        return topMostViewController
+    }
+    
     
     //MARK: - helpers
     
@@ -121,7 +134,12 @@ extension ProfileController {
             return 0
         }
         else {
-            return User.favoriteMovies!.count
+            if user.isCurrentUser{
+                return User.favoriteMovies!.count
+            }
+            else {
+                return 0
+            }
         }
     }
     
@@ -141,6 +159,28 @@ extension ProfileController {
         task.resume()
             
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if MovieDetail.editTapped == true {
+            
+            User.favoriteMovies?.remove(at: indexPath.row)
+            collectionView.deleteItems(at: [indexPath])
+            collectionView.reloadData()
+            
+        }
+        else {
+            
+            MovieDetail.detailedMovie = User.favoriteMovies![indexPath.row]
+            let controller = UIHostingController(rootView: MovieDetailView(user: user))
+            controller.modalPresentationStyle = .popover
+            DispatchQueue.main.async {
+                self.getTopMostViewController()?.present(controller, animated: true, completion: nil)
+            }
+            
+        }
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
