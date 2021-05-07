@@ -14,9 +14,10 @@ struct User {
     let email: String
     var fullname: String
     var username: String
+    var likedMovie: Int
     var profileImageUrl: String
     static var favoriteMovies: [Movie]?
-    var likedMovie : Int
+        
     var isFollowed = false
     var startMatching = false
     
@@ -33,9 +34,9 @@ struct User {
         self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
         self.uid = dictionary["uid"] as? String ?? ""
         self.likedMovie = dictionary["likedmovies"] as? Int ?? 0
-        
         self.stats = UserStats(followers: 0, following: 0)
     }
+
     
     static func addMovieToFavorites(movie: Movie) {
          guard let _ = favoriteMovies else {
@@ -53,5 +54,6 @@ struct User {
 struct UserStats {
     let followers: Int
     let following: Int
-    //    let posts: Int
+//    let posts: Int
+
 }

@@ -15,22 +15,18 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
     private var profileImage: UIImage?
     weak var delegate: AuthenticationDelegate?
     
-    //Background
-    private let imageBackground: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "jeff-pierre-5X5I20O_Vbg-unsplash"))
-        iv.contentMode = .scaleAspectFill
-        return iv
-    }()
-    
     //Plus Photo
     private let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "icons8-male-user-50"), for: .normal)
-        button.tintColor = UIColor.white
+        button.setTitle("Select Photo", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .heavy)
+        button.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        button.layer.borderWidth = 1.5
+        button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(handleProfilePhoto), for: .touchUpInside)
         return button
     }()
-    
     //Email textfield
     private let emailTextField: UITextField = {
         let tf = CustomTextField(placeholder: "Email")
@@ -108,10 +104,6 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
         setUpTapGesture()
         configureNotificationObservers()
         
-        view.addSubview(plusPhotoButton)
-        plusPhotoButton.setDimensions(height: 100, width: 100)
-        plusPhotoButton.layer.cornerRadius = 100 / 2
-        plusPhotoButton.anchor(top: view.topAnchor, left: view.leftAnchor, paddingTop: 12, paddingLeft: 18)
     }
     
     //MARK: - Actions
@@ -123,7 +115,6 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
         guard let fullname = fullnameTextField.text else { return }
         guard let username = usernameTextField.text?.lowercased() else { return }
         guard let profileImage = self.profileImage else { return }
-        
 
         let credentials = AuthCredentials(email: email, password: password, fullname: fullname, username: username, profileImage: profileImage)
 
@@ -171,12 +162,11 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     fileprivate func configureUI() {
         
-        view.addSubview(imageBackground)
-        imageBackground.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
-        
+        view.backgroundColor = #colorLiteral(red: 0.1957118511, green: 0.2142606378, blue: 0.3314321637, alpha: 1)
+
         view.addSubview(plusPhotoButton)
         plusPhotoButton.centerX(inView: view)
-        plusPhotoButton.setDimensions(height: 125, width: 125)
+        plusPhotoButton.setDimensions(height: 275, width: 275)
         plusPhotoButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 20)
         
         let stack = UIStackView(arrangedSubviews: [usernameTextField, fullnameTextField, emailTextField, passwordTextField])
@@ -215,7 +205,7 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
         guard let selectedImage = info[.editedImage] as? UIImage else { return }
         profileImage = selectedImage
         
-        plusPhotoButton.layer.cornerRadius = plusPhotoButton.frame.width / 2
+        plusPhotoButton.layer.cornerRadius = 20
         plusPhotoButton.layer.masksToBounds = true
         plusPhotoButton.setImage(selectedImage.withRenderingMode(.alwaysOriginal), for: .normal)
         

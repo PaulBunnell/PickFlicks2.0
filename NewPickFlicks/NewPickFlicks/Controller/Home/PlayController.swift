@@ -1,8 +1,8 @@
 //
-//  PlayController.swift
+//  HomeController.swift
 //  NewPickFlicks
 //
-//  Created by John Padilla on 4/28/21.
+//  Created by John Padilla on 3/16/21.
 //
 
 import UIKit
@@ -24,22 +24,19 @@ class PlayController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    let refreshMovie: Movie = Movie(id: 191911, title: "Refresh Card", overview: "Please wait one moment", vote_average: 9.7, poster_path: "A path", release_date: "2019")
+    
     private var refreshIndexPath = 2
     private var genreIndexPath = 1
-    private var indexPath = 12
     private var hasSelectedGenre = false
     private var selectedGenreID: Int?
-    private let playTopStack = PlayNavigationStackView()
-    private let playBottomStack = PlayBottomControllerStackView()
+    private let topStack = PlayNavigationStackView()
+    private let bottomStack = PlayBottomControllerStackView()
+
+    let database = Firestore.firestore()
     
     var cardView: CardView?
-    
-    var cardViewArray = [CardView]()
-    
-    var likedMovies = [Movie]()
-    
-    var dislikedCards = [CardView]()
-    
+        
     var listOfMovies = [Movie]()
     
     var listOfGenres = [Genre]()
@@ -47,11 +44,11 @@ class PlayController: UIViewController {
     let movieController = MovieController()
         
     let keyWindow = UIApplication.shared.connectedScenes
-            .filter({$0.activationState == .foregroundActive})
-            .map({$0 as? UIWindowScene})
-            .compactMap({$0})
-            .first?.windows
-            .filter({$0.isKeyWindow}).first
+        .filter({$0.activationState == .foregroundActive})
+        .map({$0 as? UIWindowScene})
+        .compactMap({$0})
+        .first?.windows
+        .filter({$0.isKeyWindow}).first
     
     private let popUpWindow: StartSession = {
         let view = StartSession()
@@ -61,7 +58,7 @@ class PlayController: UIViewController {
     
     private let deckView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
         view.layer.cornerRadius = 15
         return view
     }()
@@ -72,7 +69,7 @@ class PlayController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-        
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -85,39 +82,45 @@ class PlayController: UIViewController {
         
         visualEffectView.alpha = 0
         
-//        handleStartSession()
+        view.backgroundColor = .secondarySystemBackground
         
     }
     
     //MARK: - Helpers
     
     func configureCards(ID: Int?, pageNum: Int) {
-                        
-        movieController.fetchItems(genreID: ID, numb: pageNum) { (movies) in
         
-            print(movies.count)
+        
+        movieController.fetchItems(genreID: ID, numb: pageNum) { (movies) in
             
-            DispatchQueue.main.async {
-                
-                self.listOfMovies = movies
-                
-                for movie in movies {
-                                        
-                    let newCardView = CardView(viewModel: CardViewModel(movie: movie), user: self.user)
+            print("Number of loaded Movies: \(movies.count)")
+
+            if MovieDetail.dataWasReturned == true {
+            
+                DispatchQueue.main.async {
                     
-                    self.cardView = newCardView
+                    self.listOfMovies = movies
                     
-                    self.cardViewArray.append(self.cardView!)
+                    for movie in movies {
                                             
-                    self.deckView.addSubview(newCardView)
+                        let newCardView = CardView(viewModel: CardViewModel(movie: movie), user: self.user)
                         
-                    newCardView.fillSuperview()
+                        self.cardView = newCardView
+                        
+                        MovieDetail.cardViewArray.append(self.cardView!)
+                                                
+                        self.deckView.addSubview(newCardView)
+                        
+                        newCardView.fillSuperview()
+                        
+                    }
+                    
+                    MovieDetail.detailedMovie = movies[19]
                     
                 }
                 
-                MovieDetail.detailedMovie = movies[19]
-                
             }
+            
         }
                 
     }
@@ -127,16 +130,16 @@ class PlayController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
         
-        playTopStack.delegate = self
-        playBottomStack.delegate = self
+        topStack.delegate = self
+        bottomStack.delegate = self
         
-        let stack = UIStackView(arrangedSubviews: [playTopStack, deckView, playBottomStack])
+        let stack = UIStackView(arrangedSubviews: [topStack, deckView, bottomStack])
         stack.axis = .vertical
         stack.spacing = 10
         
         view.addSubview(stack)
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 0)
-
+        
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         stack.bringSubviewToFront(deckView)
@@ -145,7 +148,7 @@ class PlayController: UIViewController {
     
     func refreshWithGenre(genreId: Int) {
         
-        for card in cardViewArray {
+        for card in MovieDetail.cardViewArray {
             card.removeFromSuperview()
         }
         
@@ -157,22 +160,69 @@ class PlayController: UIViewController {
     
 }
 
+extension PlayController: HomeNavigationStackViewDelegate {
+    
+    //MARK: Filter Function
+    
+    func filterGenre() {
+        
+        //Genre Filtering
+        
+        for card in MovieDetail.cardViewArray {
+            card.removeFromSuperview()
+        }
+        
+        MovieDetail.cardViewArray.removeAll()
+                
+        let alert = UIAlertController(title: "Genre", message: "Pick a Genre", preferredStyle: .actionSheet)
+        
+        let defaultAction = UIAlertAction(title: "All", style: .default) { (alert) in
+            self.refreshCards()
+        }
+        alert.addAction(defaultAction)
+        
+        alert.view.tintColor = .systemPink
+        
+        movieController.fetchGenre { (genres) in
+        
+            for genre in genres {
+        
+                let action = UIAlertAction(title: "\(genre.name)", style: .default) { (action) in
+                    self.selectedGenreID = genre.id
+                    self.refreshWithGenre(genreId: self.selectedGenreID!)
+                }
+        
+                DispatchQueue.main.async {
+                    alert.addAction(action)
+                }
+        
+            }
+            
+        }
+                
+        present(alert, animated: true) {
+            self.hasSelectedGenre = true
+        }
+        
+    }
+    
+}
+
 extension PlayController: PlayNavigationStackViewDelegate {
     func showMovies() {
         let controller = SearchMovies()
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
-        controller.title = "Explore Movies"
         self.present(nav, animated: true, completion: nil)
     }
     
     func showMore() {
         
-        for card in cardViewArray {
+        for card in MovieDetail.cardViewArray {
             card.removeFromSuperview()
         }
         
-        cardViewArray.removeAll()
+        MovieDetail.cardViewArray.removeAll()
         
         print("Genre functionality")
                 
@@ -182,6 +232,8 @@ extension PlayController: PlayNavigationStackViewDelegate {
             self.refreshCards()
         }
         alert.addAction(defaultAction)
+        
+        alert.view.tintColor = .systemPink
         
         movieController.fetchGenre { (genres) in
             
@@ -205,7 +257,6 @@ extension PlayController: PlayNavigationStackViewDelegate {
 
     }
 
-    
     //MARK: Filter Function
     
     func ShowProfile() {
@@ -218,23 +269,42 @@ extension PlayController: PlayNavigationStackViewDelegate {
 
 extension PlayController: CardViewDelegate {
     func refreshWithSwipe() {
-        print("hotfix")
+        MovieDetail.detailedMovie = refreshMovie
+        
+        for card in MovieDetail.cardViewArray {
+            card.removeFromSuperview()
+        }
+        
+        if hasSelectedGenre == true {
+            
+            if let genreID = selectedGenreID {
+                self.refreshWithGenre(genreId: genreID)
+            }
+            else {
+                self.refreshCards()
+            }
+            
+        }
+        else {
+            configureCards(ID: nil, pageNum: refreshIndexPath)
+            refreshIndexPath += 1
+        }
     }
     
-
     func getTopMostViewController() -> UIViewController? {
         var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-
+        
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController
         }
-
+        
         return topMostViewController
     }
     
     func showMovieDetails() {
         let controller = UIHostingController(rootView: MovieDetailView(user: user))
         controller.modalPresentationStyle = .pageSheet
+
         DispatchQueue.main.async {
             self.getTopMostViewController()?.present(controller, animated: true, completion: nil)
         }
@@ -248,69 +318,86 @@ extension PlayController: PlayBottomControlStackViewDelegate {
     
     func refreshCards() {
         
-        PlayMovieDetail.detailedMovie = likedMovies[0]
+        MovieDetail.detailedMovie = refreshMovie
         
-        for card in cardViewArray {
+        for card in MovieDetail.cardViewArray {
             card.removeFromSuperview()
         }
-        configureCards(ID: nil, pageNum: refreshIndexPath)
-        refreshIndexPath += 1
+        
+        if hasSelectedGenre == true {
+            
+            if let genreID = selectedGenreID {
+                self.refreshWithGenre(genreId: genreID)
+            }
+            else {
+                self.refreshCards()
+            }
+            
+        }
+        else {
+            configureCards(ID: nil, pageNum: refreshIndexPath)
+            refreshIndexPath += 1
+        }
+    
     }
     
     func animateLike(view: UIView) {
         
-//        view.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 7)
+        //        view.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 7)
         view.center.x += 400
+
     }
     
     func animateDislike(view: UIView) {
         
-//        view.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 7)
+        //        view.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 7)
         view.center.x -= 400
+
     }
     
     func handleLike() {
-        
-        /* when movie is liked it needs to be appended to users array of like movies */
-                
-        indexPath = cardViewArray.count - 1
-        
-        UIView.animate(withDuration: 0.3) {
-            self.animateLike(view: self.cardViewArray[self.indexPath])
-        } completion: { _ in
-            self.likedMovies.append(self.cardViewArray[self.indexPath].viewModel.movie)
-            print(self.likedMovies.count)
-            
-            User.favoriteMovies?.append(self.cardViewArray[self.indexPath].viewModel.movie)
                         
-            User.favoriteMovies = self.likedMovies
-
-            // How to acess movie poster info through card view
-            print(self.cardViewArray[self.indexPath].viewModel.movie.poster_path)
+        MovieDetail.indexPath = MovieDetail.cardViewArray.count - 1
+                
+        UIView.animate(withDuration: 0.3) {
+            self.animateLike(view: MovieDetail.cardViewArray[MovieDetail.indexPath])
+        } completion: { _ in
+            MovieDetail.likedMovies.append(MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
+            print("Liked Movies Count: \(MovieDetail.likedMovies.count)")
             
-            self.cardViewArray[self.indexPath].removeFromSuperview()
-            self.cardViewArray.remove(at: self.indexPath)
-            self.indexPath -= 1
+            User.favoriteMovies?.append(MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
+            
+            User.favoriteMovies = MovieDetail.likedMovies
+                        
+            MovieDetail.cardViewArray[MovieDetail.indexPath].removeFromSuperview()
+            MovieDetail.cardViewArray.remove(at: MovieDetail.indexPath)
+            MovieDetail.indexPath -= 1
+
+            //Add movie to Firebase
+            
+           if MovieDetail.indexPath > 0 {
+               self.addFavoriteMovie(movie: MovieDetail.cardViewArray[MovieDetail.indexPath].viewModel.movie)
+           }
+           else {
+               self.addFavoriteMovie(movie: self.refreshMovie)
+           }
+            
         }
         
         // TODO: When cards refresh indexPath count is off
         
-        if hasSelectedGenre == false && self.indexPath == 0 {
-            MovieDetail.detailedMovie = likedMovies[0]
+        if hasSelectedGenre == false && MovieDetail.indexPath == 0 {
+            MovieDetail.detailedMovie = refreshMovie
             self.refreshCards()
         }
         
-        if self.indexPath > 0 {
-            MovieDetail.detailedMovie = self.cardViewArray[indexPath - 1].viewModel.movie
-            
-            addFavoriteMovie(movie: self.cardViewArray[indexPath - 1].viewModel.movie)
+        if MovieDetail.indexPath > 0 {
+            MovieDetail.detailedMovie = MovieDetail.cardViewArray[MovieDetail.indexPath - 1].viewModel.movie
         }
         
-        
-        
-        print(indexPath)
-        
-        if hasSelectedGenre == true && indexPath == 0 {
+        print("Index Path: \(MovieDetail.indexPath)")
+
+        if hasSelectedGenre == true && MovieDetail.indexPath == 0 {
             
             if let genreID = selectedGenreID {
                 self.refreshWithGenre(genreId: genreID)
@@ -340,34 +427,32 @@ extension PlayController: PlayBottomControlStackViewDelegate {
     
     func handleDislike() {
         
-        indexPath = cardViewArray.count - 1
+        MovieDetail.indexPath = MovieDetail.cardViewArray.count - 1
         
         UIView.animate(withDuration: 0.3) {
-            self.animateDislike(view: self.cardViewArray[self.indexPath])
+            self.animateDislike(view: MovieDetail.cardViewArray[MovieDetail.indexPath])
         } completion: { _ in
-            self.dislikedCards.append(self.cardViewArray[self.indexPath])
-            print(self.dislikedCards.count)
-            self.cardViewArray[self.indexPath].removeFromSuperview()
             
+            MovieDetail.cardViewArray[MovieDetail.indexPath].removeFromSuperview()
             
-            self.cardViewArray.remove(at: self.indexPath)
-            self.indexPath -= 1
+            MovieDetail.cardViewArray.remove(at: MovieDetail.indexPath)
+            MovieDetail.indexPath -= 1
         }
         
         // TODO: When cards refresh indexPath count is off
         
-        if self.indexPath == 0 {
-            MovieDetail.detailedMovie = likedMovies[0]
+        if MovieDetail.indexPath == 0 {
+            MovieDetail.detailedMovie = refreshMovie
             self.refreshCards()
         }
         
-        if self.indexPath > 0 {
-            MovieDetail.detailedMovie = self.cardViewArray[self.indexPath-1].viewModel.movie
+        if MovieDetail.indexPath > 0 {
+            MovieDetail.detailedMovie = MovieDetail.cardViewArray[MovieDetail.indexPath-1].viewModel.movie
         }
         
-        print(indexPath)
-        
-        if hasSelectedGenre == true && indexPath == 0 {
+        print("Index Path: \(MovieDetail.indexPath)")
+
+        if hasSelectedGenre == true && MovieDetail.indexPath == 0 {
             
             if let genreID = selectedGenreID {
                 self.refreshWithGenre(genreId: genreID)
@@ -376,12 +461,13 @@ extension PlayController: PlayBottomControlStackViewDelegate {
                 self.refreshCards()
             }
         }
+
     }
     
     func handleStartSession() {
-     
+        
         let alert = UIAlertController(title: "", message: "Start Matching", preferredStyle: .actionSheet)
-
+        
         alert.addAction(UIAlertAction(title: "Become a Host", style: .default, handler: { (_) in
             print("User click Approve button")
             
@@ -390,6 +476,8 @@ extension PlayController: PlayBottomControlStackViewDelegate {
             nav.modalPresentationStyle = .automatic
             controller.title = "Add Participants"
             self.present(nav, animated: true, completion: nil)
+            
+                self.addSessionToFirebase()
         }))
         
         alert.addAction(UIAlertAction(title: "Join a group", style: .default, handler: { (_) in
@@ -405,16 +493,38 @@ extension PlayController: PlayBottomControlStackViewDelegate {
         self.present(alert, animated: true, completion: {
             print("completion block")
         })
-
+        
         print("DEBUG: Handlo startSession here...")
-                
+        
         view.addSubview(popUpWindow)
         popUpWindow.fillSuperview()
-
+        
+    }
+    func addSessionToFirebase() {
+        
+        //identify the current user
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        print("Session \(uid) created")
+        //create the session's document in firestore's collecion
+        database.collection("Session").document("Session hosted by \(uid)").setData([
+            "user" : [user.uid],
+            "userFavoriteMovies" : "all of them",
+            "date" : Date(),
+            "sessionStarted" : false
+            
+            ]) { (error) in
+            if error == nil {
+                print(error?.localizedDescription as Any)
+            }
+            
+        }
+    
     }
     
     func showPopUpStartSession() {
         print("pop up pressed".uppercased())
+        
+        
     }
     
     /// join the group seson by entering in SessionID
@@ -431,10 +541,10 @@ extension PlayController: PlayBottomControlStackViewDelegate {
         let joinButton = UIAlertAction(title: "Join", style: .default){ (alert) in
             guard let textField = alertController.textFields, let sessionIDString = textField[0].text
             else {return}
-           //Once the session ID has been entered this is where the code will be to add the user to the the groupSession
+            //Once the session ID has been entered this is where the code will be to add the user to the the groupSession
             
-            let joincontroller = JoinGroupViewController()
-            self.present(joincontroller, animated: true, completion: nil)
+//            let joincontroller = JoinGroupViewController()
+//            self.present(joincontroller, animated: true, completion: nil)
         }
         
         alertController.addAction(cancelButton)
@@ -444,6 +554,11 @@ extension PlayController: PlayBottomControlStackViewDelegate {
     }
 }
 
-struct PlayMovieDetail {
+struct MovieDetail {
+    static var indexPath = 19
+    static var cardViewArray = [CardView]()
+    static var likedMovies = [Movie]()
     static var detailedMovie: Movie?
+    static var editTapped = false
+    static var dataWasReturned = true
 }

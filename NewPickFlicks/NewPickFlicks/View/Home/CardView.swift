@@ -134,7 +134,7 @@ class CardView: UIView {
     
     @objc func ShowMovieDetails() {
         
-        let homeController = HomeController(user: user)
+        let homeController = PlayController(user: user)
         homeController.showMovieDetails()
         
     }

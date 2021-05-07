@@ -45,7 +45,7 @@ class PlayBottomControllerStackView: UIStackView {
         likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
         boostButton.addTarget(self, action: #selector(handleBoost), for: .touchUpInside)
 
-        [refreshButton, dislikeButton, superlikeButton, likeButton, boostButton].forEach { view in
+        [dislikeButton, refreshButton, likeButton].forEach { view in
             addArrangedSubview(view)
         }
     }

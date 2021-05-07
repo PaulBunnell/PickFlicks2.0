@@ -24,6 +24,8 @@ class NotificationController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .secondarySystemBackground
+        
         configureTableView()
         fetchNotifications()
     }
@@ -57,10 +59,15 @@ class NotificationController: UITableViewController {
         refresher.endRefreshing()
     }
     
+    @objc func handleGoToMessage() {
+        let controller = ConversationsController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
     //MARK: - Helpers
     
     func configureTableView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
         navigationItem.title = "Notifications"
         
         tableView.register(NotificationCell.self, forCellReuseIdentifier: reuseIdentifier)
@@ -69,6 +76,9 @@ class NotificationController: UITableViewController {
         
         refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         tableView.refreshControl = refresher
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "top_right_messages"), style: .done, target: self, action: #selector(handleGoToMessage))
+
     }
 }
 

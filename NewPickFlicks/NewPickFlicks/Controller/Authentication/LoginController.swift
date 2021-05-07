@@ -18,20 +18,13 @@ class LoginController: UIViewController {
     private var viewModel = LoginViewModel()
     weak var delegate: AuthenticationDelegate?
     
-    //Background
-    private let imageBackground: UIImageView = {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "jeff-pierre-5X5I20O_Vbg-unsplash"))
-        iv.contentMode = .scaleAspectFill
-        return iv
-    }()
-    
     private let headerWelcomeLabel: UILabel = {
        let label = UILabel()
         label.text = "Welcome back"
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.font = UIFont.boldSystemFont(ofSize: 30)
+        label.font = UIFont.boldSystemFont(ofSize: 35)
         return label
     }()
     
@@ -41,11 +34,10 @@ class LoginController: UIViewController {
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
     
-    //Email textfield
     private let emailTextField: UITextField = {
         let tf = CustomTextField(placeholder: "Email")
         tf.keyboardType = .emailAddress
@@ -55,7 +47,6 @@ class LoginController: UIViewController {
         return tf
     }()
     
-    //Password textfield
     private let passwordTextField: UITextField = {
         let tf = CustomTextField(placeholder: "Password")
         tf.isSecureTextEntry = true
@@ -78,18 +69,46 @@ class LoginController: UIViewController {
         return button
     }()
     
+    private let facebookLoginButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Log In with Facebook", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .clear
+        button.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        button.layer.borderWidth = 0.5
+        button.layer.cornerRadius = 10
+        button.setHeight(50)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.addTarget(self, action: #selector(handleFacebook), for: .touchUpInside)
+        return button
+    }()
+    
+    private let googleLoginButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Log In with Google", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .clear
+        button.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        button.layer.borderWidth = 0.5
+        button.layer.cornerRadius = 10
+        button.setHeight(50)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.addTarget(self, action: #selector(handleGoogle), for: .touchUpInside)
+        return button
+    }()
+    
     //Forgot Password
     private let forgotPasswordButton: UIButton = {
         let button = UIButton(type: .system)
         button.attributedTitle(firstPart: "Forgot your", secondPart: "Password?")
-//        button.addTarget(self, action: #selector(handleShowForgotPassword), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleShowForgotPassword), for: .touchUpInside)
         return button
     }()
     
     //Don't have an Account
     private let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
-        button.attributedTitle(firstPart: "Don't have an account?" , secondPart: "Sign Up")
+        button.attributedTitle(firstPart: "Don't have an account?" , secondPart: " Sign Up")
         button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
         return button
     }()
@@ -127,11 +146,19 @@ class LoginController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
+    @objc func handleFacebook() {
+        print("DEBUG: Show login with Facebbok")
+    }
+    
+    @objc func handleGoogle() {
+        print("DEBUG: Show login with google")
+    }
+    
     @objc func handleShowForgotPassword() {
-//        let controller = ResetPasswordController()
+        let controller = ResetPasswordController()
 //        controller.delegate = self
-//        controller.email = emailTextField.text
-//        navigationController?.pushViewController(controller, animated: true)
+        controller.email = emailTextField.text
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     @objc func textDidChange(sender: UITextField) {
@@ -153,9 +180,7 @@ class LoginController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.barStyle = .black
         
-        view.addSubview(imageBackground)
-        imageBackground.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
-
+        view.backgroundColor = #colorLiteral(red: 0.1957118511, green: 0.2142606378, blue: 0.3314321637, alpha: 1)
         
         configureHeader()
 
@@ -185,9 +210,9 @@ class LoginController: UIViewController {
     
     func configurebuttons() {
         
-        let stack = UIStackView(arrangedSubviews: [loginButton, forgotPasswordButton])
+        let stack = UIStackView(arrangedSubviews: [loginButton, forgotPasswordButton, facebookLoginButton, googleLoginButton])
         stack.axis = .vertical
-        stack.spacing = 5
+        stack.spacing = 15
         
         view.addSubview(stack)
         stack.anchor(top: passwordTextField.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 30, paddingLeft: 25, paddingRight: 25)
