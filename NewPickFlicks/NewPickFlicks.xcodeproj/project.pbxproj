@@ -90,6 +90,7 @@
 		8070CA962608E71B007D5B5E /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA952608E71B007D5B5E /* APIServices.swift */; };
 		8070CAA0260A2C4C007D5B5E /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8070CA9F260A2C4C007D5B5E /* Cast.swift */; };
 		8080080B2639AFBF003668AD /* SessionResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080080A2639AFBF003668AD /* SessionResults.swift */; };
+		8085E3272644E9D7006BFF47 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8085E3262644E9D7006BFF47 /* TableViewCell.swift */; };
 		8094B52126175B9D0058F898 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8094B52026175B9D0058F898 /* Genre.swift */; };
 		83825905260B7BFF006834A1 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83825904260B7BFF006834A1 /* Session.swift */; };
 /* End PBXBuildFile section */
@@ -202,6 +203,7 @@
 		8070CA952608E71B007D5B5E /* APIServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
 		8070CA9F260A2C4C007D5B5E /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		8080080A2639AFBF003668AD /* SessionResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionResults.swift; sourceTree = "<group>"; };
+		8085E3262644E9D7006BFF47 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		8094B52026175B9D0058F898 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		83825904260B7BFF006834A1 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		98A1F1E84E0B2A61CCD72E83 /* Pods-NewPickFlicksTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewPickFlicksTests.debug.xcconfig"; path = "Target Support Files/Pods-NewPickFlicksTests/Pods-NewPickFlicksTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -500,6 +502,7 @@
 			children = (
 				48E3C6B8260247D70080449D /* SearchController.swift */,
 				48B17B60263C7E8F00F7844E /* SearchMovies.swift */,
+				8085E3262644E9D7006BFF47 /* TableViewCell.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -784,6 +787,7 @@
 				48E3C6832601D59B0080449D /* CustomTextField.swift in Sources */,
 				48B17BAD2643873800F7844E /* InputTextView.swift in Sources */,
 				48E3C74626039D0A0080449D /* ProfileHeaderViewModel.swift in Sources */,
+				8085E3272644E9D7006BFF47 /* TableViewCell.swift in Sources */,
 				481E5746260B9EAD00E03092 /* UserCellViewModel.swift in Sources */,
 				48E3C6B9260247D70080449D /* SearchController.swift in Sources */,
 				488E59AE26160EB70048F2F1 /* ExploreUsers.swift in Sources */,
