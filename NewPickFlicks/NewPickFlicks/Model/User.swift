@@ -37,15 +37,15 @@ struct User {
         self.stats = UserStats(followers: 0, following: 0)
     }
     
-    struct FavoriteMovies {
-        var favortieMovies: [Movie]
-        
-        static func addFavoriteMovies(movie: Movie, completion: @escaping(Error?) ->Void) {
-            
-        }
-         
-        
-    }
+    static func addMovieToFavorites(movie: Movie) {
+         guard let _ = favoriteMovies else {
+             favoriteMovies = [movie]
+             return
+         }
+
+         favoriteMovies?.append(movie)
+     }
+
     
     
 }

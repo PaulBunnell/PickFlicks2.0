@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Firebase
 
 class PlayController: UIViewController {
     
@@ -273,6 +274,7 @@ extension PlayController: PlayBottomControlStackViewDelegate {
         /* when movie is liked it needs to be appended to users array of like movies */
                 
         indexPath = cardViewArray.count - 1
+        
         UIView.animate(withDuration: 0.3) {
             self.animateLike(view: self.cardViewArray[self.indexPath])
         } completion: { _ in
@@ -300,7 +302,11 @@ extension PlayController: PlayBottomControlStackViewDelegate {
         
         if self.indexPath > 0 {
             MovieDetail.detailedMovie = self.cardViewArray[indexPath - 1].viewModel.movie
+            
+            addFavoriteMovie(movie: self.cardViewArray[indexPath - 1].viewModel.movie)
         }
+        
+        
         
         print(indexPath)
         
@@ -313,6 +319,23 @@ extension PlayController: PlayBottomControlStackViewDelegate {
                 self.refreshCards()
             }
         }
+    }
+    
+    func addFavoriteMovie(movie: Movie) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        COLLECTION_USERS.document(uid).updateData(["likedmovies" : user.likedMovie + 1])
+        
+        COLLECTION_USERS.document(uid).collection("Movies").document(String(movie.id)).setData([
+            "id" : movie.id,
+            "title": movie.title,
+            "overview": movie.overview,
+            "vote_average": movie.vote_average,
+            "poster_path": movie.poster_path,
+            "release_date": movie.release_date
+        ])
+ 
+        print("saved \(movie.title)\(movie.id)")
     }
     
     func handleDislike() {

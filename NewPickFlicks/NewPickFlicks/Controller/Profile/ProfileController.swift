@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Firebase
 
 private let cellIdentifier = "ProfileCell"
 private let headerIdentifier = "ProfileHeader"
@@ -14,6 +15,8 @@ private let headerIdentifier = "ProfileHeader"
 class ProfileController: UICollectionViewController {
 
     //MARK: - Properties
+    
+    let database = Firestore.firestore()
     
     private var user: User { didSet { collectionView.reloadData() }}
     
@@ -34,6 +37,7 @@ class ProfileController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                             
+        getUserFavMovie()
         configureCollectionView()
         checkIfUserISFollowed()
         fetchUsersStats()
@@ -136,6 +140,32 @@ class ProfileController: UICollectionViewController {
         
     }
     
+    func getUserFavMovie() {
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        COLLECTION_USERS.document(uid).collection("Movies").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+//                    print("\(document.documentID) => \(document.data())")
+                    let data = document.data()
+                    let id = data["id"] as! Int
+                    let posterPath = data["poster_path"] as! String
+                    let overview = data["overview"] as! String
+                    let title = data["title"] as! String
+                    let voteAvg = data["vote_average"] as! Double
+                    let releaseDate = data["release_date"] as! String
+                    
+                    let movie = Movie(id: id, title: title, overview: overview, vote_average: voteAvg, poster_path: posterPath, release_date: releaseDate)
+                    
+                    User.addMovieToFavorites(movie: movie)
+                    
+                    
+                }
+            }
+        }
+    }
+    
 }
 
 //MARK: - UICollectionViewDataSource
@@ -148,8 +178,12 @@ extension ProfileController {
             return 0
         }
         else {
-            return User.favoriteMovies!.count
-        }
+            
+            let uid = Auth.auth().currentUser?.uid
+            let document = COLLECTION_USERS.document(uid!).collection("Movies")
+                //            return User.favoriteMovies!.count
+            return document.accessibilityElementCount()
+            }
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -157,6 +191,14 @@ extension ProfileController {
         if MovieDetail.editTapped == true {
             
             User.favoriteMovies?.remove(at: indexPath.row)
+            
+            if let movieID = MovieDetail.detailedMovie?.id, let uid = Auth.auth().currentUser?.uid {
+                
+                COLLECTION_USERS.document(uid).collection("Movies").document(String(movieID)).delete()
+                
+                COLLECTION_USERS.document(uid).updateData(["likedmovies" : user.likedMovie - 1])
+                
+            }
             collectionView.deleteItems(at: [indexPath])
             collectionView.reloadData()
             
@@ -173,6 +215,8 @@ extension ProfileController {
         }
         
     }
+    
+    
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ProfileCell
