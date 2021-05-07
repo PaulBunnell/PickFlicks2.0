@@ -22,7 +22,7 @@ class ProfileController: UICollectionViewController {
     
     var likedCardViews = [CardView]()
     var likedMovies = [Movie]()
-    
+
     //MARK: - Lifecycle
     
     init(user: User) {
@@ -41,13 +41,20 @@ class ProfileController: UICollectionViewController {
         configureCollectionView()
         checkIfUserISFollowed()
         fetchUsersStats()
-        
         view.backgroundColor = .secondarySystemBackground
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         collectionView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        if let movies = User.favoriteMovies {
+            MovieDetail.likedMovies = movies
+        }
+        
     }
     
     //MARK: - API
@@ -60,12 +67,13 @@ class ProfileController: UICollectionViewController {
     }
     
     func fetchUsersStats() {
-        UserService.fetchUserStats(uid: user.uid) { stats in
-            self.user.stats = stats
-            self.collectionView.reloadData()
-        }
+//        UserService.fetchUserStats(uid: user.uid) { stats in
+//            self.user.stats = stats
+//            self.collectionView.reloadData()
+//        }
     }
 
+    
     //MARK: - Actions
     
     @objc func handleGoToSettings() {
@@ -80,18 +88,11 @@ class ProfileController: UICollectionViewController {
         collectionView.refreshControl?.endRefreshing()
     }
     
-    func getTopMostViewController() -> UIViewController? {
-        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-        
-        while let presentedViewController = topMostViewController?.presentedViewController {
-            topMostViewController = presentedViewController
-        }
-        
-        return topMostViewController
-    }
-    
-    
     //MARK: - helpers
+    
+    func updateCollectionView() {
+        collectionView.reloadData()
+    }
     
     func configureCollectionView() {
         collectionView.backgroundColor = .secondarySystemBackground
@@ -123,20 +124,21 @@ class ProfileController: UICollectionViewController {
     func showMatching() {
         let controller = PlayController(user: self.user)
         let nav = UINavigationController(rootViewController: controller)
+
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
     }
 
     
-//    func getTopMostViewController() -> UIViewController? {
-//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-//
-//        while let presentedViewController = topMostViewController?.presentedViewController {
-//            topMostViewController = presentedViewController
-//        }
-//        return topMostViewController
-//        
-//    }
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
+        
+    }
     
     func getUserFavMovie() {
         guard let uid = Auth.auth().currentUser?.uid else {return}
@@ -176,31 +178,12 @@ extension ProfileController {
             return 0
         }
         else {
-            if user.isCurrentUser{
-                return User.favoriteMovies!.count
-            }
-            else {
-                return 0
-            }
-        }
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ProfileCell
-        
-        // Use array of liked movies to populate instead of making api call
-        
-        let task = URLSession.shared.dataTask(with: URL(string: "http://image.tmdb.org/t/p/w500\(User.favoriteMovies![indexPath.row].poster_path)")!) { (data, response, error) in
             
-            guard let data = data, let image = UIImage(data: data) else {return}
-                
-            DispatchQueue.main.async {
-                cell.posterImageView.image = image
+            let uid = Auth.auth().currentUser?.uid
+            let document = COLLECTION_USERS.document(uid!).collection("Movies")
+                //            return User.favoriteMovies!.count
+            return document.accessibilityElementCount()
             }
-        }
-        task.resume()
-            
-        return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -233,6 +216,30 @@ extension ProfileController {
         
     }
     
+    
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ProfileCell
+                
+        // Use array of liked movies to populate instead of making api call
+        
+        if let movies = User.favoriteMovies {
+            
+            let task = URLSession.shared.dataTask(with: URL(string: "http://image.tmdb.org/t/p/w500\(movies[indexPath.row].poster_path)")!) { (data, response, error) in
+                    
+            guard let data = data, let image = UIImage(data: data) else {return}
+                        
+                DispatchQueue.main.async {
+                    cell.posterImageView.image = image
+                }
+            }
+            task.resume()
+            
+        }
+        
+        return cell
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
@@ -258,8 +265,9 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (view.frame.width - 2) / 3
-        return CGSize(width: width, height: 205)
+        let width = (view.frame.width - 3) / 3
+        let height = (view.frame.height - 2) / 4.35
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

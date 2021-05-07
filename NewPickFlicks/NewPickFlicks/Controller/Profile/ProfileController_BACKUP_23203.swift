@@ -126,17 +126,18 @@ class ProfileController: UICollectionViewController {
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
     }
+<<<<<<< HEAD
 
     
-//    func getTopMostViewController() -> UIViewController? {
-//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-//
-//        while let presentedViewController = topMostViewController?.presentedViewController {
-//            topMostViewController = presentedViewController
-//        }
-//        return topMostViewController
-//        
-//    }
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
+        
+    }
     
     func getUserFavMovie() {
         guard let uid = Auth.auth().currentUser?.uid else {return}
@@ -164,6 +165,8 @@ class ProfileController: UICollectionViewController {
         }
     }
     
+=======
+>>>>>>> 7027423a7b373c971de901f87faa529fcdd18280
 }
 
 //MARK: - UICollectionViewDataSource
@@ -176,6 +179,14 @@ extension ProfileController {
             return 0
         }
         else {
+<<<<<<< HEAD
+            
+            let uid = Auth.auth().currentUser?.uid
+            let document = COLLECTION_USERS.document(uid!).collection("Movies")
+                //            return User.favoriteMovies!.count
+            return document.accessibilityElementCount()
+            }
+=======
             if user.isCurrentUser{
                 return User.favoriteMovies!.count
             }
@@ -201,6 +212,7 @@ extension ProfileController {
         task.resume()
             
         return cell
+>>>>>>> 7027423a7b373c971de901f87faa529fcdd18280
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -233,6 +245,33 @@ extension ProfileController {
         
     }
     
+<<<<<<< HEAD
+    
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ProfileCell
+                
+        // Use array of liked movies to populate instead of making api call
+        
+        if let movies = User.favoriteMovies {
+            
+            let task = URLSession.shared.dataTask(with: URL(string: "http://image.tmdb.org/t/p/w500\(movies[indexPath.row].poster_path)")!) { (data, response, error) in
+                    
+            guard let data = data, let image = UIImage(data: data) else {return}
+                        
+                DispatchQueue.main.async {
+                    cell.posterImageView.image = image
+                }
+            }
+            task.resume()
+            
+        }
+        
+        return cell
+    }
+    
+=======
+>>>>>>> 7027423a7b373c971de901f87faa529fcdd18280
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
