@@ -181,6 +181,8 @@ extension PlayController: HomeNavigationStackViewDelegate {
         }
         alert.addAction(defaultAction)
         
+        alert.view.tintColor = .systemPink
+        
         movieController.fetchGenre { (genres) in
         
             for genre in genres {
@@ -197,9 +199,7 @@ extension PlayController: HomeNavigationStackViewDelegate {
             }
             
         }
-        
-        alert.view.tintColor = .systemPink
-        
+                
         present(alert, animated: true) {
             self.hasSelectedGenre = true
         }
@@ -213,7 +213,6 @@ extension PlayController: PlayNavigationStackViewDelegate {
         let controller = SearchMovies()
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
-        controller.title = "Explore Movies"
         self.present(nav, animated: true, completion: nil)
     }
     
@@ -233,6 +232,8 @@ extension PlayController: PlayNavigationStackViewDelegate {
             self.refreshCards()
         }
         alert.addAction(defaultAction)
+        
+        alert.view.tintColor = .systemPink
         
         movieController.fetchGenre { (genres) in
             

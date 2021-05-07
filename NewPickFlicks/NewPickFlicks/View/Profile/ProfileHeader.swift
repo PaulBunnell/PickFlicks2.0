@@ -268,7 +268,7 @@ class ProfileHeader: UICollectionReusableView {
             favoriteMoviesButton.setTitle("No Favorite Movies", for: .normal)
         }
         else {
-            favoriteMoviesButton.setTitle("My Favorite Movies", for: .normal)
+            favoriteMoviesButton.setTitle("Favorite Movies", for: .normal)
         }
        
         
