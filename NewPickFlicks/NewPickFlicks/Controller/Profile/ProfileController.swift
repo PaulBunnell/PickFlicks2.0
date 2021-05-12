@@ -128,16 +128,6 @@ class ProfileController: UICollectionViewController {
     }
 
     
-//    func getTopMostViewController() -> UIViewController? {
-//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-//
-//        while let presentedViewController = topMostViewController?.presentedViewController {
-//            topMostViewController = presentedViewController
-//        }
-//        return topMostViewController
-//        
-//    }
-    
     func getUserFavMovie() {
         guard let uid = Auth.auth().currentUser?.uid else {return}
         COLLECTION_USERS.document(uid).collection("Movies").getDocuments() { (querySnapshot, err) in
