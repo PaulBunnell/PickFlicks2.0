@@ -180,15 +180,19 @@ extension ProfileController {
         
         // Use array of liked movies to populate instead of making api call
         
-        let task = URLSession.shared.dataTask(with: URL(string: "http://image.tmdb.org/t/p/w500\(User.favoriteMovies![indexPath.row].poster_path)")!) { (data, response, error) in
-            
-            guard let data = data, let image = UIImage(data: data) else {return}
+        if let url = URL(string: "http://image.tmdb.org/t/p/w500\(User.favoriteMovies![indexPath.row].poster_path)") {
+        
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 
-            DispatchQueue.main.async {
-                cell.posterImageView.image = image
+                guard let data = data, let image = UIImage(data: data) else {return}
+                    
+                DispatchQueue.main.async {
+                    cell.posterImageView.image = image
+                }
             }
+            task.resume()
+            
         }
-        task.resume()
             
         return cell
     }
