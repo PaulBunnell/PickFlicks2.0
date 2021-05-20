@@ -180,6 +180,8 @@ extension ProfileController {
         
         // Use array of liked movies to populate instead of making api call
         
+        print(User.favoriteMovies![indexPath.row].id)
+        
         if let url = URL(string: "http://image.tmdb.org/t/p/w500\(User.favoriteMovies![indexPath.row].poster_path)") {
         
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -201,6 +203,8 @@ extension ProfileController {
         
         if MovieDetail.editTapped == true {
             
+            MovieDetail.detailedMovie = User.favoriteMovies![indexPath.row]
+
             User.favoriteMovies?.remove(at: indexPath.row)
             
             if let movieID = MovieDetail.detailedMovie?.id, let uid = Auth.auth().currentUser?.uid {
